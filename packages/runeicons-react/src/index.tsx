@@ -1,4 +1,4 @@
-import { getIconById, type IconType } from "./icons";
+import { getIconById, type IconType } from "./icons.js";
 
 export interface RuneIconProps {
   name: string;
@@ -28,4 +28,4 @@ export {
   searchIcons,
   type IconEntry,
   type IconType,
-} from "./icons";
+} from "./icons.js";

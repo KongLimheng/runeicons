@@ -21,7 +21,7 @@ const Packages = () => (
       <span className="text-label font-medium tracking-[0.08em] text-muted-foreground uppercase">
         Packages
       </span>
-      <TextHighlightWave as="h2" className="mt-3 text-h2" text={["One set, every platform"]} />
+      <TextHighlightWave as="h2" className="mt-3 text-h2 font-normal" text={["One set, every platform"]} />
       <p className="mt-4 max-w-2xl text-lead text-muted-foreground">
         The same 900+ icons in all five styles, packaged for the tools you already use. Nothing is
         fetched at runtime.
@@ -48,7 +48,7 @@ const Packages = () => (
                 loading="lazy"
               />
             </span>
-            <span className="rounded-md bg-brand/10 px-1.5 py-0.5 text-label font-medium whitespace-nowrap text-brand">
+            <span className="rounded-md bg-brand/10 px-1.5 py-0.5 text-label font-medium whitespace-nowrap text-brand dark:text-blue-300">
               Coming soon
             </span>
           </div>

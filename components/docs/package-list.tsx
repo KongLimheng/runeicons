@@ -2,6 +2,8 @@
 
 import { Fragment, useEffect, useRef, useState } from "react";
 
+import Image from "next/image";
+
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
 
 export type PackageRow = {
@@ -36,11 +38,12 @@ const Logo = ({ row }: { row: PackageRow }) => (
   <span
     className={`flex size-12 items-center justify-center rounded-lg ${row.dir === "runeicons-astro" ? "bg-foreground/[0.06] dark:bg-white" : "bg-foreground/[0.06]"}`}
   >
-    <img
+    <Image
       src={row.logo}
       alt={`${row.platform} logo`}
       width={28}
       height={28}
+      unoptimized
       className={`size-7 ${row.dir === "runeicons-mcp" ? "dark:invert" : ""}`}
     />
   </span>
@@ -55,6 +58,8 @@ const Badge = ({ label, value }: { label: string; value: string }) => (
 
 const ghostButton =
   "inline-flex h-9 items-center rounded-lg bg-foreground/[0.06] px-4 text-body-sm font-medium text-foreground/80 transition-[background-color,color,scale] duration-150 ease-out hover:bg-foreground/10 hover:text-foreground active:scale-[0.97]";
+
+const disabledGhostButton = ghostButton.replace("text-foreground/80", "text-foreground/60");
 
 const PackageCard = ({
   row,
@@ -97,7 +102,7 @@ const PackageCard = ({
       ) : (
         <span
           title="Coming soon"
-          className={`${ghostButton} cursor-not-allowed opacity-50 hover:bg-foreground/[0.06] hover:text-foreground/80`}
+          className={`${disabledGhostButton} cursor-not-allowed`}
         >
           npm
         </span>

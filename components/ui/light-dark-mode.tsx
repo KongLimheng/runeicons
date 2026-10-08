@@ -29,7 +29,7 @@ export function LightDarkMode({ className }: { className?: string }) {
 
   if (!mounted) {
     return (
-      <Button variant="outline" size="icon" className={className} disabled>
+      <Button variant="outline" size="icon" className={className} disabled aria-label="Toggle color theme">
         <Sun className="size-4 text-muted-foreground" />
       </Button>
     );

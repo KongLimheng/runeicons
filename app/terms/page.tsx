@@ -1,13 +1,12 @@
-import type { Metadata } from "next";
-
 import DocsShell from "@/components/docs/docs-shell";
+import { pageMetadata } from "@/lib/seo";
 import { GITHUB_REPO, githubRepoPath } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Terms of Use",
-  alternates: { canonical: "/terms" },
-  description: "Terms of Use for RuneIcons.",
-};
+  description: "Terms of Use for Rune Icons, the open-source icon library and its website.",
+  path: "/terms",
+});
 
 const TermsPage = () => (
   <DocsShell title="Terms of Use" lead="Last updated: July 29, 2026">

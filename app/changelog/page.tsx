@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
-
 import DocsShell from "@/components/docs/docs-shell";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Changelog",
-  alternates: { canonical: "/changelog" },
-  description: "What's new in RuneIcons.",
-};
+  description:
+    "What's new in Rune Icons: new icons, styles, packages and editor improvements, release by release.",
+  path: "/changelog",
+});
 
 type ChangelogEntry = {
   date: string;
@@ -238,16 +238,16 @@ const ChangelogPage = () => (
           className="flex flex-col gap-4 py-8 first:pt-0 last:pb-0"
         >
           <div className="flex flex-col gap-2">
-            <span className="flex flex-wrap items-center gap-2 text-label tracking-[0.08em] text-muted-foreground tabular-nums uppercase">
+            <span className="flex flex-wrap items-center gap-2 text-label tracking-[0.08em] text-muted-foreground uppercase tabular-nums">
               {entry.date}
               {i === 0 && (
-                <span className="rounded-full bg-blue-700 px-2 py-0.5 text-micro font-medium tracking-normal text-white normal-case">
+                <span className="rounded-full bg-[#1346E7] px-2 py-0.5 text-micro font-medium tracking-normal text-white normal-case">
                   Latest
                 </span>
               )}
               {entry.authors && entry.authors.length > 0 && (
-                <span className="flex -space-x-1.5 normal-case">
-                  {entry.authors.map((author) => (
+                <span className="flex normal-case">
+                  {entry.authors.map((author, index) => (
                     <a
                       key={author}
                       href={`https://github.com/${author}`}
@@ -255,16 +255,16 @@ const ChangelogPage = () => (
                       rel="noreferrer"
                       title={author}
                       aria-label={`GitHub profile of ${author}`}
-                      className="rounded-full border border-background transition-transform duration-150 ease-out hover:-translate-y-0.5"
+                      className="flex size-6 shrink-0 items-center rounded-full transition-transform duration-150 ease-out hover:-translate-y-0.5"
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={`https://github.com/${author}.png?size=64`}
                         alt=""
-                        width={20}
-                        height={20}
+                        width={22}
+                        height={22}
                         loading="lazy"
-                        className="size-5 rounded-full bg-muted"
+                        className={`size-[22px] rounded-full border border-background bg-muted ${index === 0 ? "ml-px" : "-ml-[5px]"}`}
                       />
                     </a>
                   ))}

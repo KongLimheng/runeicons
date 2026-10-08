@@ -1,9 +1,11 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 import Image from "next/image";
 import { AnimatePresence, useAnimation, useReducedMotion } from "motion/react";
 import * as m from "motion/react-m";
+
+import styles from "./Card.module.css";
 
 const EASE_OUT = [0.215, 0.61, 0.355, 1] as const;
 const TOOLTIP_TIMING = { duration: 0.16, ease: EASE_OUT };
@@ -206,7 +208,8 @@ const Card = ({
         }
       >
         <m.div
-          style={{ width: size, height: size }}
+          className={styles.cardSize}
+          style={{ "--nat": size } as CSSProperties}
           animate={{ scale: isHovered && !isDetailOpen ? 1.04 : 1 }}
           transition={{ duration: 0.2, ease: EASE_OUT }}
         >
@@ -215,6 +218,7 @@ const Card = ({
             alt={user.name}
             width={size}
             height={size}
+            sizes={`(max-width: 700px) ${Math.round(size * 0.7)}px, ${size}px`}
             className="pointer-events-none block size-full object-cover"
             draggable={false}
             priority

@@ -1,13 +1,12 @@
-import type { Metadata } from "next";
-
 import DocsShell from "@/components/docs/docs-shell";
+import { pageMetadata } from "@/lib/seo";
 import { GITHUB_REPO } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Privacy Policy",
-  alternates: { canonical: "/privacy" },
-  description: "Privacy Policy for RuneIcons.",
-};
+  description: "Privacy Policy for Rune Icons: what data the site collects and how it is used.",
+  path: "/privacy",
+});
 
 const PrivacyPage = () => (
   <DocsShell title="Privacy Policy" lead="Last updated: July 29, 2026">

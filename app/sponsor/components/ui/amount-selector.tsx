@@ -137,8 +137,6 @@ export function AmountSelector({
                   autoFocus
                   className="flex-1 bg-transparent px-2 py-3 text-h3 text-foreground tabular-nums outline-none placeholder:text-muted-foreground/60"
                   aria-label="Custom contribution amount"
-                  aria-valuemin={MIN_AMOUNT}
-                  aria-valuemax={MAX_AMOUNT}
                 />
               </div>
             </div>

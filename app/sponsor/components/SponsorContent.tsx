@@ -21,7 +21,7 @@ export default function SponsorContent() {
     selectedAmount >= 100 ? 4 : selectedAmount >= 20 ? 3 : selectedAmount >= 5 ? 2 : 1;
 
   return (
-    <div className="relative grid min-h-screen w-full grid-cols-[1fr_auto_1fr] grid-rows-[auto_1px_1fr] overflow-hidden bg-[#F5F5F5] dark:bg-background">
+    <main id="main" className="relative grid min-h-screen w-full grid-cols-[1fr_auto_1fr] grid-rows-[auto_1px_1fr] overflow-hidden bg-[#F5F5F5] dark:bg-background">
       <div
         className={cn(
           FRAME_WIDTH,
@@ -120,6 +120,6 @@ export default function SponsorContent() {
       </div>
 
       <div className="pointer-events-none z-50 col-start-2 row-span-full row-start-1 border-x-2 border-dashed" />
-    </div>
+    </main>
   );
 }

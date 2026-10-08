@@ -125,7 +125,7 @@ const DetailView = ({ user, isMobile = false, onClose, onNext, onPrev }: DetailV
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-label tracking-[0.08em] text-muted-foreground/70 uppercase">
-                    Status
+                    Maintainer status
                   </span>
                   <div className="flex items-center gap-2">
                     <span
@@ -235,9 +235,7 @@ const DetailView = ({ user, isMobile = false, onClose, onNext, onPrev }: DetailV
           >
             <h2 className="mb-6 text-h1 text-foreground">{user.name}</h2>
 
-            <p className="mb-8 max-w-[65ch] text-body text-muted-foreground">
-              {user.description}
-            </p>
+            <p className="mb-8 max-w-[65ch] text-body text-muted-foreground">{user.description}</p>
 
             <div className="mb-10 grid grid-cols-1 gap-y-6 text-body-sm">
               <div className="flex flex-col gap-1">
@@ -248,7 +246,7 @@ const DetailView = ({ user, isMobile = false, onClose, onNext, onPrev }: DetailV
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-label tracking-[0.08em] text-muted-foreground/70 uppercase">
-                  Status
+                  Maintainer status
                 </span>
                 <div className="flex items-center gap-2">
                   <span

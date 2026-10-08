@@ -1,17 +1,16 @@
-import type { Metadata } from "next";
-
 import DocsShell from "@/components/docs/docs-shell";
 import PackageList, { type PackageRow } from "@/components/docs/package-list";
 import { renderReadme } from "@/lib/docs/markdown";
 import { PACKAGE_READMES } from "@/lib/docs/package-readmes.generated";
+import { pageMetadata } from "@/lib/seo";
 import { githubRepoPath } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Packages",
-  alternates: { canonical: "/packages" },
   description:
-    "Rune Icons for React, Vue, Svelte, Astro, React Native, Flutter, plain JS, VS Code, Figma, and MCP.",
-};
+    "Install Rune Icons for React, Vue, Svelte, Astro, React Native, Flutter, plain JavaScript, VS Code, Figma and MCP. The same open-source icons in five styles, packaged for the tools you already use.",
+  path: "/packages",
+});
 
 const REPO = githubRepoPath("tree", "packages");
 

@@ -4,7 +4,7 @@ const UserDetails = [
     name: "Abhinav",
     description: "An engineer who designs with taste.",
     industry: "Software Engineering",
-    status: "Active",
+    status: "Offline",
     socials: [
       { type: "globe", url: "https://abhi.at/" },
       { type: "twitter", url: "https://x.com/Abhinavstwt" },
@@ -52,7 +52,7 @@ const UserDetails = [
     description:
       "Software developer, mostly web work and Figma. Spends the rest of his time on animation, illustration and Blender. Learning Japanese and French at the moment.",
     industry: "Software Development",
-    status: "Active",
+    status: "Offline",
     socials: [],
     img: "/about/mohit-v4.webp",
     accentColor: "#F59E0B",

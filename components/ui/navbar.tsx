@@ -6,14 +6,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import NumberFlow from "@number-flow/react";
 import { GithubIcon, MenuIcon, XIcon } from "lucide-react";
 import { AnimatePresence, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import * as m from "motion/react-m";
 
-import { BrandMark } from "@/app/brand-mark";
+import { AnimatedBrandMark } from "@/app/animated-brand-mark";
 import { useGitHubStars } from "@/components/icon-page/panels/header/hooks/use-github-stars";
 import { useCountUp } from "@/components/landing/hooks/use-count-up";
+import LazyNumberFlow from "@/components/ui/lazy-number-flow";
 import { LightDarkMode } from "@/components/ui/light-dark-mode";
 import { EASE_OUT_QUINT } from "@/lib/easing";
 import { GITHUB_REPO } from "@/lib/site";
@@ -143,7 +143,7 @@ const Navbar = ({ showBanner = false, showDashedBorder = false, links = [] }: Na
               className="relative block overflow-hidden border-b border-black/15 px-4 py-2 text-center text-label font-medium text-white sm:px-8 md:px-24"
             >
               <Image
-                src="/landing/gradient/cta-gradient.webp"
+                src="/landing/gradient/banner-gradient.webp"
                 className="absolute inset-0 h-full w-full object-cover"
                 alt=""
                 fill
@@ -152,7 +152,7 @@ const Navbar = ({ showBanner = false, showDashedBorder = false, links = [] }: Na
               />
               <span className="relative z-10 flex flex-wrap items-center justify-center text-micro sm:text-label">
                 Rune Icons now includes&nbsp;
-                <NumberFlow value={iconCount} suffix="+" />
+                <LazyNumberFlow value={iconCount} suffix="+" />
                 &nbsp;modern icons for your products.
               </span>
             </Link>
@@ -169,45 +169,53 @@ const Navbar = ({ showBanner = false, showDashedBorder = false, links = [] }: Na
           showDashedBorder && "border-b-2 border-dashed",
         )}
       >
-        <div className="flex w-[95vw] max-w-360 items-center justify-between px-3 py-5 sm:px-6 md:w-[90vw] 2xl:w-[85vw] 2xl:max-w-450">
-          <div className="flex items-center gap-9">
+        <div className="flex w-[95vw] max-w-360 items-center justify-between px-3 py-3 sm:px-6 md:grid md:w-[90vw] md:grid-cols-[1fr_auto_1fr] 2xl:w-[85vw] 2xl:max-w-450">
+          <div className="flex items-center">
             <Link
               href="/"
               prefetch={false}
-              aria-label="Rune home"
+              aria-label="Rune Icons home"
               className="relative inline-flex items-center rounded-md transition-opacity duration-150 outline-none before:absolute before:-inset-y-1.5 before:-inset-x-1.5 before:content-[''] hover:opacity-90 focus-visible:ring-2 focus-visible:ring-foreground/30"
             >
-              {/* Mark sized to the wordmark's cap height so neither outweighs the other. */}
-              <span className="inline-flex items-center gap-[7px] text-foreground">
-                <BrandMark size={19} fill="currentColor" />
-                <span className="text-h3 leading-none font-semibold tracking-[-0.04em]">Rune</span>
+              <span className="inline-flex items-baseline gap-2 text-foreground">
+                <AnimatedBrandMark size={17} fill="currentColor" />
+                <span className="text-[22px] leading-none font-semibold tracking-[-0.04em]">
+                  Rune<span className="text-foreground/60"> Icons</span>
+                </span>
               </span>
             </Link>
+          </div>
 
-            {links.length > 0 && (
-              <nav className="hidden items-center md:flex">
-                {links.map((link) => (
+          {links.length > 0 && (
+            <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
+              {links.map((link) => {
+                const active = pathname === link.href || pathname.startsWith(`${link.href}/`);
+                return (
                   <Link
                     key={link.href}
                     href={link.href}
                     prefetch={false}
-                    className="inline-flex items-center rounded-lg px-4 py-2 text-body-sm leading-none text-foreground/80 transition-colors outline-none hover:bg-foreground/5 hover:text-foreground focus-visible:ring-2 focus-visible:ring-foreground/30"
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "inline-flex items-center rounded-lg px-3.5 py-2 text-body-sm leading-none transition-colors outline-none hover:bg-foreground/5 hover:text-foreground focus-visible:ring-2 focus-visible:ring-foreground/30",
+                      active ? "bg-foreground/5 text-foreground" : "text-foreground/70",
+                    )}
                   >
                     {link.label}
                   </Link>
-                ))}
-              </nav>
-            )}
-          </div>
+                );
+              })}
+            </nav>
+          )}
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-end gap-3">
             <Link
               href={GITHUB_REPO}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`GitHub, ${githubStars} stars`}
               className={cn(
-                "relative hidden items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 text-body-sm leading-none font-medium transition-[opacity,scale,background-color] duration-150 before:absolute before:inset-x-0 before:-inset-y-1.25 before:content-[''] motion-safe:active:scale-[0.96] md:inline-flex",
+                "relative hidden items-center justify-center gap-1.5 rounded-md px-2.5 py-2 text-body-sm leading-none font-medium transition-[opacity,scale,background-color] duration-150 before:absolute before:inset-x-0 before:-inset-y-1.25 before:content-[''] motion-safe:active:scale-[0.96] md:inline-flex",
                 GLASS_PILL,
               )}
             >
@@ -215,12 +223,13 @@ const Navbar = ({ showBanner = false, showDashedBorder = false, links = [] }: Na
               <span className="inline-block min-w-[3ch] text-left tabular-nums">{githubStars}</span>
             </Link>
 
-            <LightDarkMode className="size-8 rounded-lg border-0 bg-background/60 shadow-none ring-1 ring-foreground/10 backdrop-blur-md hover:bg-background/80" />
+            <LightDarkMode className="size-8 rounded-md border-0 bg-background/60 shadow-none ring-1 ring-foreground/10 backdrop-blur-md hover:bg-background/80" />
 
             <Link
               href="/icons"
+              prefetch={false}
               className={cn(
-                "relative hidden items-center justify-center rounded-lg px-2.5 py-2 text-body-sm leading-none font-medium transition-[opacity,scale] duration-150 before:absolute before:inset-x-0 before:-inset-y-1.25 before:content-[''] motion-safe:active:scale-[0.96] md:inline-flex",
+                "relative hidden items-center justify-center rounded-md px-2.5 py-2 text-body-sm leading-none font-medium transition-[opacity,scale] duration-150 before:absolute before:inset-x-0 before:-inset-y-1.25 before:content-[''] motion-safe:active:scale-[0.96] md:inline-flex",
                 SOLID_PILL,
               )}
             >
@@ -234,7 +243,7 @@ const Navbar = ({ showBanner = false, showDashedBorder = false, links = [] }: Na
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               onClick={() => setMenuOpen((open) => !open)}
               className={cn(
-                "relative inline-flex size-8 touch-manipulation items-center justify-center rounded-lg outline-none transition-[background-color,scale] duration-150 before:absolute before:-inset-2 before:content-[''] focus-visible:ring-2 focus-visible:ring-foreground/30 motion-safe:active:scale-[0.96] md:hidden",
+                "relative inline-flex size-8 touch-manipulation items-center justify-center rounded-md outline-none transition-[background-color,scale] duration-150 before:absolute before:-inset-2 before:content-[''] focus-visible:ring-2 focus-visible:ring-foreground/30 motion-safe:active:scale-[0.96] md:hidden",
                 GLASS_PILL,
               )}
             >
@@ -290,7 +299,7 @@ const Navbar = ({ showBanner = false, showDashedBorder = false, links = [] }: Na
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={closeMenu}
-                className="flex min-h-11 w-full touch-manipulation items-center justify-center gap-2 rounded-lg bg-foreground/4 px-4 text-body-sm leading-none font-medium text-foreground ring-1 ring-foreground/10 transition-colors outline-none ring-inset hover:bg-foreground/7 focus-visible:ring-2 focus-visible:ring-foreground/30"
+                className="flex min-h-11 w-full touch-manipulation items-center justify-center gap-2 rounded-md bg-foreground/4 px-4 text-body-sm leading-none font-medium text-foreground ring-1 ring-foreground/10 transition-colors outline-none ring-inset hover:bg-foreground/7 focus-visible:ring-2 focus-visible:ring-foreground/30"
               >
                 <GithubIcon className="size-4" aria-hidden="true" />
                 Star on GitHub
@@ -298,8 +307,9 @@ const Navbar = ({ showBanner = false, showDashedBorder = false, links = [] }: Na
               </Link>
               <Link
                 href="/icons"
+                prefetch={false}
                 onClick={closeMenu}
-                className="flex min-h-11 w-full touch-manipulation items-center justify-center rounded-lg bg-foreground px-4 text-body-sm leading-none font-medium text-background transition-[opacity,scale] duration-150 outline-none hover:opacity-90 focus-visible:ring-2 focus-visible:ring-foreground/30 motion-safe:active:scale-[0.98]"
+                className="flex min-h-11 w-full touch-manipulation items-center justify-center rounded-md bg-foreground px-4 text-body-sm leading-none font-medium text-background transition-[opacity,scale] duration-150 outline-none hover:opacity-90 focus-visible:ring-2 focus-visible:ring-foreground/30 motion-safe:active:scale-[0.98]"
               >
                 Browse Icons
               </Link>

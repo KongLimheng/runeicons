@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
 import SponsorContent from "./components/SponsorContent";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Sponsor",
-  alternates: { canonical: "/sponsor" },
-  description: "Support the RuneIcons project with a donation.",
-};
+  description:
+    "Support Rune Icons with a donation and help keep the open-source icon library free for everyone.",
+  path: "/sponsor",
+});
 
 export default function SponsorPage() {
   return <SponsorContent />;

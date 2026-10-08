@@ -56,16 +56,18 @@ const FooterLink = ({ title, href, external }: FooterLinkItem) => (
 const Footer = () => {
   return (
     <footer className="w-full overflow-hidden rounded-3xl border border-border bg-card text-card-foreground">
-      <div className="grid gap-10 px-6 pt-10 sm:px-10 md:grid-cols-[1fr_auto]">
+      <div className="grid gap-10 px-6 pt-10 sm:px-10 md:grid-cols-[1fr_auto] md:items-start">
         <div className="max-w-xs">
           <Link
             href="/"
             prefetch={false}
             aria-label="Rune Icons home"
-            className="inline-flex items-center gap-2 text-foreground"
+            className="inline-flex items-baseline gap-2 text-foreground"
           >
-            <BrandMark size={18} fill="currentColor" />
-            <span className="text-lg leading-none font-semibold tracking-[-0.03em]">Rune Icons</span>
+            <BrandMark size={16} fill="currentColor" />
+            <span className="text-xl leading-none font-semibold tracking-[-0.04em]">
+              Rune<span className="text-foreground/60"> Icons</span>
+            </span>
           </Link>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             Open-source icons in five styles. Edit them in the browser and copy them out as SVG or
@@ -100,7 +102,7 @@ const Footer = () => {
         </ul>
       </div>
 
-      <FooterWordmark className="mt-8 translate-y-[6%] px-2 sm:mt-10" />
+      <FooterWordmark className="mt-8 px-6 sm:mt-10 sm:px-10" />
     </footer>
   );
 };

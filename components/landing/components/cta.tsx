@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Diamond, Github, Hammer, Paintbrush, Rocket, Sparkles, Zap } from "lucide-react";
-import { useReducedMotion } from "motion/react";
+import { useInView, useReducedMotion } from "motion/react";
 import * as m from "motion/react-m";
 
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,9 @@ const CTA = () => {
   const shouldReduceMotion = useReducedMotion();
   const [stage, setStage] = useState<1 | 2 | 3 | 4>(1);
   const mascotRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const inView = useInView(sectionRef);
+  const floatOn = !shouldReduceMotion && inView;
 
   useEffect(() => {
     const el = mascotRef.current;
@@ -47,13 +50,17 @@ const CTA = () => {
   ];
 
   return (
-    <section className="relative h-full w-full overflow-hidden rounded-3xl pad-panel">
+    <section
+      ref={sectionRef}
+      className="relative h-full w-full overflow-hidden rounded-3xl pad-panel"
+    >
       <Image
-        src="/landing/gradient/cta-gradient.webp"
+        src="/landing/gradient/cta-gradient-opt.webp"
         className="absolute inset-0 h-full w-full object-cover"
         alt=""
         fill
-        sizes="100vw"
+        loading="lazy"
+        sizes="(min-width: 1800px) 1530px, (min-width: 1440px) 1368px, 95vw"
         unoptimized
       />
       <div className="pointer-events-none absolute inset-0 z-0">
@@ -80,15 +87,17 @@ const CTA = () => {
             animate={
               shouldReduceMotion
                 ? { opacity: 0.25, x: 0, y: 0, rotate: 0 }
-                : {
-                    opacity: [0.1, 0.4, 0.1],
-                    y: [0, -15, 0],
-                    x: [0, 10, 0],
-                    rotate: [0, 10, -10, 0],
-                  }
+                : floatOn
+                  ? {
+                      opacity: [0.1, 0.4, 0.1],
+                      y: [0, -15, 0],
+                      x: [0, 10, 0],
+                      rotate: [0, 10, -10, 0],
+                    }
+                  : { opacity: 0.1, x: 0, y: 0, rotate: 0 }
             }
             transition={
-              shouldReduceMotion
+              shouldReduceMotion || !floatOn
                 ? { duration: 0 }
                 : {
                     duration: 6 + i,
@@ -129,7 +138,7 @@ const CTA = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: ENTRANCE_DURATION, ease: EASE_OUT_QUART, delay: 0.08 }}
-          className="mb-8 text-h2 text-white"
+          className="mb-8 text-h2 font-normal text-white"
         >
           <TextHighlightWave
             as="span"

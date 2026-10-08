@@ -263,7 +263,7 @@ const SpecimenPlate = ({ iconType, onChange, paused, icon }: SpecimenPlateProps)
               {activeName}
             </m.span>
           </AnimatePresence>
-          <span className="rounded-md bg-brand/10 px-1.5 py-0.5 text-label font-medium text-brand">
+          <span className="rounded-md bg-brand/10 px-1.5 py-0.5 text-label font-medium text-brand dark:text-blue-300">
             {STYLE_LABELS[iconType]}
           </span>
         </div>

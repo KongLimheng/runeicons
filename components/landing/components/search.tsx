@@ -61,7 +61,7 @@ const Search = () => {
         <div
           className="flex h-full w-full items-center justify-center rounded-3xl bg-center bg-no-repeat pad-panel"
           style={{
-            backgroundImage: "url('/landing/gradient/search-gradient2.webp')",
+            backgroundImage: "url('/landing/gradient/search-gradient2-opt.webp')",
             backgroundSize: "cover",
           }}
         >
@@ -77,6 +77,7 @@ const Search = () => {
                     setQuery(e.target.value);
                     setPreviewed(undefined);
                   }}
+                  aria-label="Search icons"
                   placeholder="Search for icons..."
                   className="h-full flex-1 rounded-r-xl border-0 bg-transparent pr-4 pl-2 text-foreground placeholder:text-muted-foreground focus-visible:ring-0 dark:text-white dark:placeholder:text-white/70"
                 />

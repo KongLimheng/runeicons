@@ -45,14 +45,25 @@ const IconCarousel = () => {
   const isHoveredRef = useRef(false);
   const shouldReduceMotion = useReducedMotion();
 
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+
   useEffect(() => {
-    if (shouldReduceMotion) return;
+    const el = rootRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (shouldReduceMotion || !inView) return;
     const interval = setInterval(() => {
       if (isHoveredRef.current) return;
       setActiveIndex((prev) => (prev + 1) % ICONS.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, [shouldReduceMotion]);
+  }, [shouldReduceMotion, inView]);
 
   const goTo = (i: number) => {
     setActiveIndex(i);
@@ -61,11 +72,11 @@ const IconCarousel = () => {
   const activeAnimation = shouldReduceMotion ? "none" : animation;
 
   return (
-    <div className="flex h-full w-full flex-col gap-4 self-stretch">
+    <div ref={rootRef} className="flex h-full w-full flex-col gap-4 self-stretch">
       <div className="no-scrollbar flex h-12 items-center gap-2 overflow-x-auto mask-r-from-90% mask-l-from-90% px-4">
         <div className="flex h-8 shrink-0 items-center overflow-hidden rounded-md border">
           <Select value={animation} onValueChange={setAnimation}>
-            <SelectTrigger className="h-full w-24 shrink-0 justify-between gap-1 rounded-none border-none px-3 text-micro transition-colors hover:bg-accent focus:ring-0">
+            <SelectTrigger aria-label="Animation" className="h-full w-24 shrink-0 justify-between gap-1 rounded-none border-none px-3 text-micro transition-colors hover:bg-accent focus:ring-0">
               <SelectValue placeholder="Anim" />
             </SelectTrigger>
             <SelectContent>
@@ -81,6 +92,7 @@ const IconCarousel = () => {
           <Button
             variant="ghost"
             size="icon"
+            aria-label="Decrease stroke width"
             className="h-full w-7 rounded-none border-none transition-colors hover:bg-accent"
             onClick={() => setStrokeWidth(Math.max(0.5, strokeWidth - 0.5))}
           >
@@ -94,6 +106,7 @@ const IconCarousel = () => {
           <Button
             variant="ghost"
             size="icon"
+            aria-label="Increase stroke width"
             className="h-full w-7 rounded-none border-none transition-colors hover:bg-accent"
             onClick={() => setStrokeWidth(Math.min(4, strokeWidth + 0.5))}
           >
@@ -101,18 +114,25 @@ const IconCarousel = () => {
           </Button>
         </div>
 
-        <div className="flex h-8 shrink-0 items-center gap-2 rounded-md border bg-background px-3">
+        <div className="flex h-8 shrink-0 items-center gap-[10px] rounded-md border bg-background px-3">
           {COLORS.map((c) => (
             <button
               key={c.value}
+              type="button"
               onClick={() => setStrokeColor(c.value)}
-              className={`h-3.5 w-3.5 rounded-full ${c.bg} border border-black/5 transition-all duration-200 ${
-                strokeColor === c.value
-                  ? "scale-110 ring-2 ring-foreground/20 ring-offset-1"
-                  : "opacity-70 hover:scale-105 hover:opacity-100"
-              }`}
+              className="group relative -m-[5px] flex h-6 w-6 shrink-0 items-center justify-center"
               title={c.label}
-            />
+              aria-label={c.label}
+            >
+              <span
+                aria-hidden="true"
+                className={`block h-3.5 w-3.5 rounded-full ${c.bg} border border-black/5 transition-all duration-200 ${
+                  strokeColor === c.value
+                    ? "scale-110 ring-2 ring-foreground/20 ring-offset-1"
+                    : "opacity-70 group-hover:scale-105 group-hover:opacity-100"
+                }`}
+              />
+            </button>
           ))}
         </div>
 
@@ -131,7 +151,7 @@ const IconCarousel = () => {
             <SliderPrimitive.Track className="relative h-1 w-full grow overflow-hidden rounded-full bg-muted">
               <SliderPrimitive.Range className="absolute h-full bg-foreground" />
             </SliderPrimitive.Track>
-            <SliderPrimitive.Thumb className="block h-3 w-3 rounded-full border border-border bg-background transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none" />
+            <SliderPrimitive.Thumb aria-label="Icon size" className="block h-3 w-3 rounded-full border border-border bg-background transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none" />
           </SliderPrimitive.Root>
           <span className="w-4 text-right font-mono text-micro font-medium text-muted-foreground tabular-nums">
             {iconSize}
@@ -164,6 +184,7 @@ const IconCarousel = () => {
                 key={item.name}
                 className="flex shrink-0 cursor-pointer items-center justify-center"
                 role="button"
+                aria-label={item.name}
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {

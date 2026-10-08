@@ -4,7 +4,6 @@ import type { CSSProperties } from "react";
 
 import Link from "next/link";
 
-import NumberFlow from "@number-flow/react";
 import { ChevronRight, Github } from "lucide-react";
 
 import { DuotoneIcon } from "../../icons/DuotoneIcon";
@@ -13,6 +12,7 @@ import { GlassIcon } from "../../icons/GlassIcon";
 import { NormalIcon } from "../../icons/NormalIcon";
 import { PixelatedIcon } from "../../icons/PixelatedIcon";
 import { Button } from "../../ui/button";
+import LazyNumberFlow from "../../ui/lazy-number-flow";
 import TextHighlightWave from "../../ui/text-highlight-wave";
 import { useCountUp } from "../hooks/use-count-up";
 import HeroSvg from "../svg/hero";
@@ -43,9 +43,9 @@ const HeroSection = () => {
           prefetch={false}
           className="group flex w-fit items-center gap-2 rounded-lg border border-border bg-background/70 py-1 pr-2 pl-1 text-label shadow-xs backdrop-blur-sm transition-colors duration-150 hover:bg-background"
         >
-          <span className="rounded-md bg-brand px-1.5 py-0.5 font-medium text-white">New</span>
+          <span className="rounded-md bg-brand px-1.5 py-0.5 font-medium text-white dark:text-neutral-950">New</span>
           <span className="flex items-center font-medium text-foreground tabular-nums">
-            <NumberFlow value={iconCount} suffix="+" />
+            <LazyNumberFlow value={iconCount} suffix="+" />
             <span>&nbsp;icons</span>
             <span className="text-muted-foreground">&nbsp;in 5 styles</span>
           </span>
@@ -56,7 +56,7 @@ const HeroSection = () => {
         </Link>
         <TextHighlightWave
           as="h1"
-          className="mt-4 text-2xl leading-tight font-medium tracking-[-0.02em] [word-spacing:-0.08em] sm:text-4xl sm:leading-none md:text-5xl lg:text-6xl"
+          className="mt-4 text-2xl leading-tight font-normal tracking-[-0.02em] [word-spacing:-0.08em] sm:text-4xl sm:leading-none md:text-5xl lg:text-6xl"
           text={["Modern icon\nsystem for products"]}
         />
         <p className="mt-4 max-w-lg text-lead text-muted-foreground">
@@ -66,8 +66,8 @@ const HeroSection = () => {
 
         <div className="mt-8 flex flex-wrap gap-2 sm:gap-4">
           <div className="group relative inline-block">
-            <Button asChild className="bg-brand py-5 text-white hover:bg-brand/90 dark:hover:bg-brand/90 transition-[background-color,scale] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97]">
-              <Link href="/icons">Browse Icons</Link>
+            <Button asChild className="bg-brand py-5 text-white hover:bg-brand/90 dark:text-neutral-950 dark:hover:bg-brand/90 transition-[background-color,scale] duration-160 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97]">
+              <Link href="/icons" prefetch={false}>Browse Icons</Link>
             </Button>
             <span
               aria-hidden="true"

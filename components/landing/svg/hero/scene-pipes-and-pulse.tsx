@@ -20,17 +20,7 @@ const ScenePipesAndPulse = () => (
       d="M188.591 296.229L200.793 303.302C201.023 303.436 201.297 303.472 201.554 303.403L213.073 300.304C213.816 300.104 214.497 300.784 214.299 301.528L209.911 317.967C209.713 318.711 210.394 319.391 211.137 319.191L225.11 315.431C225.367 315.362 225.641 315.398 225.872 315.532L245.89 327.136C246.12 327.27 246.394 327.306 246.651 327.237L257.493 324.32C258.237 324.12 258.918 324.8 258.719 325.544L253.634 344.6C253.435 345.343 254.116 346.023 254.86 345.823L265.72 342.901L273.637 340.771C274.272 340.6 274.896 341.079 274.896 341.737V348.572C274.896 348.929 275.086 349.258 275.395 349.437L290.534 358.213"
       stroke="black"
     />
-    <foreignObject x="336.094" y="391.609" width="241.075" height="101.726">
-      <div
-        style={{
-          backdropFilter: "blur(2px)",
-          clipPath: "url(#bgblur_0_4_2_clip_path)",
-          height: "100%",
-          width: "100%",
-        }}
-      ></div>
-    </foreignObject>
-    <g data-figma-bg-blur-radius="4">
+    <g>
       <path
         className="beamPipeFill"
         d={BEAM_PIPE_UPPER_D}
@@ -41,17 +31,7 @@ const ScenePipesAndPulse = () => (
       <path d={BEAM_PIPE_UPPER_D} stroke="black" />
     </g>
 
-    <foreignObject x="331.681" y="408.46" width="282.649" height="102.087">
-      <div
-        style={{
-          backdropFilter: "blur(2px)",
-          clipPath: "url(#bgblur_1_4_2_clip_path)",
-          height: "100%",
-          width: "100%",
-        }}
-      ></div>
-    </foreignObject>
-    <g data-figma-bg-blur-radius="4">
+    <g>
       <path
         className="beamPipeFill"
         d={BEAM_PIPE_LOWER_D}

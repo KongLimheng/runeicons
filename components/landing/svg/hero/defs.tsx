@@ -1,5 +1,3 @@
-import { BEAM_PIPE_LOWER_D, BEAM_PIPE_UPPER_D } from "./constants";
-
 const HeroDefs = () => (
   <defs>
     <mask id="pipeRevealMask" maskUnits="userSpaceOnUse">
@@ -57,12 +55,6 @@ const HeroDefs = () => (
     <filter id="rocketHaloBlur" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur stdDeviation="6" />
     </filter>
-    <clipPath id="bgblur_0_4_2_clip_path" transform="translate(-336.094 -391.609)">
-      <path d={BEAM_PIPE_UPPER_D} />
-    </clipPath>
-    <clipPath id="bgblur_1_4_2_clip_path" transform="translate(-331.681 -408.46)">
-      <path d={BEAM_PIPE_LOWER_D} />
-    </clipPath>
     <linearGradient
       id="paint0_linear_4_2"
       x1="50"

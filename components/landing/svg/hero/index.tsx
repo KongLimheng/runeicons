@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 
 import { burstRocket, getRocketFlames, resetFlames } from "./burst";
 import {
@@ -26,7 +25,7 @@ import SceneConveyor from "./scene-conveyor";
 import SceneCubes from "./scene-cubes";
 import ScenePipesAndPulse from "./scene-pipes-and-pulse";
 
-gsap.registerPlugin(useGSAP, MotionPathPlugin);
+gsap.registerPlugin(useGSAP);
 
 type HeroSvgProps = {
   variant?: "launch" | "burst";
@@ -1334,6 +1333,7 @@ const HeroSvg = ({ variant = "launch" }: HeroSvgProps) => {
     if (!svg) return;
     let paused: gsap.core.Animation[] = [];
     const observer = new IntersectionObserver(([entry]) => {
+      svg.toggleAttribute("data-offscreen", !entry.isIntersecting);
       if (entry.isIntersecting) {
         paused.forEach((anim) => anim.resume());
         paused = [];
@@ -1351,6 +1351,7 @@ const HeroSvg = ({ variant = "launch" }: HeroSvgProps) => {
     observer.observe(svg);
     return () => {
       observer.disconnect();
+      svg.removeAttribute("data-offscreen");
       paused.forEach((anim) => anim.resume());
     };
   }, [animationRun]);

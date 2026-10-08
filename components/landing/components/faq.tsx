@@ -14,43 +14,7 @@ import { Button } from "@/components/ui/button";
 import TextHighlightWave from "@/components/ui/text-highlight-wave";
 import { X_URL } from "@/lib/site";
 
-type FAQItem = {
-  id: string;
-  number: string;
-  question: string;
-  answer: string;
-};
-
-const faqItems: FAQItem[] = [
-  {
-    id: "item-1",
-    number: "01",
-    question: "What formats are the icons available in?",
-    answer:
-      "Optimized SVG, plus React and Vue components. Each one is tree-shakeable, so importing a single icon does not drag the whole set into your bundle.",
-  },
-  {
-    id: "item-2",
-    number: "02",
-    question: "Can I customize the icon size and color?",
-    answer:
-      "Yes. Size, stroke width, and color are all controllable through props or plain CSS. Icons use currentColor by default, so they pick up whatever color their parent already has.",
-  },
-  {
-    id: "item-3",
-    number: "03",
-    question: "Is Rune Icons free to use commercially?",
-    answer:
-      "Yes. The icons are licensed under Apache 2.0, so use them in personal work, client projects, or anything you sell, no attribution needed. The website itself (landing page, components, and animations) is Apache 2.0 with attribution and the Commons Clause: credit the Rune Icons Team with a link to runeicons.com if you reuse it, and don't resell it as a template or kit.",
-  },
-  {
-    id: "item-4",
-    number: "04",
-    question: "How do I request a new icon?",
-    answer:
-      "Open an issue on the GitHub repo. I go through requests most weeks and build the ones people actually vote for first.",
-  },
-];
+import { faqItems } from "../faq-items";
 
 export default function Faq() {
   return (
@@ -64,7 +28,7 @@ export default function Faq() {
               </span>
               <TextHighlightWave
                 as="h2"
-                className="mt-3 text-h2"
+                className="mt-3 text-h2 font-normal"
                 text={["Frequently asked\nquestions"]}
               />
               <p className="mt-4 max-w-sm text-body text-muted-foreground">
@@ -79,7 +43,12 @@ export default function Faq() {
           </div>
 
           <div className="w-full flex-1">
-            <Accordion type="single" collapsible defaultValue="item-1" className="flex w-full flex-col gap-4">
+            <Accordion
+              type="single"
+              collapsible
+              defaultValue="item-1"
+              className="flex w-full flex-col gap-4"
+            >
               {faqItems.map((item) => (
                 <AccordionItem
                   key={item.id}
@@ -91,9 +60,7 @@ export default function Faq() {
                       <span className="text-body-sm font-medium text-muted-foreground tabular-nums">
                         {item.number}
                       </span>
-                      <span className="text-body font-medium text-foreground">
-                        {item.question}
-                      </span>
+                      <span className="text-body font-medium text-foreground">{item.question}</span>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="pb-5 sm:pb-6">

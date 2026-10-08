@@ -1,7 +1,7 @@
 {
   "name": "runeicons",
   "version": "0.1.0",
-  "description": "Rune Icons: 900+ icons in five styles (normal, duotone, fill, pixelated, glass) as framework-free SVG data.",
+  "description": "RuneIcons: 350+ icons, 900+ variants across five styles (normal, duotone, fill, pixelated, glass) as framework-free SVG data.",
   "license": "Apache-2.0",
   "type": "module",
   "sideEffects": false,
@@ -21,10 +21,10 @@
   "homepage": "https://runeicons.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Nexvyn/runeicons.git",
+    "url": "git+https://github.com/Runeicons/runeicons.git",
     "directory": "packages/runeicons"
   },
-  "bugs": "https://github.com/Nexvyn/runeicons/issues",
+  "bugs": "https://github.com/Runeicons/runeicons/issues",
   "keywords": [
     "icons",
     "svg",

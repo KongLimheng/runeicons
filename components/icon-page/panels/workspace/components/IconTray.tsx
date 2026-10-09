@@ -105,6 +105,8 @@ export function IconTray({
                       alt=""
                       aria-hidden="true"
                       draggable={false}
+                      loading="lazy"
+                      decoding="async"
                       className={cn(
                         "h-full w-full object-contain select-none",
                         invertInDark && "dark:invert",

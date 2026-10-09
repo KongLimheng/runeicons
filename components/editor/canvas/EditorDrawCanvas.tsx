@@ -97,7 +97,7 @@ export function EditorDrawCanvas({
 
   function handlePointerDown(e: React.PointerEvent<SVGSVGElement>) {
     if (e.button !== 0) return;
-    if (isEraserTool) return; // eraser fires on path click (Stage 4)
+    if (isEraserTool) return;
 
     const point = clientToSvg(e.clientX, e.clientY);
     if (!point) return;

@@ -20,7 +20,6 @@ interface Options {
   onToggleTab?: () => void;
   trayIcons: IconData[];
   canCopy?: boolean;
-  /** Listen for keys only while true, e.g. while this workspace is the visible one. */
   enabled?: boolean;
 }
 

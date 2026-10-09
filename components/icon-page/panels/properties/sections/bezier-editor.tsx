@@ -64,25 +64,45 @@ export function BezierEditor({ value, onChange }: BezierEditorProps) {
     setDragging(handle);
   }, []);
 
+  const pendingPointerRef = useRef<{ x: number; y: number } | null>(null);
+  const frameRef = useRef<number | null>(null);
+
+  useEffect(() => () => {
+    if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+  }, []);
+
   const handlePointerMove = useCallback((e: React.PointerEvent<SVGSVGElement>) => {
     if (dragging === null) return;
-    const rect = svgRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    const scaleX = SIZE / rect.width;
-    const scaleY = SIZE / rect.height;
-    const svgX = (e.clientX - rect.left) * scaleX;
-    const svgY = (e.clientY - rect.top) * scaleY;
-    const { nx, ny } = fromSvg(svgX, svgY);
-    const clamped = (v: number) => Math.max(-2, Math.min(3, v));
+    pendingPointerRef.current = { x: e.clientX, y: e.clientY };
+    if (frameRef.current !== null) return;
+    frameRef.current = requestAnimationFrame(() => {
+      frameRef.current = null;
+      const pending = pendingPointerRef.current;
+      const rect = svgRef.current?.getBoundingClientRect();
+      if (!pending || !rect) return;
+      const scaleX = SIZE / rect.width;
+      const scaleY = SIZE / rect.height;
+      const svgX = (pending.x - rect.left) * scaleX;
+      const svgY = (pending.y - rect.top) * scaleY;
+      const { nx, ny } = fromSvg(svgX, svgY);
+      const clamped = (v: number) => Math.max(-2, Math.min(3, v));
 
-    const next = [...params] as [number, number, number, number];
-    if (dragging === 0) { next[0] = Math.max(0, Math.min(1, nx)); next[1] = clamped(ny); }
-    else { next[2] = Math.max(0, Math.min(1, nx)); next[3] = clamped(ny); }
-    setParams(next);
-    onChange(`cubic-bezier(${next.map((v) => +v.toFixed(3)).join(", ")})`);
+      const next = [...params] as [number, number, number, number];
+      if (dragging === 0) { next[0] = Math.max(0, Math.min(1, nx)); next[1] = clamped(ny); }
+      else { next[2] = Math.max(0, Math.min(1, nx)); next[3] = clamped(ny); }
+      setParams(next);
+      onChange(`cubic-bezier(${next.map((v) => +v.toFixed(3)).join(", ")})`);
+    });
   }, [dragging, params, onChange]);
 
-  const handlePointerUp = useCallback(() => setDragging(null), []);
+  const handlePointerUp = useCallback(() => {
+    if (frameRef.current !== null) {
+      cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
+    }
+    pendingPointerRef.current = null;
+    setDragging(null);
+  }, []);
 
   const curvePath = buildCurvePath(x1, y1, x2, y2, INNER);
   const curvePathOffset = `translate(${PAD}, ${PAD})`;

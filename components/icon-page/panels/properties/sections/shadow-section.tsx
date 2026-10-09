@@ -59,6 +59,7 @@ export function ShadowSection({
             </Button>
           </div>
           <Switch
+            aria-label="Enable shadow"
             checked={state.shadow.enabled}
             onCheckedChange={(v) => onChange({ shadow: { ...state.shadow, enabled: v } })}
           />

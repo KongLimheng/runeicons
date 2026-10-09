@@ -37,8 +37,9 @@ export function WorkspacePanel({
   return (
     <>
       <SvgDefinitions state={state} />
-      <main
+      <div
         className="flex-1 flex flex-col relative min-h-0 min-w-[360px]"
+        role="region"
         aria-label="Preview area"
       >
         <PreviewArea
@@ -68,7 +69,7 @@ export function WorkspacePanel({
             onGridToggle={onGridToggle}
           />
         </m.div>
-      </main>
+      </div>
     </>
   );
 }

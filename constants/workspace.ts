@@ -3,9 +3,6 @@ import { CustomizationState, IconData } from "@/lib/types";
 
 export const MAX_TRAY_ITEMS = 6;
 
-// Native palettes baked into each icon style's SVG files.
-// colors[0] -> light/primary tone, colors[1] -> dark/secondary tone
-// (see colorizeSvgContent replacements). Empty = theme-adaptive currentColor.
 export const DUOTONE_SECONDARY_DEFAULT = "#9DB4F5";
 export const TYPE_DEFAULT_COLORS: Record<string, [string, string]> = {
   normal: ["", ""],
@@ -145,7 +142,6 @@ export const DEFAULT_STATE: CustomizationState = {
   strokeStyle: "round",
 };
 
-// localStorage keys for the icon workspace.
 export const WORKSPACE_STATE_KEY = "rune_workspace_state";
 export const SELECTED_ICON_KEY = "rune_selected_icon_id";
 export const TRAY_ICON_IDS_KEY = "rune_tray_icon_ids";

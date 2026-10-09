@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 
 import { Check, ChevronDown, Download } from "lucide-react";
 import { toast } from "sonner";
@@ -25,7 +26,10 @@ import { useCustomIconUpload } from "./hooks/use-custom-icon-upload";
 import { PickerPortalContext } from "./picker-portal-context";
 import { ColorSection } from "./sections/color-section";
 import { FlipRotateSection } from "./sections/flip-rotate-section";
-import { MotionSection } from "./sections/motion-section";
+const MotionSection = dynamic(
+  () => import("./sections/motion-section").then((m) => m.MotionSection),
+  { loading: () => null },
+);
 import { NoiseSection } from "./sections/noise-section";
 import { ShadowSection } from "./sections/shadow-section";
 import { SizeTransformSection } from "./sections/size-transform-section";

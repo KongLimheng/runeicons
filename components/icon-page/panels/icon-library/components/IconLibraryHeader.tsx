@@ -80,7 +80,7 @@ export function IconLibraryHeader({
           <DropdownMenuTrigger asChild>
             <button
               className="relative flex h-9 min-w-[100px] items-center gap-2 rounded-md border border-border bg-muted/20 px-3 text-xs font-medium whitespace-nowrap text-foreground transition-[scale,background-color] hover:bg-muted/40 focus:outline-none active:scale-[0.96]"
-              aria-label="Category filter"
+              aria-label={`Category filter: ${categories.find((c) => c.value === selectedCategory)?.label || "All"}`}
             >
               <svg
                 aria-hidden="true"

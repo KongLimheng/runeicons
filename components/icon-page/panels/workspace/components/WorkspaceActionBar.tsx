@@ -1,6 +1,6 @@
 "use client";
 
-import { Braces, ChevronDown, Download, FileCode, Image } from "lucide-react";
+import { Braces, ChevronDown, Download, FileCode, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -85,7 +85,6 @@ export function WorkspaceActionBar({
       });
     }
   };
-  // Generates an export for the selected icon and hands it to `deliver`, one at a time.
   const runExport =
     <T,>(
       generate: (icon: IconData, state: CustomizationState) => Promise<T>,
@@ -180,7 +179,10 @@ export function WorkspaceActionBar({
           </button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="group flex h-full w-8 shrink-0 items-center justify-center rounded-[7px] bg-white text-black transition-all hover:bg-white/90 active:scale-[0.98] dark:bg-white dark:text-black">
+              <button
+                type="button"
+                aria-label="More export options"
+                className="group flex h-full w-8 shrink-0 items-center justify-center rounded-[7px] bg-white text-black transition-all hover:bg-white/90 active:scale-[0.98] dark:bg-white dark:text-black">
                 <ChevronDown className="h-4 w-4 opacity-70 transition-opacity group-hover:opacity-100" />
               </button>
             </DropdownMenuTrigger>
@@ -277,7 +279,7 @@ export function WorkspaceActionBar({
                     <span>Download as TSX</span>
                   </ActionMenuItem>
                   <ActionMenuItem disabled={isPending} onClick={downloadPng}>
-                    <Image className="h-4 w-4 text-white/40" />
+                    <ImageIcon className="h-4 w-4 text-white/40" aria-hidden="true" />
                     <span>Download as PNG</span>
                   </ActionMenuItem>
                 </>

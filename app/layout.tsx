@@ -2,10 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
-import { Analytics } from "@vercel/analytics/next";
-
 import { DevToolbar } from "@/components/dev-toolbar";
-import { Toaster } from "@/components/ui/sonner";
+import DeferredAnalytics from "@/components/landing/deferred-analytics";
 import { ShapeProvider } from "@/lib/shape-context";
 import { GITHUB_REPO, SITE_URL, X_URL } from "@/lib/site";
 import { MotionProvider } from "@/provider/motion-provider";
@@ -13,9 +11,6 @@ import { ThemeProvider } from "@/provider/theme-provider";
 
 import "./globals.css";
 
-// Satoshi (Indian Type Foundry, ITF Free Font License, via fontshare.com) for
-// UI, body and display; Geist Mono for ids, sizes and code. Both are variable
-// fonts, so every weight comes from one file.
 const satoshi = localFont({
   src: "./fonts/Satoshi-Variable.woff2",
   variable: "--font-satoshi",
@@ -73,8 +68,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@RuneIcon",
-    creator: "@RuneIcon",
+    site: "@nexvyn",
+    creator: "@nexvyn",
     title: "Rune Icons: open-source icons in five styles",
     description: DESCRIPTION,
     images: [`${SITE_URL}/og-image.png`],
@@ -132,6 +127,12 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${satoshi.variable} ${geistMono.variable} antialiased`}
       >
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200] focus:rounded-md focus:bg-background focus:px-3 focus:py-2 focus:text-body-sm focus:text-foreground focus:ring-2 focus:ring-foreground/30"
+        >
+          Skip to content
+        </a>
         <MotionProvider>
           <ShapeProvider>
             <ThemeProvider
@@ -141,8 +142,7 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               {children}
-              <Toaster position="top-center" />
-              <Analytics />
+              {process.env.VERCEL === "1" ? <DeferredAnalytics /> : null}
               <DevToolbar />
             </ThemeProvider>
           </ShapeProvider>

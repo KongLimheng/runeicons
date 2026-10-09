@@ -21,7 +21,7 @@ An open-source icon library where every glyph comes in five styles: outline, duo
 Requires [Node.js](https://nodejs.org) 20+, [pnpm](https://pnpm.io) 10, and [Bun](https://bun.sh) (the icon scripts and package tests run on Bun).
 
 ```bash
-git clone https://github.com/Nexvyn/runeicons.git
+git clone https://github.com/Runeicons/runeicons.git
 cd runeicons
 pnpm install
 pnpm dev

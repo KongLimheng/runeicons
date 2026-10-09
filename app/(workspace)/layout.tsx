@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { HeaderPanel } from "@/components/icon-page/panels/header";
 import { TuningProvider } from "@/components/icon-page/tuning";
 import { WorkspaceApp } from "@/components/workspace/WorkspaceApp";
+import { Toaster } from "@/components/ui/sonner";
 import { getEditorAssets } from "@/lib/editor/assets";
 
 // /icons and /editor share this layout, and the whole workspace lives here
@@ -20,9 +21,12 @@ export default async function WorkspaceLayout({ children }: { children: React.Re
       <div className="flex h-screen flex-col bg-background">
         <HeaderPanel />
         <div className="flex min-h-0 flex-1 flex-col">
-          <WorkspaceApp editorAssetsUrl={`/editor/assets.json?v=${version}`} />
+          <main id="main" tabIndex={-1} className="flex min-h-0 flex-1 flex-col outline-none">
+            <WorkspaceApp editorAssetsUrl={`/editor/assets.json?v=${version}`} />
+          </main>
           {children}
         </div>
+        <Toaster position="top-center" />
       </div>
     </TuningProvider>
   );

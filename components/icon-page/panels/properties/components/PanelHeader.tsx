@@ -72,6 +72,7 @@ export function PanelHeader({ onExport, onImport, onReset }: PanelHeaderProps) {
                 variant="ghost"
                 size="icon"
                 onClick={onImport}
+                aria-label="Import settings"
                 className="h-7 w-7 rounded-md text-foreground/60 transition-all duration-150 hover:bg-muted/10 hover:text-foreground active:scale-[0.96]"
               >
                 <FileUp className="h-3.5 w-3.5" />
@@ -86,6 +87,7 @@ export function PanelHeader({ onExport, onImport, onReset }: PanelHeaderProps) {
                 variant="ghost"
                 size="icon"
                 onClick={onExport}
+                aria-label="Export settings"
                 className="h-7 w-7 rounded-md text-foreground/60 transition-all duration-150 hover:bg-muted/10 hover:text-foreground active:scale-[0.96]"
               >
                 <FileDown className="h-3.5 w-3.5" />
@@ -106,6 +108,7 @@ export function PanelHeader({ onExport, onImport, onReset }: PanelHeaderProps) {
                   variant="ghost"
                   size="icon"
                   onClick={handleResetClick}
+                  aria-label="Reset settings"
                   className={cn(
                     "h-7 w-7 rounded-md transition-all active:scale-[0.96]",
                     isResetArmed
@@ -137,6 +140,7 @@ export function PanelHeader({ onExport, onImport, onReset }: PanelHeaderProps) {
                   </button>
                   <button
                     onClick={disarmReset}
+                    aria-label="Cancel reset"
                     className="flex h-7 w-7 items-center justify-center rounded-md text-foreground/40 hover:bg-muted/10 hover:text-foreground transition-all"
                   >
                     <X className="h-3.5 w-3.5" />

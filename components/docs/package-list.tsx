@@ -78,7 +78,6 @@ const PackageCard = ({
     <div className="mt-2 flex flex-wrap gap-1.5">
       <Badge label="status" value="live soon" />
       <Badge label="platform" value={row.platform} />
-      {/* <Badge label="downloads" value="coming soon" /> */}
     </div>
     <p className="mt-4 mb-4 text-body-sm text-muted-foreground">{row.description}</p>
 

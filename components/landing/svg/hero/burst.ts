@@ -42,7 +42,6 @@ export function getRocketFlames(rocketEl: SVGGElement): RocketFlames {
   return { halo, plume, cores, all };
 }
 
-// Stops any running flame tweens and hides the flames at their resting scale.
 export function resetFlames(flameEls: SVGPathElement[]) {
   if (!flameEls.length) return;
   flameEls.forEach((el) => gsap.killTweensOf(el));

@@ -180,6 +180,8 @@ export function UploadSection({
                       <img
                         src={icon.url}
                         alt={icon.name}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-contain"
                       />
                     )}

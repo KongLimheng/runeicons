@@ -1,8 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { BlossomColorPicker } from "@/components/icon-page/blossom-picker/blossom-picker";
+import dynamic from "next/dynamic";
 import { HexColor } from "@/lib/color-utils";
+
+const BlossomColorPicker = dynamic(
+  () => import("@/components/icon-page/blossom-picker/blossom-picker").then((m) => m.BlossomColorPicker),
+  { loading: () => <div className="h-7 w-7 shrink-0" /> },
+);
 
 interface ColorRowProps {
   label: string;
@@ -88,6 +93,7 @@ export function ColorRow({
           <div className="h-7 px-1.5 flex items-center bg-muted/20 border border-border/80 rounded-sm focus-within:border-foreground/30 transition-colors">
             <input
               type="text"
+              aria-label={`${label} position`}
               value={posValue}
               onChange={handlePosChange}
               onBlur={handleBlur}
@@ -110,6 +116,7 @@ export function ColorRow({
         <div className="h-7 px-1.5 flex items-center bg-muted/20 rounded-sm transition-colors">
           <input
             id={`color-input-${label}`}
+            aria-label={`${label} hex color`}
             type="text"
             value={inputValue.toUpperCase()}
             onChange={handleInputChange}

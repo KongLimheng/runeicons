@@ -1,4 +1,3 @@
-// Saves data as a file through a temporary <a download> link.
 export function downloadBlob(
   data: Blob | string,
   filename: string,
@@ -15,7 +14,6 @@ export function downloadBlob(
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-// "Arrow Right" -> "arrow-right", used as the base of exported file names.
 export function iconFileSlug(name: string) {
   return name.toLowerCase().replace(/\s+/g, "-");
 }

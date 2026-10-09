@@ -1,7 +1,8 @@
 "use client";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, useReducedMotion } from "motion/react";
+import * as m from "motion/react-m";
 
 import type { IconType } from "@/lib/icons";
 import { getSpriteHref } from "@/lib/icons";
@@ -52,7 +53,7 @@ const GridTile = memo(function GridTile({
   const Icon = icon.icon;
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full [contain-intrinsic-size:auto_64px] [content-visibility:auto]">
       <span
         aria-hidden="true"
         className="pointer-events-none absolute top-0 left-0 z-20 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center"
@@ -60,7 +61,7 @@ const GridTile = memo(function GridTile({
         <span className="absolute h-2.5 w-px bg-border" />
         <span className="absolute h-px w-2.5 bg-border" />
       </span>
-      <motion.button
+      <m.button
         onClick={() => onSelect(icon)}
         onMouseEnter={(e) => onTrackMove(icon, e.currentTarget, e.clientX, e.clientY)}
         onMouseMove={(e) => onTrackMove(icon, e.currentTarget, e.clientX, e.clientY)}
@@ -126,7 +127,7 @@ const GridTile = memo(function GridTile({
             );
           })()}
         </div>
-      </motion.button>
+      </m.button>
     </div>
   );
 });
@@ -331,7 +332,7 @@ function IconGridInner({
           isSelected={selectedIconId === icon.id}
           isSearching={isSearching}
           invertInDark={invertInDark}
-          customizationState={customizationState}
+          customizationState={selectedIconId === icon.id ? customizationState : undefined}
           reduceMotion={reduceMotion === true}
           onShowTag={showTag}
           onTrackMove={trackMove}

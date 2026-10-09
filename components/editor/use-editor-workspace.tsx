@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps } from "react";
+import dynamic from "next/dynamic";
 import { ToolRail } from "@/components/icon-page/panels/outline";
 import { PropertiesPanel } from "@/components/icon-page/panels/properties";
 import { IconLibraryPanel } from "@/components/icon-page/panels/icon-library";
@@ -19,7 +20,11 @@ import {
   resolveEditorIconType,
 } from "@/lib/icons";
 import type { IconCategory, IconData } from "@/lib/types";
-import { EditorWorkspaceSection } from "@/components/editor/EditorWorkspaceSection";
+
+const EditorWorkspaceSection = dynamic(
+  () => import("@/components/editor/EditorWorkspaceSection").then((m) => m.EditorWorkspaceSection),
+  { ssr: false, loading: () => <div className="flex flex-1 items-center justify-center" /> },
+);
 
 const MAX_TRAY_ITEMS = 6;
 
@@ -31,7 +36,6 @@ const DESKTOP_QUERY = "(min-width: 1024px)";
 // instead of flashing the loading state while the JSON is re-read.
 let cachedAssets: { url: string; data: EditorAssetSummary[] } | null = null;
 
-/** Fetches the editor icon set the first time the editor is shown on a desktop-sized screen. */
 function useEditorAssets(assetsUrl: string, active: boolean) {
   const [assets, setAssets] = useState<EditorAssetSummary[] | null>(() =>
     cachedAssets?.url === assetsUrl ? cachedAssets.data : null,
@@ -72,11 +76,6 @@ function useEditorAssets(assetsUrl: string, active: boolean) {
   return { assets, failed };
 }
 
-/**
- * The /editor workspace: asset selection, path editing and the editor canvas.
- * Like useIconsWorkspace, it returns props for the shared side panels plus its
- * own centre.
- */
 export function useEditorWorkspace(
   workspace: ReturnType<typeof useWorkspaceState>,
   assetsUrl: string,
@@ -202,11 +201,11 @@ export function useEditorWorkspace(
       onPathCountChange={setSelectedPathCount}
     />
   ) : (
-    <main className="flex flex-1 items-center justify-center" aria-label="Editor workspace">
+    <div className="flex flex-1 items-center justify-center" role="status">
       <p className="text-body-sm text-muted-foreground">
         {failed ? "Couldn't load the icon set. Refresh to try again." : "Loading editor…"}
       </p>
-    </main>
+    </div>
   );
 
   return { toolRail, library, properties, center, showHelp, setShowHelp };

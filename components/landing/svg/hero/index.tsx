@@ -582,8 +582,6 @@ const HeroSvg = ({ variant = "launch" }: HeroSvgProps) => {
                   LAUNCH.hold,
                 );
               } else {
-                // Thrust compresses the rocket onto the pad, then it lifts off slowly and
-                // keeps accelerating, the way a real launch reads.
                 if (fullMotion) {
                   rocketTl.to(
                     rocketEl,

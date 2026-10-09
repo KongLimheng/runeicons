@@ -22,8 +22,6 @@ const PILL_CLASS =
 
 const ICON_SIZES = [16, 20, 24, 28, 32, 48, 64, 96, 128];
 
-// One dark rounded group in the action bar. With `layoutTransition` it becomes a
-// motion.div with layout animation, which the editor uses when pills come and go.
 export function ActionPill({
   layoutTransition,
   className,
@@ -64,7 +62,6 @@ export interface HistoryControlsProps {
   layoutTransition?: Transition;
 }
 
-// Undo / Redo / Reset pill. Reset needs a second confirm from the popover.
 export function HistoryControls({
   onUndo,
   onRedo,
@@ -83,6 +80,7 @@ export function HistoryControls({
         <TooltipTrigger asChild>
           <button
             onClick={onUndo}
+            aria-label="Undo"
             disabled={!canUndo}
             className="flex h-9 w-9 items-center justify-center rounded-[7px] text-[#c9c9cb] transition-all hover:bg-white/5 hover:text-white active:translate-y-[0.5px] disabled:cursor-not-allowed disabled:text-[#4f4f51]"
           >
@@ -99,6 +97,7 @@ export function HistoryControls({
         <TooltipTrigger asChild>
           <button
             onClick={onRedo}
+            aria-label="Redo"
             disabled={!canRedo}
             className="flex h-9 w-9 items-center justify-center rounded-[7px] text-[#c9c9cb] transition-all hover:bg-white/5 hover:text-white active:translate-y-[0.5px] disabled:cursor-not-allowed disabled:text-[#4f4f51]"
           >
@@ -116,6 +115,7 @@ export function HistoryControls({
           <TooltipTrigger asChild>
             <button
               onClick={handleResetClick}
+              aria-label="Reset"
               className={cn(
                 "flex h-9 w-9 items-center justify-center rounded-[7px] transition-all active:translate-y-[0.5px]",
                 isResetArmed
@@ -150,6 +150,7 @@ export function HistoryControls({
               </button>
               <button
                 onClick={disarmReset}
+                aria-label="Cancel reset"
                 className="flex h-7 w-7 items-center justify-center rounded-[6px] text-white/50 transition-all hover:bg-white/5 hover:text-white"
               >
                 <X className="h-3.5 w-3.5" />
@@ -171,7 +172,6 @@ export interface SizeGridControlsProps {
   layoutTransition?: Transition;
 }
 
-// Icon size dropdown plus the pixel grid toggle.
 export function SizeGridControls({
   state,
   onChange,
@@ -210,6 +210,7 @@ export function SizeGridControls({
         <TooltipTrigger asChild>
           <button
             onClick={onGridToggle}
+            aria-label={showGrid ? "Hide grid" : "Show grid"}
             className={cn(
               "flex h-full w-9 items-center justify-center rounded-[7px] transition-all active:translate-y-[0.5px]",
               showGrid

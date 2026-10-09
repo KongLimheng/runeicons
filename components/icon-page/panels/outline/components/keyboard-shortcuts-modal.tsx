@@ -74,6 +74,7 @@ export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsMod
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
+                aria-label="Close shortcuts"
                 className="h-6 w-6 rounded-md hover:bg-muted"
               >
                 <X className="h-3 w-3" />

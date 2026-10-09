@@ -41,7 +41,6 @@ export function useConfigPersistence(
           const content = event.target?.result as string;
           const importedState = JSON.parse(content);
 
-          // Basic validation (check if it looks like our state)
           if (
             importedState &&
             typeof importedState === "object" &&

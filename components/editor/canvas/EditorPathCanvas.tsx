@@ -131,7 +131,6 @@ export function EditorPathCanvas({
 
   useEffect(() => cancelPendingRaf, []);
 
-  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (!path?.d) {
       controlPointsRef.current = [];
@@ -163,7 +162,6 @@ export function EditorPathCanvas({
       flushHistoryState([], 0);
     }
   }, [path?.d, path?.id]);
-  /* eslint-enable react-hooks/set-state-in-effect */
 
   const startDrag = (index: number, event: React.MouseEvent) => {
     event.stopPropagation();
@@ -415,7 +413,6 @@ export function EditorPathCanvas({
                         strokeWidth={0.8 * scaleFactor}
                       />
                     ) : null}
-                    {/* Hover ring */}
                     {isHovered && !isDragging ? (
                       <circle
                         cx={point.x}
@@ -427,7 +424,6 @@ export function EditorPathCanvas({
                         pointerEvents="none"
                       />
                     ) : null}
-                    {/* Shadow halo */}
                     <circle
                       cx={point.x}
                       cy={point.y}
@@ -436,7 +432,6 @@ export function EditorPathCanvas({
                       opacity={0.15}
                       pointerEvents="none"
                     />
-                    {/* Control point */}
                     <circle
                       cx={point.x}
                       cy={point.y}

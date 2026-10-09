@@ -32,6 +32,7 @@ export function HeaderPanel({ className }: HeaderPanelProps) {
         <Link
           href="/"
           prefetch={false}
+          aria-label="Rune Icons home"
           className="group flex h-full w-12 shrink-0 cursor-pointer items-center justify-center border-r border-border transition-colors duration-150 ease-out hover:bg-muted/50"
         >
           <span className="flex h-8 w-8 items-center justify-center text-foreground transition-transform duration-150 ease-out group-hover:scale-[1.02]">
@@ -79,7 +80,7 @@ export function HeaderPanel({ className }: HeaderPanelProps) {
         </div>
         <div className="ml-auto flex h-full shrink-0 items-center justify-end gap-2 px-3 lg:w-85 lg:gap-2.5 lg:px-6">
           <Link
-            href="https://github.com/Nexvyn/runeicons"
+            href="https://github.com/Runeicons/runeicons"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:block"
@@ -87,7 +88,7 @@ export function HeaderPanel({ className }: HeaderPanelProps) {
             <Button
               variant="outline"
               className="h-8 gap-2 border-border bg-white px-3 text-[11px] font-medium opacity-100 dark:bg-[#1a1a1a]"
-              aria-label="GitHub"
+              aria-label={`GitHub, ${displayCount} stars`}
             >
               <Github className="size-3.5" />{" "}
               <span className="inline-block min-w-[3ch] text-left tabular-nums">

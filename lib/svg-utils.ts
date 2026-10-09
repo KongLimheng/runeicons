@@ -5,7 +5,6 @@ export interface ViewBox {
   h: number;
 }
 
-// Parses "minX minY width height". Missing or zero sizes fall back to `fallbackSize`.
 export function parseViewBox(viewBox: string | undefined, fallbackSize = 24): ViewBox {
   const parts = (viewBox || "").split(/\s+/).map(Number);
   return {

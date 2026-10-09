@@ -47,72 +47,59 @@ const FOLDER_TO_TAG: Record<string, string> = {
 };
 
 const GLASS_CATEGORY_OVERRIDES: Record<string, string> = {
-  // commerce
   bitcoin: "commerce",
   creditcard: "commerce",
   shoppingbag: "commerce",
   shoppingcart: "commerce",
   wallet: "commerce",
   pricetag: "commerce",
-  // time
   calender: "time",
   calendar: "time",
   clock: "time",
   history: "time",
-  // weather
   cloud: "weather",
   sun: "weather",
   moon: "weather",
   rain: "weather",
-  // communication
   bubble: "communication",
   email: "communication",
   envelope: "communication",
   phone: "communication",
   mail: "communication",
-  // media
   camera: "media",
   microphone: "media",
   play: "media",
   pause: "media",
   volume: "media",
   image: "media",
-  // navigation
   arrow: "navigation",
   chevron: "navigation",
   home: "navigation",
-  // accessibility
   ear: "accessibility",
   eye: "accessibility",
   hand: "accessibility",
   thumb: "accessibility",
-  // dev
   code: "dev",
   console: "dev",
   branch: "dev",
   server: "dev",
   terminal: "dev",
-  // users
   user: "users",
   people: "users",
   contact: "users",
-  // hardware
   battery: "hardware",
   printer: "hardware",
   tv: "hardware",
   laptop: "hardware",
-  // files
   archive: "files",
   file: "files",
   folder: "files",
   inbox: "files",
   clipboard: "files",
-  // feedback
   bell: "feedback",
   check: "feedback",
   alert: "feedback",
   warning: "feedback",
-  // action
   bookmark: "action",
   heart: "action",
   star: "action",
@@ -134,7 +121,6 @@ function titleCaseKebab(s: string): string {
 }
 
 function splitPascal(s: string): string[] {
-  // "BatteryFull2" -> ["Battery", "Full", "2"]; "PaperPlaneTopRight" -> [...]
   const parts: string[] = [];
   let current = "";
   for (const ch of s) {
@@ -152,17 +138,13 @@ function splitPascal(s: string): string[] {
 }
 
 function glassName(filename: string): { name: string; idSlug: string; tagWords: string[] } {
-  // Strip .svg
   let base = filename.replace(/\.svg$/i, "");
-  // Collapse whitespace; "Back 2" -> "Back 2", "Email1Sparkle" -> as-is
   base = base.trim();
-  // Split into parts: spaces, PascalCase, digits
   const spaceSplit = base.split(/\s+/);
   const pieces: string[] = [];
   for (const seg of spaceSplit) {
     for (const p of splitPascal(seg)) pieces.push(p);
   }
-  // Filter empty
   const cleaned = pieces.filter((p) => p.length > 0);
   const name = cleaned.join(" ");
   const idSlug = cleaned.join("-").toLowerCase();
@@ -196,19 +178,30 @@ type GlassEntry = {
   tags: string[];
 };
 
+const STYLE_DIRS = ["normal", "duotone", "fill", "pixelated"] as const;
+
 function buildNormal(): NormalEntry[] {
   const entries: NormalEntry[] = [];
-  const normalRoot = join(PUBLIC, "normal");
-  const folders = readdirSync(normalRoot, { withFileTypes: true })
-    .filter((d) => d.isDirectory())
-    .map((d) => d.name)
-    .filter((f) => FOLDER_TO_CATEGORY[f])
-    .sort();
+  const folderSet = new Set<string>();
+  for (const style of STYLE_DIRS) {
+    const root = join(PUBLIC, style);
+    if (!existsSync(root)) continue;
+    for (const d of readdirSync(root, { withFileTypes: true })) {
+      if (d.isDirectory() && FOLDER_TO_CATEGORY[d.name]) folderSet.add(d.name);
+    }
+  }
+  const folders = [...folderSet].sort();
 
   for (const folder of folders) {
-    const files = readdirSync(join(normalRoot, folder))
-      .filter((f) => f.endsWith(".svg"))
-      .sort();
+    const fileSet = new Set<string>();
+    for (const style of STYLE_DIRS) {
+      const dir = join(PUBLIC, style, folder);
+      if (!existsSync(dir)) continue;
+      for (const f of readdirSync(dir)) {
+        if (f.endsWith(".svg")) fileSet.add(f);
+      }
+    }
+    const files = [...fileSet].sort();
 
     for (const file of files) {
       const basename = file.replace(/\.svg$/i, "");
@@ -217,7 +210,7 @@ function buildNormal(): NormalEntry[] {
       const tagPrefix = FOLDER_TO_TAG[folder];
       const tags = [tagPrefix, ...basename.split("-").filter(Boolean)];
       const availability = {
-        normal: true,
+        normal: existsSync(join(PUBLIC, "normal", folder, file)),
         duotone: existsSync(join(PUBLIC, "duotone", folder, file)),
         fill: existsSync(join(PUBLIC, "fill", folder, file)),
         pixelated: existsSync(join(PUBLIC, "pixelated", folder, file)),

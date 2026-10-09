@@ -127,7 +127,6 @@ export default function RocketInteractive() {
         preserveAspectRatio="xMidYMid meet"
       >
         {paths.map((entry, pathIdx) => {
-          // One grey scale: body and fins lightest, porthole and flame stepping deeper.
           const fills: Record<number, string> = {
             0: "color-mix(in oklab, var(--foreground) 6%, var(--background))",
             3: "color-mix(in oklab, var(--foreground) 14%, var(--background))",

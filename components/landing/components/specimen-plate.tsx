@@ -279,7 +279,6 @@ const SpecimenPlate = ({ iconType, onChange, paused, icon }: SpecimenPlateProps)
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
-            {/* The grid dissolves toward the edges instead of ending in a hard box. */}
             <radialGradient id={gridFadeId} cx="12" cy="12" r="15" gradientUnits="userSpaceOnUse">
               <stop offset="0.55" stopColor="white" />
               <stop offset="1" stopColor="white" stopOpacity="0" />
@@ -289,7 +288,6 @@ const SpecimenPlate = ({ iconType, onChange, paused, icon }: SpecimenPlateProps)
             </mask>
           </defs>
           <g aria-hidden="true" className="text-muted-foreground" mask={`url(#${gridMaskId})`}>
-            {/* Live area: the 20×20 zone icons are drawn inside. */}
             <rect x="2" y="2" width="20" height="20" rx="1" fill="currentColor" opacity="0.05" />
             {/* 1px device-pixel lines: fractional user-unit strokes blur when the
                 24-unit grid is scaled up, so strokes don't scale and snap to pixels. */}
@@ -305,7 +303,6 @@ const SpecimenPlate = ({ iconType, onChange, paused, icon }: SpecimenPlateProps)
                 );
               })}
             </g>
-            {/* Centre axes and keylines, hairline and quiet so the glyph leads. */}
             <g stroke="var(--brand)" strokeWidth="1" opacity="0.5" fill="none">
               <g shapeRendering="crispEdges">
                 <line x1="12" y1="-3" x2="12" y2="27" vectorEffect="non-scaling-stroke" />
@@ -315,7 +312,6 @@ const SpecimenPlate = ({ iconType, onChange, paused, icon }: SpecimenPlateProps)
               <circle cx="12" cy="12" r="10" vectorEffect="non-scaling-stroke" />
             </g>
           </g>
-          {/* Canvas corner marks at 0 and 24. */}
           <g
             aria-hidden="true"
             className="text-muted-foreground"
@@ -331,8 +327,6 @@ const SpecimenPlate = ({ iconType, onChange, paused, icon }: SpecimenPlateProps)
             />
           </g>
           <AnimatePresence mode="wait" initial={false}>
-            {/* One entrance for every style: the glyph fades up while settling
-                from slightly smaller, and leaves the same way. */}
             <m.g
               key={view.key}
               initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.94 }}

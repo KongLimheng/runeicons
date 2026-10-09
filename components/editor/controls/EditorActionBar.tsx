@@ -315,7 +315,10 @@ export function EditorActionBar({
           </button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="group flex h-full w-8 items-center justify-center rounded-[7px] bg-white text-black transition-all hover:bg-white/90 active:scale-[0.98] dark:bg-white dark:text-black">
+              <button
+                type="button"
+                aria-label="More export options"
+                className="group flex h-full w-8 items-center justify-center rounded-[7px] bg-white text-black transition-all hover:bg-white/90 active:scale-[0.98] dark:bg-white dark:text-black">
                 <ChevronDown className="h-4 w-4 opacity-70 transition-opacity group-hover:opacity-100" />
               </button>
             </DropdownMenuTrigger>

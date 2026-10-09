@@ -21,6 +21,7 @@ const PUBLIC_ASSET_DIRS = [
   "landing",
   "about",
   "brand",
+  "brand-logos",
 ];
 
 const SECURITY_HEADERS = [

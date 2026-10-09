@@ -35,6 +35,13 @@ const ROUTES: Entry[] = [
     fallback: "2026-10-01",
   },
   {
+    path: "/brands",
+    priority: 0.7,
+    changeFrequency: "monthly",
+    sources: ["app/brands", "components/brands", "constants/brand-logos.ts"],
+    fallback: "2026-10-10",
+  },
+  {
     path: "/sponsor",
     priority: 0.6,
     changeFrequency: "monthly",

@@ -54,6 +54,7 @@ inherit the text colour of whatever they are placed inside.
 - [Home](${SITE_URL}/): overview and search preview
 - [Icons](${SITE_URL}/icons): full library, searchable and filterable by style and category
 - [Editor](${SITE_URL}/editor): reshape paths, drag anchor points, tune and export
+- [Brands](${SITE_URL}/brands): brand logos of popular developer and design tools, copy or download as SVG. They are third-party trademarks, not covered by the Apache 2.0 license
 - [Sponsor](${SITE_URL}/sponsor): support the project
 - [About](${SITE_URL}/about): the people behind it
 - [Changelog](${SITE_URL}/changelog): what shipped when

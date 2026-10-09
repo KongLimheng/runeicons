@@ -1,6 +1,3 @@
-// Copyright 2026 Runeicons
-// SPDX-License-Identifier: Apache-2.0
-
 import 'package:flutter/material.dart';
 import 'package:runeicons/runeicons.dart';
 

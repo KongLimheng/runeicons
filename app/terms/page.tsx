@@ -9,7 +9,7 @@ export const metadata = pageMetadata({
 });
 
 const TermsPage = () => (
-  <DocsShell title="Terms of Use" lead="Last updated: July 29, 2026">
+  <DocsShell title="Terms of Use" lead="Last updated: October 10, 2026">
     <div className="flex max-w-[65ch] flex-col gap-8 text-body text-muted-foreground">
       <p>
         By accessing or using RuneIcons, you{" "}
@@ -55,7 +55,34 @@ const TermsPage = () => (
       </div>
 
       <div className="flex flex-col gap-2">
-        <h2 className="text-h3 text-foreground">2. Acceptable Use</h2>
+        <h2 className="text-h3 text-foreground">2. Brand Logos</h2>
+        <p>
+          The brand logos page shows logos and marks that belong to other companies and projects.{" "}
+          <strong className="font-medium text-foreground">
+            They are not part of Rune Icons and are not covered by our Apache License 2.0
+          </strong>
+          . They are shown only to identify the brand. Rune Icons is not affiliated with, sponsored
+          by, or endorsed by any of them.
+        </p>
+        <p>
+          Each logo lists the license it was published under and links to the owner&apos;s official
+          logo or brand guidelines page where we have one. Some need credit to the author, some are
+          share-alike, and many are trademarks that you may only use under the brand&apos;s own
+          rules.{" "}
+          <strong className="font-medium text-foreground">
+            You are responsible for following those rules
+          </strong>
+          . Do not alter, recolor, or animate a brand logo unless its guidelines allow it, and do
+          not use one in a way that suggests the brand endorses you.
+        </p>
+        <p>
+          If you own a logo shown here and want it removed or corrected, raise it via our GitHub
+          repository and we will act on it.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <h2 className="text-h3 text-foreground">3. Acceptable Use</h2>
         <p>
           You agree <strong className="font-medium text-foreground">not to misuse the site</strong>,
           attempt to disrupt its operation, or use it in any way that violates applicable laws or
@@ -64,7 +91,7 @@ const TermsPage = () => (
       </div>
 
       <div className="flex flex-col gap-2">
-        <h2 className="text-h3 text-foreground">3. No Warranty</h2>
+        <h2 className="text-h3 text-foreground">4. No Warranty</h2>
         <p>
           RuneIcons is provided{" "}
           <strong className="font-medium text-foreground">
@@ -76,7 +103,7 @@ const TermsPage = () => (
       </div>
 
       <div className="flex flex-col gap-2">
-        <h2 className="text-h3 text-foreground">4. Changes to These Terms</h2>
+        <h2 className="text-h3 text-foreground">5. Changes to These Terms</h2>
         <p>
           We may update these Terms of Use from time to time. Continued use of the site after
           changes are posted{" "}
@@ -88,7 +115,7 @@ const TermsPage = () => (
       </div>
 
       <div className="flex flex-col gap-2">
-        <h2 className="text-h3 text-foreground">5. Contact</h2>
+        <h2 className="text-h3 text-foreground">6. Contact</h2>
         <p>
           Questions about these terms can be raised via our{" "}
           <a

@@ -9,7 +9,7 @@ export const metadata = pageMetadata({
 });
 
 const PrivacyPage = () => (
-  <DocsShell title="Privacy Policy" lead="Last updated: July 29, 2026">
+  <DocsShell title="Privacy Policy" lead="Last updated: October 10, 2026">
     <div className="flex max-w-[65ch] flex-col gap-8 text-body text-muted-foreground">
       <p>
         This Privacy Policy explains what information RuneIcons collects and how it is used. We aim
@@ -47,7 +47,21 @@ const PrivacyPage = () => (
       </div>
 
       <div className="flex flex-col gap-2">
-        <h2 className="text-h3 text-foreground">3. Third-Party Services</h2>
+        <h2 className="text-h3 text-foreground">3. Brand Logos</h2>
+        <p>
+          The brand logos page stores the logos you like in your own browser&apos;s local storage,
+          under the key{" "}
+          <strong className="font-medium text-foreground">runeicons-brand-likes</strong>. That list{" "}
+          <strong className="font-medium text-foreground">never leaves your device</strong>. We
+          do not receive it, and clearing your browser data removes it. The logo files are served
+          from our own site, and copying or downloading one does not send anything to a third
+          party. The links to each brand&apos;s website or brand guidelines take you to that
+          company&apos;s site, which is covered by its own privacy policy.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <h2 className="text-h3 text-foreground">4. Third-Party Services</h2>
         <p>
           Sponsorships and payments are processed by third-party providers, and interactions with
           our GitHub repository are governed by{" "}
@@ -56,7 +70,7 @@ const PrivacyPage = () => (
       </div>
 
       <div className="flex flex-col gap-2">
-        <h2 className="text-h3 text-foreground">4. Changes to This Policy</h2>
+        <h2 className="text-h3 text-foreground">5. Changes to This Policy</h2>
         <p>
           We may update this Privacy Policy from time to time. Continued use of the site after
           changes are posted{" "}
@@ -68,7 +82,7 @@ const PrivacyPage = () => (
       </div>
 
       <div className="flex flex-col gap-2">
-        <h2 className="text-h3 text-foreground">5. Contact</h2>
+        <h2 className="text-h3 text-foreground">6. Contact</h2>
         <p>
           Questions about this policy can be raised via our{" "}
           <a

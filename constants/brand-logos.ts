@@ -231,7 +231,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/cursor.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "midjourney",
@@ -308,7 +308,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/together-ai.svg",
     "license": "MIT",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "elevenlabs",
@@ -319,7 +319,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/elevenlabs.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "runway",
@@ -429,7 +429,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/openrouter.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "lm-studio",
@@ -528,7 +528,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/continue.svg",
     "license": "Apache-2.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "cody",
@@ -704,7 +704,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/nebius.svg",
     "license": "MIT",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "deepinfra",
@@ -1100,7 +1100,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/langflow.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "haystack",
@@ -1254,7 +1254,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/tinygrad.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "onnx",
@@ -2112,7 +2112,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/toml.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "react",
@@ -2475,7 +2475,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/preact.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "ember",
@@ -2618,7 +2618,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/pnpm.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "npm",
@@ -2651,7 +2651,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/babel.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "eslint",
@@ -2662,7 +2662,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/eslint.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "prettier",
@@ -2684,7 +2684,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/biomejs.svg",
     "license": "MIT",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "swc",
@@ -2849,7 +2849,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/vitepress.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "nextdotjs",
@@ -2926,7 +2926,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/daisyui.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "headlessui",
@@ -2948,7 +2948,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/heroui.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "motion",
@@ -3553,7 +3553,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/gitkraken.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "sourcetree",
@@ -3685,7 +3685,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/opentofu.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "packer",
@@ -4070,7 +4070,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/istio.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "consul",
@@ -4147,7 +4147,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/nvm.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "vscodium",
@@ -4400,7 +4400,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/notepadplusplus.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "helix",
@@ -4818,7 +4818,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/pandoc.svg",
     "license": "CC-BY-SA-4.0",
     "tier": "share-alike",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "doxygen",
@@ -5368,7 +5368,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/pocketbase.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "convex",
@@ -5544,7 +5544,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/sqlite.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "elasticsearch",
@@ -5621,7 +5621,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/clickhouse.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "snowflake",
@@ -5830,7 +5830,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/paddle.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "lemon-squeezy",
@@ -6622,7 +6622,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/iconify.svg",
     "license": "MIT",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "material-design",
@@ -6765,7 +6765,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/linear.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "jira",
@@ -8063,7 +8063,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/stimulus.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "t3-stack",
@@ -8129,7 +8129,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/zola.svg",
     "license": "CC-BY-SA-4.0",
     "tier": "share-alike",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "ahooks",
@@ -8184,7 +8184,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/base-ui.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "dotenv",
@@ -8954,7 +8954,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/bitrise.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "browserstack",
@@ -9119,7 +9119,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/editorconfig.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "flyway",
@@ -9471,7 +9471,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/wakatime.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "yeoman",
@@ -9999,7 +9999,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/afterpay.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "dark"
+    "tone": "light"
   },
   {
     "slug": "liberapay",
@@ -10285,7 +10285,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/kyverno.svg",
     "license": "Apache-2.0",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "certbot",
@@ -10681,7 +10681,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/datocms.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "decap-cms",
@@ -11704,7 +11704,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/suse.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "opensuse",
@@ -11891,7 +11891,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/asus.svg",
     "license": "CC0-1.0",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "xiaomi",
@@ -12342,7 +12342,7 @@ export const BRAND_LOGOS: BrandLogo[] = [
     "file": "/brand-logos/stepfun.svg",
     "license": "MIT",
     "tier": "permissive",
-    "tone": "light"
+    "tone": "dark"
   },
   {
     "slug": "upstage",

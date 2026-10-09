@@ -1,1 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#f3df49" d="M0 0h256v256H0z"/><path fill="#2e2e2c" d="m175.744 196.096l33.024 18.432l-10.112 23.808h-8.704l-7.168-10.88l-53.12-14.208zm-41.6-54.784l37.504 29.696v19.328l-50.304 19.456l-26.24 1.28l-20.224-27.136l19.072-26.112zm55.808-8.832l46.848 28.8l-5.76 35.328l-18.048 13.312l-34.56-19.584v-19.328l-6.528-37.376zm-24.96 2.304l5.888 27.776l-28.672-23.936z"/></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 200">
+<rect width="200" height="200" fill="#F3DF49"/>
+<g>
+  <polygon fill="#2E2E2C" points="104.8,110.4 134.1,133.6 134.1,148.7 94.8,163.9 74.3,164.9 58.5,143.7 73.4,123.3"/>
+  <polygon fill="#2E2E2C" points="139.4,148.7 139.4,133.6 134.3,104.4 148.4,103.5 185,126 180.5,153.6 166.4,164"/>
+  <polygon fill="#2E2E2C" points="163.1,167.6 137.3,153.2 101.3,166.6 142.8,177.7 148.4,186.2 155.2,186.2"/>
+  <polygon fill="#2E2E2C" points="111.1,108.3 133.5,127 128.9,105.3"/>
+</g>
+</svg>

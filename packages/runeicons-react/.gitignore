@@ -4,3 +4,4 @@ src/icons.generated.ts
 bun.lock
 bun.lockb
 *.vsix
+src/brands.generated.ts

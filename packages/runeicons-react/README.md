@@ -86,6 +86,27 @@ Notes on these helpers:
 - `RuneIcon` is a plain function component with no hooks. It renders correctly on the server (the test suite checks `renderToString`).
 - It returns `null` for an unknown `name` or a missing `type` variant.
 
+## Brand logos
+
+The package also ships 1,100+ third-party brand logos. They are in a separate entry point, so importing the icons does not load the logo data:
+
+```tsx
+import { BrandLogo, getBrand, searchBrands } from "runeicons-react/brands";
+
+export function Footer() {
+  return <BrandLogo name="openai" size={20} title="OpenAI" />;
+}
+
+const github = getBrand("github");
+const matches = searchBrands("git", { tier: "permissive", limit: 10 });
+```
+
+`BrandLogo` takes `name` (the brand slug), `size` (default `24`) and an optional `title`. With a `title` the svg gets `role="img"` and an `aria-label`. Without one it is `aria-hidden`. An unknown name renders nothing.
+
+`searchBrands(query, { group?, tier?, limit? })` matches the name or slug and lists exact matches first. `listBrandGroups()` returns the group names. `BRANDS`, `BrandEntry` and `BrandTier` are exported too.
+
+Brand logos are other companies' trademarks, shown for identification only. They are not covered by Rune Icons' Apache 2.0 license and each keeps its own license, listed in the `license` and `tier` fields. Follow each brand's guidelines (the `guidelines` field links to them), and do not alter a logo unless its guidelines allow it.
+
 ## Development
 
 From the repository root (requires [pnpm](https://pnpm.io) and [Bun](https://bun.sh)):

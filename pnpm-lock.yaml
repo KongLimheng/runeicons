@@ -47,9 +47,6 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: ^1.3.0
         version: 1.3.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@vercel/analytics':
-        specifier: ^2.0.1
-        version: 2.0.1(next@16.4.0(@babel/core@7.29.7)(@types/node@25.9.9)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(svelte@5.57.1(@typescript-eslint/types@8.71.1))(vue@3.5.43(typescript@6.0.3))
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -1911,35 +1908,6 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@vercel/analytics@2.0.1':
-    resolution: {integrity: sha512-MTQG6V9qQrt1tsDeF+2Uoo5aPjqbVPys1xvnIftXSJYG2SrwXRHnqEvVoYID7BTruDz4lCd2Z7rM1BdkUehk2g==}
-    peerDependencies:
-      '@remix-run/react': ^2
-      '@sveltejs/kit': ^1 || ^2
-      next: '>= 13'
-      nuxt: '>= 3'
-      react: ^18 || ^19 || ^19.0.0-rc
-      svelte: '>= 4'
-      vue: ^3
-      vue-router: ^4
-    peerDependenciesMeta:
-      '@remix-run/react':
-        optional: true
-      '@sveltejs/kit':
-        optional: true
-      next:
-        optional: true
-      nuxt:
-        optional: true
-      react:
-        optional: true
-      svelte:
-        optional: true
-      vue:
-        optional: true
-      vue-router:
-        optional: true
-
   '@vue/compiler-core@3.5.43':
     resolution: {integrity: sha512-zdiLhnbe1QQqgDT8xZMpNmyqZ3qlI+/Q/FHQco57Kwl/b05HhCzN6eVGN9QU9rbga4CrS0H5SYY8VGHZCt/1Hg==}
 
@@ -1975,11 +1943,6 @@ packages:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
-
-  acorn@8.18.0:
-    resolution: {integrity: sha512-lGq+9yr1/GuAWaVYIHRjvvySG5/4VfKIvC8EWxStPdcDh/Ka7FG3twP6v4d5BkravUilhIAsG4Qj83t02LWUPQ==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
 
   acorn@8.19.0:
     resolution: {integrity: sha512-oJlA3XiRm7Cyk6qFD2Jn8ak9B7jSy0qy00ADO3+8dpT0LSjFihQYv4C02LFCSYJV3Q37xYwwRy5m+IpIiUzqWw==}
@@ -5587,9 +5550,9 @@ snapshots:
 
   '@shikijs/vscode-textmate@10.0.2': {}
 
-  '@sveltejs/acorn-typescript@1.0.13(acorn@8.18.0)':
+  '@sveltejs/acorn-typescript@1.0.13(acorn@8.19.0)':
     dependencies:
-      acorn: 8.18.0
+      acorn: 8.19.0
 
   '@swc/helpers@0.5.23':
     dependencies:
@@ -5907,13 +5870,6 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.12.2':
     optional: true
 
-  '@vercel/analytics@2.0.1(next@16.4.0(@babel/core@7.29.7)(@types/node@25.9.9)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(svelte@5.57.1(@typescript-eslint/types@8.71.1))(vue@3.5.43(typescript@6.0.3))':
-    optionalDependencies:
-      next: 16.4.0(@babel/core@7.29.7)(@types/node@25.9.9)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      react: 19.2.4
-      svelte: 5.57.1(@typescript-eslint/types@8.71.1)
-      vue: 3.5.43(typescript@6.0.3)
-
   '@vue/compiler-core@3.5.43':
     dependencies:
       '@babel/parser': 7.29.9
@@ -5976,8 +5932,6 @@ snapshots:
   acorn-jsx@5.3.2(acorn@8.19.0):
     dependencies:
       acorn: 8.19.0
-
-  acorn@8.18.0: {}
 
   acorn@8.19.0: {}
 
@@ -8306,9 +8260,9 @@ snapshots:
     dependencies:
       '@jridgewell/remapping': 2.3.5
       '@jridgewell/sourcemap-codec': 1.6.0
-      '@sveltejs/acorn-typescript': 1.0.13(acorn@8.18.0)
+      '@sveltejs/acorn-typescript': 1.0.13(acorn@8.19.0)
       '@types/estree': 1.0.9
-      acorn: 8.18.0
+      acorn: 8.19.0
       aria-query: 5.3.1
       axobject-query: 4.1.0
       clsx: 2.1.1
@@ -8601,17 +8555,6 @@ snapshots:
       '@vue/shared': 3.5.43
     optionalDependencies:
       typescript: 5.9.3
-
-  vue@3.5.43(typescript@6.0.3):
-    dependencies:
-      '@vue/compiler-dom': 3.5.43
-      '@vue/compiler-sfc': 3.5.43
-      '@vue/runtime-dom': 3.5.43
-      '@vue/server-renderer': 3.5.43
-      '@vue/shared': 3.5.43
-    optionalDependencies:
-      typescript: 6.0.3
-    optional: true
 
   which-boxed-primitive@1.1.1:
     dependencies:

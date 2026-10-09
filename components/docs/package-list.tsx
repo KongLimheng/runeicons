@@ -44,7 +44,7 @@ const Logo = ({ row }: { row: PackageRow }) => (
       width={28}
       height={28}
       unoptimized
-      className={`size-7 ${row.dir === "runeicons-mcp" ? "dark:invert" : ""}`}
+      className={`size-7 ${row.dir === "runeicons-mcp" || row.dir === "runeicons-brands" ? "dark:invert" : ""}`}
     />
   </span>
 );

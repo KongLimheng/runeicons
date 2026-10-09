@@ -25,6 +25,7 @@ const LOGOS: Record<string, string> = {
   "runeicons-vscode": "/brand/vscode.svg",
   "runeicons-figma": "/brand/figma.svg",
   "runeicons-mcp": "/brand/mcp.svg",
+  "runeicons-brands": "/brand/brands.svg",
 };
 
 type Pkg = {
@@ -91,7 +92,7 @@ const PACKAGES: Pkg[] = [
     name: "runeicons-vscode",
     platform: "VS Code",
     description: "Autocomplete for icon ids, hover previews, and an insert command.",
-    install: "code --install-extension runeicons-vscode-0.1.0.vsix",
+    install: "code --install-extension runeicons-vscode-0.2.0.vsix",
   },
   {
     dir: "runeicons-figma",
@@ -106,6 +107,13 @@ const PACKAGES: Pkg[] = [
     platform: "MCP",
     description: "Lets AI agents search the set and paste SVG into your code.",
     install: "npx -y runeicons-mcp",
+  },
+  {
+    dir: "runeicons-brands",
+    name: "runeicons-brands",
+    platform: "Brands",
+    description: "1,100+ brand logos as SVG files, each with its license and official brand guidelines link.",
+    install: "pnpm add runeicons-brands",
   },
 ];
 

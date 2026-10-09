@@ -92,7 +92,7 @@ const PACKAGES: Pkg[] = [
     name: "runeicons-vscode",
     platform: "VS Code",
     description: "Autocomplete for icon ids, hover previews, and an insert command.",
-    install: "code --install-extension runeicons-vscode-0.2.0.vsix",
+    install: "code --install-extension runeicons-vscode-0.1.0.vsix",
   },
   {
     dir: "runeicons-figma",

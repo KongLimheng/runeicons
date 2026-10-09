@@ -1,6 +1,6 @@
 {
   "name": "runeicons-mcp",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "description": "MCP server exposing the RuneIcons library (350+ icons, 900+ variants across 5 styles) and 1,100+ third-party brand logos to AI agents: search icons and brands, resolve metadata, and get ready-to-use SVG source.",
   "license": "Apache-2.0",
   "type": "module",

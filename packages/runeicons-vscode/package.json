@@ -2,7 +2,7 @@
   "name": "runeicons-vscode",
   "displayName": "RuneIcons",
   "description": "RuneIcons autocomplete, hover preview, and insert command for 350+ icons / 900+ variants in five styles.",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "icon": "icon.png",
   "license": "Apache-2.0",
   "publisher": "Nexvyn",

@@ -14,7 +14,7 @@ pnpm --filter runeicons-vscode build
 
 cd packages/runeicons-vscode
 pnpm dlx @vscode/vsce package --no-dependencies
-code --install-extension runeicons-vscode-0.2.0.vsix
+code --install-extension runeicons-vscode-0.1.0.vsix
 ```
 
 Reload the VS Code window after installing.

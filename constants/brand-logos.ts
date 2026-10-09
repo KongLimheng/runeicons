@@ -7,7 +7,6 @@ export interface BrandLogo {
   site: string | null;
   guidelines: string | null;
   file: string;
-  source: string;
   license: string;
   tier: BrandLogoTier;
   tone: "light" | "dark";

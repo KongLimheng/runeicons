@@ -9,7 +9,6 @@ export type { GeneratedIcon, IconStyle } from "./icons.generated.js";
 
 const PKG_DIR = join(dirname(fileURLToPath(import.meta.url)), "..");
 
-/** Root attribute set hoisted onto the root <svg> when returning the full SVG source. */
 const ROOT_PAINT_ATTRS = [
   "fill",
   "stroke",
@@ -48,11 +47,6 @@ function svgAttrs(svg: string): { viewBox: string; attrs: string[] } {
   return { viewBox, attrs };
 }
 
-/**
- * Extract the inner body of an SVG and normalize paint attributes to
- * `currentColor` so agents can recolor icons inline. This mirrors the
- * color behavior of runeicons.com copy/export.
- */
 export function getSvgInner(icon: GeneratedIcon): string {
   const svg = readSvg(icon.file);
   const inner = svg
@@ -65,12 +59,10 @@ export function getSvgInner(icon: GeneratedIcon): string {
   );
 }
 
-/** The icon's own viewBox (e.g. "0 0 24 24", "0 0 40 41" for pixelated). */
 export function getViewBox(icon: GeneratedIcon): string {
   return svgAttrs(readSvg(icon.file)).viewBox;
 }
 
-/** Full standalone `<svg>...</svg>` source, recolored to currentColor. */
 export function getSvgSource(icon: GeneratedIcon): string {
   const { viewBox, attrs } = svgAttrs(readSvg(icon.file));
   const attrText = ['xmlns="http://www.w3.org/2000/svg"', `viewBox="${viewBox}"`, ...attrs].join(
@@ -86,7 +78,6 @@ export interface SearchOptions {
   limit?: number;
 }
 
-/** Case-insensitive match against id, name, category, and tags. */
 export function searchIcons(options: SearchOptions): GeneratedIcon[] {
   const query = options.query?.trim().toLowerCase() ?? "";
   const category = options.category?.trim().toLowerCase() ?? "";
@@ -102,7 +93,6 @@ export function searchIcons(options: SearchOptions): GeneratedIcon[] {
     return icon.tags.some((tag) => tag.toLowerCase().includes(query));
   });
 
-  // Exact id or name matches first, then shortest id (closest to the query).
   results.sort((a, b) => {
     const aExact = a.id.toLowerCase() === query || a.name.toLowerCase() === query ? 0 : 1;
     const bExact = b.id.toLowerCase() === query || b.name.toLowerCase() === query ? 0 : 1;
@@ -117,11 +107,9 @@ export function findIcon(id: string): GeneratedIcon | undefined {
   const needle = id.trim().toLowerCase();
   const matches = GENERATED_ICONS.filter((icon) => icon.id.toLowerCase() === needle);
   if (matches.length === 0) return undefined;
-  // Default to the outline style when a glyph exists in several styles.
   return matches.find((icon) => icon.style === "normal") ?? matches[0];
 }
 
-/** Sorted list of categories with per-style counts, e.g. for list_categories. */
 export function listCategories(): Array<{
   category: string;
   total: number;
@@ -145,7 +133,6 @@ export function listCategories(): Array<{
     .sort((a, b) => a.category.localeCompare(b.category));
 }
 
-/** Variants of the same glyph in the other core styles, if any. */
 export function getRelatedStyles(icon: GeneratedIcon): Array<{ style: IconStyle; id: string }> {
   if (icon.style === "glass") return [];
   return GENERATED_ICONS.filter((other) => other.id === icon.id && other.style !== icon.style).map(

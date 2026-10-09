@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import {
   findIcon,
+  GENERATED_ICONS,
   type GeneratedIcon,
   getRelatedStyles,
   getSvgSource,
@@ -27,15 +28,19 @@ function iconToResult(icon: GeneratedIcon, opts: { svg: boolean; related: boolea
     viewBox: getViewBox(icon),
     svg: opts.svg ? getSvgSource(icon) : undefined,
     relatedStyles: related.length > 0 ? related : undefined,
-    credit: "Rune Icons (https://runeicons.com) - Apache-2.0",
+    credit: "RuneIcons (https://runeicons.com) - Apache-2.0",
   };
+}
+
+function uniqueIconCount(): number {
+  return new Set(GENERATED_ICONS.map((icon) => icon.id)).size;
 }
 
 function formatCategories(): string {
   const rows = listCategories();
   const width = Math.max(...rows.map((r) => r.category.length), "category".length);
   const lines = [
-    `Rune Icons ${ICON_COUNTS.total} icons across ${rows.length} categories`,
+    `RuneIcons: ${uniqueIconCount()} icons, ${ICON_COUNTS.total} variants, across ${rows.length} categories`,
     "",
     `${"category".padEnd(width)}  total  normal  duotone  fill  pixelated  glass`,
     "-".repeat(width + 48),
@@ -57,9 +62,9 @@ async function main(): Promise<void> {
   server.registerTool(
     "search_icons",
     {
-      title: "Search Rune Icons",
+      title: "Search RuneIcons",
       description:
-        "Search the Rune Icons library (900+ icons). Returns matching icons with id, name, style, category, and tags. " +
+        "Search the RuneIcons library (350+ icons, 900+ variants). Returns matching icons with id, name, style, category, and tags. " +
         "Styles: normal (outline), duotone, fill, pixelated, glass. Combine `query` with `style`/`category` to narrow results.",
       inputSchema: {
         query: z
@@ -158,7 +163,7 @@ async function main(): Promise<void> {
     {
       title: "List Rune Icon Categories",
       description:
-        "List every Rune Icons category with total and per-style counts. Use a category name to filter search_icons results.",
+        "List every RuneIcons category with total and per-style counts. Use a category name to filter search_icons results.",
       inputSchema: {},
     },
     async () => {
@@ -167,7 +172,6 @@ async function main(): Promise<void> {
   );
 
   await server.connect(new StdioServerTransport());
-  // Keep the process alive; stdio transport reads until the client disconnects.
   await new Promise<never>(() => {});
 }
 

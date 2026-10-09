@@ -1,6 +1,6 @@
 {
   "name": "runeicons-react-native",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "RuneIcons for React Native — 350+ icons, 900+ variants across five styles, as react-native-svg components.",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",

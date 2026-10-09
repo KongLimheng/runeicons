@@ -1,12 +1,12 @@
 {
   "name": "runeicons-figma",
   "version": "0.1.0",
-  "description": "Figma plugin for Rune Icons: search and insert 900+ icons in five styles.",
+  "description": "Figma plugin for RuneIcons: search and insert 350+ icons, 900+ variants in five styles.",
   "license": "Apache-2.0",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/Nexvyn/runeicons"
+    "url": "https://github.com/Runeicons/runeicons"
   },
   "scripts": {
     "build": "bun run scripts/build.ts",

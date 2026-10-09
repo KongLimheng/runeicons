@@ -3,15 +3,26 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { Github } from "lucide-react";
+import { Github, Menu } from "lucide-react";
 import { motion } from "motion/react";
 
 import { BrandMark } from "@/app/brand-mark";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { LightDarkMode } from "@/components/ui/light-dark-mode";
 import { cn } from "@/lib/utils";
 
 import { useGitHubStars } from "./hooks/use-github-stars";
+
+const SITE_LINKS = [
+  { href: "/brands", label: "Brands" },
+  { href: "/packages", label: "Packages" },
+];
 
 interface HeaderPanelProps {
   className?: string;
@@ -77,8 +88,45 @@ export function HeaderPanel({ className }: HeaderPanelProps) {
               <span className="relative z-10">Edit</span>
             </Link>
           </div>
+          <nav aria-label="Site" className="ml-3 hidden items-center gap-0.5 sm:flex">
+            {SITE_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                prefetch={false}
+                className="flex h-8 items-center rounded-md px-3 text-[11px] font-medium text-muted-foreground transition-colors duration-150 hover:text-foreground"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
         </div>
         <div className="ml-auto flex h-full shrink-0 items-center justify-end gap-2 px-3 lg:w-85 lg:gap-2.5 lg:px-6">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                aria-label="Open menu"
+                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border border-border bg-white text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring sm:hidden dark:bg-[#1a1a1a]"
+              >
+                <Menu className="size-4" aria-hidden="true" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link href="/icons" prefetch={false}>
+                  Icons
+                </Link>
+              </DropdownMenuItem>
+              {SITE_LINKS.map((link) => (
+                <DropdownMenuItem key={link.href} asChild>
+                  <Link href={link.href} prefetch={false}>
+                    {link.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Link
             href="https://github.com/Runeicons/runeicons"
             target="_blank"

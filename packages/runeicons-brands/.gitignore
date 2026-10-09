@@ -1,0 +1,7 @@
+node_modules/
+dist/
+svg/
+src/brands.generated.ts
+bun.lock
+bun.lockb
+*.tgz

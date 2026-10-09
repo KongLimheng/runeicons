@@ -13,6 +13,7 @@ const columns: { heading: string; links: FooterLinkItem[] }[] = [
     links: [
       { title: "Icons", href: "/icons" },
       { title: "Editor", href: "/editor" },
+      { title: "Brands", href: "/brands" },
       { title: "Packages", href: "/packages" },
       { title: "Changelog", href: "/changelog" },
     ],

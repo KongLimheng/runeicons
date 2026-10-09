@@ -34,4 +34,11 @@ export const faqItems: FAQItem[] = [
     answer:
       "Open an issue on the GitHub repo. I go through requests most weeks and build the ones people actually vote for first.",
   },
+  {
+    id: "item-5",
+    number: "05",
+    question: "Can I use the brand logos on the Brands page?",
+    answer:
+      "You can copy or download them, but they are not ours. They are trademarks of their owners, shown for identification only, and are not covered by our Apache 2.0 license. Each logo lists the license it was published under and links to the owner's official logo guidelines, so check those before you use one, and don't alter the logo. If you own one and want it removed or fixed, open an issue.",
+  },
 ];

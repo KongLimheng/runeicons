@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 const Search = dynamic(() => import("@/components/landing/components/search"));
 const Bento = dynamic(() => import("@/components/landing/components/bento"));
 const Packages = dynamic(() => import("@/components/landing/components/packages"));
+const Brands = dynamic(() => import("@/components/landing/components/brands"));
 const Faq = dynamic(() => import("@/components/landing/components/faq"));
 const CTA = dynamic(() => import("@/components/landing/components/cta"));
 const Footer = dynamic(() => import("@/components/landing/components/footer"));
@@ -31,7 +32,7 @@ const Page = async () => {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}
       />
-      <div className="relative grid min-h-screen w-full grid-cols-[1fr_auto_1fr] grid-rows-[auto_1px_auto_1px_auto_1px_auto_1px_auto_1px_auto_1px_auto_1px_auto] overflow-hidden bg-[#F5F5F5] dark:bg-background">
+      <div className="relative grid min-h-screen w-full grid-cols-[1fr_auto_1fr] grid-rows-[auto_1px_auto_1px_auto_1px_auto_1px_auto_1px_auto_1px_auto_1px_auto_1px_auto] overflow-hidden bg-[#F5F5F5] dark:bg-background">
         <div
           className={cn(
             FRAME_WIDTH,
@@ -91,33 +92,45 @@ const Page = async () => {
         <div className="pointer-events-none col-span-full col-start-1 row-start-10 border-b-2 border-dashed" />
 
         <div
-          id="faq"
+          id="brands"
           className={cn(
             FRAME_WIDTH,
-            "col-start-2 row-start-11 flex scroll-mt-24 flex-col justify-center pad-section lg:min-h-[calc(100vh-104px)] [content-visibility:auto] [contain-intrinsic-size:auto_900px]",
+            "col-start-2 row-start-11 flex scroll-mt-24 flex-col pad-section [content-visibility:auto] [contain-intrinsic-size:auto_900px]",
           )}
         >
-          <Faq />
+          <Brands />
         </div>
 
         <div className="pointer-events-none col-span-full col-start-1 row-start-12 border-b-2 border-dashed" />
 
         <div
+          id="faq"
           className={cn(
             FRAME_WIDTH,
-            "col-start-2 row-start-13 flex flex-col overflow-hidden pad-section [content-visibility:auto] [contain-intrinsic-size:auto_900px]",
+            "col-start-2 row-start-13 flex scroll-mt-24 flex-col justify-center pad-section lg:min-h-[calc(100vh-104px)] [content-visibility:auto] [contain-intrinsic-size:auto_900px]",
           )}
         >
-          <CTA />
+          <Faq />
         </div>
-        </main>
 
         <div className="pointer-events-none col-span-full col-start-1 row-start-14 border-b-2 border-dashed" />
 
         <div
           className={cn(
             FRAME_WIDTH,
-            "col-start-2 row-start-15 flex flex-col px-4 pt-14 pb-0 sm:px-6 sm:pt-18 lg:px-8 lg:pt-22 [content-visibility:auto] [contain-intrinsic-size:auto_900px]",
+            "col-start-2 row-start-15 flex flex-col overflow-hidden pad-section [content-visibility:auto] [contain-intrinsic-size:auto_900px]",
+          )}
+        >
+          <CTA />
+        </div>
+        </main>
+
+        <div className="pointer-events-none col-span-full col-start-1 row-start-16 border-b-2 border-dashed" />
+
+        <div
+          className={cn(
+            FRAME_WIDTH,
+            "col-start-2 row-start-17 flex flex-col px-4 pt-14 pb-0 sm:px-6 sm:pt-18 lg:px-8 lg:pt-22 [content-visibility:auto] [contain-intrinsic-size:auto_900px]",
           )}
         >
           <Footer />

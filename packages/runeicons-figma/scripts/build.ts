@@ -3,9 +3,12 @@ import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { loadBrands } from "../../../scripts/lib/brand-data";
+
 const PKG = join(dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLIC = join(PKG, "..", "..", "public");
 const OUT = join(PKG, "src", "icons.generated.ts");
+const BRANDS_OUT = join(PKG, "src", "brands.generated.ts");
 
 const TYPES = ["normal", "duotone", "fill", "pixelated"] as const;
 const GLASS = "glass" as const;
@@ -159,6 +162,40 @@ const withCounts = variantKeys
   .join(", ");
 console.log(`Wrote ${OUT} (${icons.length} icons: ${withCounts})`);
 
+const brands = loadBrands().map((brand) => ({
+  slug: brand.slug,
+  name: brand.name,
+  group: brand.group,
+  license: brand.license,
+  tier: brand.tier,
+  tone: brand.tone,
+  guidelines: brand.guidelines,
+  site: brand.site,
+  viewBox: brand.viewBox,
+  markup: brand.markup,
+}));
+
+const brandsBody = `export type BrandEntry = {
+  slug: string;
+  name: string;
+  group: string;
+  license: string;
+  tier: "permissive" | "attribution" | "share-alike" | "trademark-only";
+  tone: "light" | "dark";
+  guidelines: string | null;
+  site: string | null;
+  viewBox: string;
+  markup: string;
+};
+
+export const BRANDS: BrandEntry[] = [
+${brands.map((brand) => "  " + JSON.stringify(brand).replace(/<\//g, "<\\/")).join(",\n")},
+];
+`;
+
+writeFileSync(BRANDS_OUT, brandsBody);
+console.log(`Wrote ${BRANDS_OUT} (${brands.length} brands)`);
+
 const DIST = join(PKG, "dist");
 
 const code = await Bun.build({
@@ -180,29 +217,55 @@ const uiHtml = `<!doctype html>
 <html>
 <head><meta charset="utf-8" />
 <style>
+  [hidden] { display: none !important; }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: Inter, sans-serif; font-size: 12px; color: #333; }
-  #toolbar { display: flex; gap: 6px; padding: 8px; position: sticky; top: 0; background: #fff; border-bottom: 1px solid #e5e5e5; }
-  #search { flex: 1; padding: 6px 8px; border: 1px solid #d9d9d9; border-radius: 6px; }
-  #type { padding: 6px; border: 1px solid #d9d9d9; border-radius: 6px; }
+  #top { position: sticky; top: 0; background: #fff; border-bottom: 1px solid #e5e5e5; }
+  #modes { display: flex; padding: 8px 8px 0; }
+  .mode { flex: 1; padding: 6px; border: 1px solid #d9d9d9; background: #fff; color: #666; font: inherit; cursor: pointer; }
+  .mode:first-child { border-radius: 6px 0 0 6px; }
+  .mode:last-child { border-radius: 0 6px 6px 0; border-left: none; }
+  .mode.active { background: #18a0fb; border-color: #18a0fb; color: #fff; }
+  #toolbar { display: flex; gap: 6px; padding: 8px; }
+  #search { flex: 1; min-width: 0; padding: 6px 8px; border: 1px solid #d9d9d9; border-radius: 6px; }
+  #type, #group { padding: 6px; border: 1px solid #d9d9d9; border-radius: 6px; max-width: 45%; }
+  #notice { margin: 8px 8px 0; padding: 6px 8px; border-radius: 6px; background: #fff8e6; color: #7a5a00; font-size: 10px; line-height: 1.4; }
   #results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 8px; }
   .icon { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px; border: 1px solid transparent; border-radius: 6px; background: none; cursor: pointer; }
   .icon:hover { border-color: #18a0fb; background: #f0f9ff; }
   .icon svg { width: 24px; height: 24px; color: #333; }
   .icon span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; color: #666; }
+  .brand { background: #f5f5f5; }
+  .brand:hover { background: #e8f4fd; }
+  .brand svg { width: auto; height: 40px; color: inherit; }
+  .brand.dark { background: #1e1e1e; }
+  .brand.dark:hover { background: #2b2b2b; }
+  .brand.dark span { color: #ccc; }
+  .tier { font-style: normal; padding: 0 5px; border: 1px solid #d9d9d9; border-radius: 4px; font-size: 9px; color: #666; }
+  .brand.dark .tier { border-color: #555; color: #aaa; }
+  #more { display: block; margin: 0 auto 8px; padding: 6px 12px; border: 1px solid #d9d9d9; border-radius: 6px; background: #fff; color: #333; font: inherit; cursor: pointer; }
 </style></head>
 <body>
-<div id="toolbar">
-  <input id="search" placeholder="Search icons" autofocus />
-  <select id="type">
-    <option value="normal">normal</option>
-    <option value="duotone">duotone</option>
-    <option value="fill">fill</option>
-    <option value="pixelated">pixelated</option>
-    <option value="glass">glass</option>
-  </select>
+<div id="top">
+  <div id="modes">
+    <button class="mode active" data-mode="icons">Icons</button>
+    <button class="mode" data-mode="brands">Brands</button>
+  </div>
+  <div id="toolbar">
+    <input id="search" placeholder="Search icons" autofocus />
+    <select id="type">
+      <option value="normal">normal</option>
+      <option value="duotone">duotone</option>
+      <option value="fill">fill</option>
+      <option value="pixelated">pixelated</option>
+      <option value="glass">glass</option>
+    </select>
+    <select id="group" hidden></select>
+  </div>
 </div>
+<p id="notice" hidden>Brand logos are other companies' trademarks, shown for identification only. Check each logo's license and brand guidelines before you use it.</p>
 <div id="results"></div>
+<button id="more" hidden>Show more</button>
 <script>${uiJs}</script>
 </body>
 </html>

@@ -74,7 +74,7 @@ async function insertIcon(editor: vscode.TextEditor): Promise<void> {
       description: icon.id,
       icon,
     })),
-    { placeHolder: "Search Rune Icons by name or id" },
+    { placeHolder: "Search RuneIcons by name or id" },
   );
   if (!iconPick) return;
 

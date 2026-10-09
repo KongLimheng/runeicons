@@ -138,9 +138,6 @@ const icons = [...byId.entries()]
   .sort(([a], [b]) => a.localeCompare(b))
   .map(([id, e]) => ({ id, name: e.name ?? displayName(id), variants: e.variants }));
 
-const header = `// AUTO-GENERATED from public/ SVG sources by scripts/build.ts. Do not edit by hand.
-`;
-
 const variantKeys = [...TYPES, GLASS];
 const body = `export const ICONS: IconEntry[] = [
 ${icons.map((i) => "  " + JSON.stringify(i)).join(",\n")},
@@ -155,7 +152,7 @@ ${variantKeys.map((t) => `    ${t}?: { viewBox: string; markup: string };`).join
 };
 `;
 
-writeFileSync(OUT, header + body);
+writeFileSync(OUT, body);
 
 const withCounts = variantKeys
   .map((t) => `${t}: ${icons.filter((i) => i.variants[t]).length}`)

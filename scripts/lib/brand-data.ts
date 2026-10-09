@@ -16,7 +16,7 @@ export interface BrandData {
   markup: string;
 }
 
-const ROOT = join(import.meta.dir, "..", "..");
+const ROOT = join(import.meta.dirname, "..", "..");
 const SVG_DIR = join(ROOT, "public", "brand-logos");
 
 const ROOT_PAINT_ATTRS = [

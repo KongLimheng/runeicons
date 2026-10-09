@@ -34,11 +34,12 @@ const PrivacyPage = () => (
       <div className="flex flex-col gap-2">
         <h2 className="text-h3 text-foreground">2. Cookies & Analytics</h2>
         <p>
-          We may use{" "}
-          <strong className="font-medium text-foreground">
-            basic, privacy-respecting analytics
-          </strong>{" "}
-          to understand aggregate site usage. We{" "}
+          With your consent, we use{" "}
+          <strong className="font-medium text-foreground">Google Analytics</strong> to understand
+          aggregate site usage. It sets cookies in your browser and sends usage data such as the
+          pages you visit to Google. If you decline, it is not loaded, and the choice is saved in
+          your browser&apos;s local storage under the key{" "}
+          <strong className="font-medium text-foreground">runeicons-analytics-consent</strong>. We{" "}
           <strong className="font-medium text-foreground">
             do not sell personal data to third parties
           </strong>

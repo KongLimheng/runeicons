@@ -1,7 +1,7 @@
 {
   "name": "runeicons-react-native",
   "version": "0.1.0",
-  "description": "Rune Icons for React Native \u2014 908 icons across five styles, as react-native-svg components.",
+  "description": "RuneIcons for React Native — 350+ icons, 900+ variants across five styles, as react-native-svg components.",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
   "exports": {
@@ -25,6 +25,8 @@
   "files": [
     "lib",
     "src",
+    "!src/icons",
+    "!lib/**/*.map",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__",
@@ -49,15 +51,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Nexvyn/runeicons.git",
+    "url": "git+https://github.com/Runeicons/runeicons.git",
     "directory": "packages/runeicons-react-native"
   },
-  "author": "Gursahb Singh <gursahb7@gmail.com> (https://gs-rumana.com)",
+  "author": "Nexvyn",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/Nexvyn/runeicons/issues"
+    "url": "https://github.com/Runeicons/runeicons/issues"
   },
-  "homepage": "https://github.com/Nexvyn/runeicons/tree/main/packages/runeicons-react-native#readme",
+  "homepage": "https://github.com/Runeicons/runeicons/tree/main/packages/runeicons-react-native#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -110,6 +112,7 @@
     ]
   },
   "prettier": {
+    "endOfLine": "auto",
     "quoteProps": "consistent",
     "singleQuote": true,
     "tabWidth": 2,
@@ -123,6 +126,10 @@
       "eslint"
     ],
     "version": "0.63.1"
+  },
+  "browserslist": {
+    "ios": "15.4",
+    "chrome": "100"
   },
   "sideEffects": false
 }

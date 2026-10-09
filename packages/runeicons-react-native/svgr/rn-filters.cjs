@@ -1,18 +1,3 @@
-/**
- * Teaches SVGR's react-native transform about SVG filters.
- *
- * @svgr/babel-plugin-transform-react-native-svg carries a hard-coded list of
- * elements react-native-svg supports. That list predates filter support (added
- * in react-native-svg 15) so it silently DROPS <filter> and its primitives,
- * leaving dangling filter="url(#…)" references behind.
- *
- * SVGR is unmaintained (last release 8.1.0, Aug 2023), so we bridge the gap:
- * before SVGR's preset runs, rename each filter element to an element SVGR does
- * know and that this icon set never uses; after it has run, rename the emitted
- * components to the real ones and fix the react-native-svg import.
- *
- * Babel runs plugins before presets, which is what makes the ordering work.
- */
 const PROXY = {
   filter: { via: "symbol", component: "Symbol", real: "Filter" },
   feGaussianBlur: { via: "line", component: "Line", real: "FeGaussianBlur" },
@@ -57,7 +42,6 @@ module.exports = function rnFilters({ types: t }) {
           path.traverse({
             JSXIdentifier(p) {
               const real = VIA_TO_REAL.get(p.node.name);
-              // Only rewrite element positions, not attribute names.
               if (!real || p.parentPath.isJSXAttribute()) return;
               p.replaceWith(t.jsxIdentifier(real));
               used.add(real);

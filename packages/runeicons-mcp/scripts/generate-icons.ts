@@ -3,6 +3,8 @@ import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { BRAND_LOGOS } from "../../../constants/brand-logos.ts";
+
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const PKG_DIR = join(SCRIPT_DIR, "..");
 const REPO = join(PKG_DIR, "..", "..");
@@ -248,6 +250,58 @@ function copyAssets(icons: GeneratedIcon[]): void {
   }
 }
 
+function copyBrandAssets(): void {
+  const dir = join(PKG_DIR, "assets", "brands");
+  mkdirSync(dir, { recursive: true });
+  for (const brand of BRAND_LOGOS) {
+    const src = join(PUBLIC, "brand-logos", `${brand.slug}.svg`);
+    if (!existsSync(src)) throw new Error(`Missing brand logo: ${src}`);
+    copyFileSync(src, join(dir, `${brand.slug}.svg`));
+  }
+}
+
+function writeBrandRegistry(): number {
+  const brands = BRAND_LOGOS.map(
+    ({ slug, name, group, site, guidelines, license, tier, tone }) => ({
+      slug,
+      name,
+      group,
+      site,
+      guidelines,
+      license,
+      tier,
+      tone,
+    }),
+  ).sort((a, b) => a.slug.localeCompare(b.slug));
+
+  const body = brands.map((brand) => `  ${JSON.stringify(brand)},`).join("\n");
+
+  const header = `export type BrandLogoTier = "permissive" | "attribution" | "share-alike" | "trademark-only";
+
+export interface GeneratedBrand {
+  slug: string;
+  name: string;
+  group: string;
+  site: string | null;
+  guidelines: string | null;
+  license: string;
+  tier: BrandLogoTier;
+  tone: "light" | "dark";
+}
+
+export const BRAND_COUNT = ${brands.length};
+
+export const BRANDS: GeneratedBrand[] = [
+${body}
+];
+`;
+
+  const outFile = join(PKG_DIR, "src", "brands.generated.ts");
+  writeFileSync(outFile, header);
+  console.log(`Wrote ${outFile}`);
+  return brands.length;
+}
+
 function main(): void {
   const icons = [...buildNormalIcons(), ...buildGlassIcons()];
   if (icons.length === 0) {
@@ -256,6 +310,7 @@ function main(): void {
   }
 
   copyAssets(icons);
+  copyBrandAssets();
 
   const counts: Record<string, number> = {};
   for (const icon of icons) counts[icon.style] = (counts[icon.style] ?? 0) + 1;
@@ -299,6 +354,9 @@ ${body}
     `  total=${icons.length} normal=${counts.normal ?? 0} duotone=${counts.duotone ?? 0} fill=${counts.fill ?? 0} pixelated=${counts.pixelated ?? 0} glass=${counts.glass ?? 0}`,
   );
   console.log(`Copied ${icons.length} SVGs into ${join(PKG_DIR, "assets")}`);
+
+  const brandCount = writeBrandRegistry();
+  console.log(`Copied ${brandCount} brand logos into ${join(PKG_DIR, "assets", "brands")}`);
 }
 
 main();

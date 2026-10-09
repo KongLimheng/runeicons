@@ -1,6 +1,6 @@
 # runeicons-mcp
 
-An [MCP](https://modelcontextprotocol.io) server that gives AI agents access to the [RuneIcons](https://runeicons.com) library. It has 350+ icons and 900+ variants across five styles: normal (outline), duotone, fill, pixelated, and glass. Agents can search icons and get ready-to-use SVG source to place in your code.
+An [MCP](https://modelcontextprotocol.io) server that gives AI agents access to the [RuneIcons](https://runeicons.com) library. It has 350+ icons and 900+ variants across five styles: normal (outline), duotone, fill, pixelated, and glass, plus 1,100+ third-party brand logos. Agents can search icons and get ready-to-use SVG source to place in your code, and look up brand logos with their usage notices.
 
 All SVGs are bundled with the package, so the server needs no network access at runtime. Icon SVGs are returned with `stroke` and `fill` set to `currentColor`, so they can be recolored with CSS.
 
@@ -97,7 +97,7 @@ With bun, `bunx runeicons-mcp` runs the same binary in place of `npx -y runeicon
 
 ## Tools
 
-The server exposes three tools.
+The server exposes six tools: three for icons (`search_icons`, `get_icon`, `list_categories`) and three for brand logos (`search_brands`, `get_brand`, `list_brand_groups`).
 
 ### `search_icons`
 
@@ -183,6 +183,95 @@ users             52      13      13     6         13      7
 weather           43      11      11     4         11      6
 ```
 
+### `search_brands`
+
+Search the brand logo library by text, group, and license tier. Each result shows the slug, name, group, and license. Results are ranked with exact slug or name matches first, then shorter names.
+
+| Parameter | Type     | Required | Description                                                                                       |
+| :-------- | :------- | :------- | :------------------------------------------------------------------------------------------------ |
+| `query`   | `string` | No       | Up to 100 characters. Matched case-insensitively against slug, name, group, and tier             |
+| `group`   | `string` | No       | Up to 60 characters. Exact group name, for example `AI`. See `list_brand_groups`                  |
+| `tier`    | `string` | No       | One of `permissive`, `attribution`, `share-alike`, `trademark-only`                               |
+| `limit`   | `number` | No       | Integer from 1 to 200. Default 50                                                                 |
+
+Example call and response:
+
+```text
+search_brands { "query": "openai", "limit": 3 }
+
+3 results for "openai":
+
+- openai - "OpenAI" (group: AI, license: MIT)
+- sora-openai - "Sora (OpenAI)" (group: AI, license: MIT)
+- codex-openai - "Codex (OpenAI)" (group: AI, license: MIT)
+
+Use get_brand with a slug to fetch the logo and its usage notice.
+```
+
+If nothing matches, the response suggests a shorter query or calling `list_brand_groups`.
+
+### `get_brand`
+
+Get the metadata, official site, brand guidelines link, and SVG source for one brand logo by slug, for example `openai` or `claude-code`. The SVG is returned unaltered, so it does not use `currentColor`. The result always ends with the usage notice from [Brand logos](#brand-logos). An unknown slug returns an error result that suggests calling `search_brands`.
+
+| Parameter    | Type      | Required | Description                                      |
+| :----------- | :-------- | :------- | :----------------------------------------------- |
+| `slug`       | `string`  | Yes      | Brand slug, 1 to 120 characters                  |
+| `includeSvg` | `boolean` | No       | Include the full SVG source. Default `true`      |
+
+Example call and response:
+
+```text
+get_brand { "slug": "openai", "includeSvg": false }
+
+slug: openai
+name: OpenAI
+group: AI
+license: MIT
+tier: permissive
+official site: https://openai.com/
+brand guidelines: https://openai.com/brand/
+
+(svg omitted - pass includeSvg: true to include it)
+
+Brand logos are other companies' trademarks, shown for identification only. They are not covered by Rune Icons' Apache 2.0 license. Follow the brand's guidelines and do not alter the logo unless they allow it.
+```
+
+When `guidelines` is not set for a brand, the `brand guidelines` line reads `none`. The `official site` line reads `none` when a brand has no site.
+
+### `list_brand_groups`
+
+List every brand group with its logo count. Use a group name as the `group` filter of `search_brands`. This tool takes no parameters.
+
+Example response, from the current brand set:
+
+```text
+Brand logos: 1125 logos across 14 groups
+
+group                    logos
+------------------------------
+AI                         170
+CMS & commerce               9
+Collaboration & social      72
+Crypto & web3               28
+Databases                   36
+Design                      79
+Developer tools            222
+Frameworks & libraries     205
+Languages                   57
+Media & entertainment       22
+OS, browsers & big tech     67
+Payments & finance          13
+Platforms & services       117
+Security & identity         28
+```
+
+## Brand logos
+
+Brand logos are other companies' trademarks, shown for identification only. They are not covered by Rune Icons' Apache 2.0 license and each keeps its own license, listed in the `license` and `tier` fields. Follow each brand's guidelines (the `guidelines` field links to them), and do not alter a logo unless its guidelines allow it.
+
+The `tier` field summarizes the license of each logo file: `permissive` (for example MIT or CC0), `attribution` (CC-BY, credit required), `share-alike` (CC-BY-SA), or `trademark-only`, where the file's license grants no rights to the mark itself and the logo is shown under the brand's own terms.
+
 ## Development
 
 Requires [pnpm](https://pnpm.io) and [Bun](https://bun.sh). Run these from the repository root:
@@ -197,12 +286,14 @@ pnpm --filter runeicons-mcp build
 
 Inside `packages/runeicons-mcp`, the equivalent commands are `bun run generate`, `bun run typecheck`, `bun test`, and `bun run build`.
 
-`generate` runs `scripts/generate-icons.ts`. It reads the SVGs in the repository's `public/` directory and does two things:
+`generate` runs `scripts/generate-icons.ts`. It reads the SVGs in the repository's `public/` directory and the brand list in `constants/brand-logos.ts`, and does four things:
 
-1. Writes `src/icons.generated.ts`, the searchable registry. Each entry records the id, name, style, category, tags, and asset path. It prints the total and per-style counts.
-2. Copies the SVGs into `assets/<style>/`, so the published package is self-contained.
+1. Writes `src/icons.generated.ts`, the searchable icon registry. Each entry records the id, name, style, category, tags, and asset path. It prints the total and per-style counts.
+2. Copies the icon SVGs into `assets/<style>/`, so the published package is self-contained.
+3. Writes `src/brands.generated.ts`, the brand registry. It holds metadata only (slug, name, group, site, guidelines, license, tier, and tone), with no SVG markup.
+4. Copies each brand logo from `public/brand-logos/` into `assets/brands/<slug>.svg`.
 
-Run `generate` after adding or renaming icons in `public/`. The `prepublishOnly` script runs `generate`, `typecheck`, `test`, and `build` in that order before a publish.
+Run `generate` after adding or renaming icons in `public/`, or after changing the brand list. `src/brands.generated.ts` and `assets/brands/` are not committed, so `test` runs `generate` first. The `prepublishOnly` script runs `generate`, `typecheck`, `test`, and `build` in that order before a publish.
 
 To run the built server locally, build it and start the entry point over stdio:
 
@@ -213,10 +304,12 @@ node packages/runeicons-mcp/dist/index.js
 
 Source files are in `src/`:
 
-- `src/index.ts`: the MCP server and the three tool definitions.
-- `src/icons.ts`: search, lookup, categories, and SVG helpers.
-- `src/icons.generated.ts`: generated registry (rebuilt by `generate`).
+- `src/index.ts`: the MCP server and the six tool definitions.
+- `src/icons.ts`: icon search, lookup, categories, and SVG helpers.
+- `src/icons.generated.ts`: generated icon registry (rebuilt by `generate`).
+- `src/brands.ts`: brand search, lookup, groups, and logo SVG helpers.
+- `src/brands.generated.ts`: generated brand registry (rebuilt by `generate`).
 
 ## License
 
-Licensed under the [Apache License 2.0](LICENSE). Icon data and SVGs are part of [RuneIcons](https://runeicons.com). The icons are free for personal and commercial use under Apache-2.0, and no attribution is required. See the [runeicons repository](https://github.com/Runeicons/runeicons) for details.
+Licensed under the [Apache License 2.0](LICENSE). Icon data and SVGs are part of [RuneIcons](https://runeicons.com). The icons are free for personal and commercial use under Apache-2.0, and no attribution is required. See the [runeicons repository](https://github.com/Runeicons/runeicons) for details. Brand logos are not covered by this license; see [Brand logos](#brand-logos).

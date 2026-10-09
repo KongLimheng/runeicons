@@ -1,7 +1,7 @@
 {
   "name": "runeicons-mcp",
-  "version": "0.1.0",
-  "description": "MCP server exposing the RuneIcons library (350+ icons, 900+ variants across 5 styles) to AI agents: search icons, resolve metadata, and get ready-to-use SVG source.",
+  "version": "0.2.0",
+  "description": "MCP server exposing the RuneIcons library (350+ icons, 900+ variants across 5 styles) and 1,100+ third-party brand logos to AI agents: search icons and brands, resolve metadata, and get ready-to-use SVG source.",
   "license": "Apache-2.0",
   "type": "module",
   "repository": {
@@ -45,7 +45,7 @@
     "generate": "bun scripts/generate-icons.ts",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "bun test",
+    "test": "bun run generate && bun test",
     "prepublishOnly": "bun run generate && bun run typecheck && bun run test && bun run build"
   }
 }

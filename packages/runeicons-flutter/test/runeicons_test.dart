@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -79,5 +81,30 @@ void main() {
       expect(picture.semanticsLabel, 'Favorite');
       expect(tester.takeException(), isNull, reason: sample.key.name);
     }
+  });
+
+  test('exports the complete brand catalog', () {
+    expect(RuneBrands.all.length, greaterThanOrEqualTo(1100));
+    expect(
+      RuneBrands.all.map((brand) => brand.slug).toSet(),
+      hasLength(RuneBrands.all.length),
+    );
+  });
+
+  test('looks up brands by slug', () {
+    expect(RuneBrands.bySlug('openai'), RuneBrands.openai);
+    expect(RuneBrands.bySlug('missing'), isNull);
+  });
+
+  test('brand SVG files exist in the package', () {
+    for (final brand in RuneBrands.all) {
+      expect(File(brand.assetPath).existsSync(), isTrue, reason: brand.slug);
+    }
+  });
+
+  test('exposes the OpenAI brand metadata', () {
+    expect(RuneBrands.openai.name, 'OpenAI');
+    expect(RuneBrands.openai.tier, RuneBrandTier.permissive);
+    expect(RuneBrands.openai.assetPath, 'assets/brands/openai.svg');
   });
 }

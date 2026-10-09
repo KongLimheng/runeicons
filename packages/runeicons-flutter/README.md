@@ -217,6 +217,23 @@ them, so their final appearance depends on the SVG features that `flutter_svg`
 supports. The repository tests check that every glass icon renders without
 error; they do not compare the output pixel by pixel.
 
+## Brand logos
+
+The package also bundles 1,125 third-party brand logos. Each one is a
+`RuneBrandData` constant on `RuneBrands`, and `RuneBrand` draws it:
+
+```dart
+const RuneBrand(RuneBrands.openai, size: 32);
+
+const RuneBrand(RuneBrands.anthropic, size: 32, semanticLabel: 'Anthropic');
+```
+
+`RuneBrands.all` lists every brand, and `RuneBrands.bySlug('openai')` finds one
+by its slug at runtime. Each `RuneBrandData` has `slug`, `name`, `group`,
+`site`, `guidelines`, `license`, `tier` (a `RuneBrandTier`), and `assetPath`.
+
+Brand logos are other companies' trademarks, shown for identification only. They are not covered by Rune Icons' Apache 2.0 license and each keeps its own license, listed in the `license` and `tier` fields. Follow each brand's guidelines (the `guidelines` field links to them), and do not alter a logo unless its guidelines allow it.
+
 ## Regenerating the catalog
 
 The checked-in `assets/` directory and `lib/src/rune_icons.g.dart` are
@@ -232,6 +249,14 @@ The generator deletes and rewrites `assets/`, rewrites
 `lib/src/rune_icons.g.dart`, formats it with `dart format`, and prints the
 count of icons per style. Run it whenever the core icon set changes. It needs
 the Dart SDK and a checkout that includes the repository's `public/` directory.
+
+The brand logos are regenerated separately with Bun, from the same folder. It
+copies the SVGs from `public/brand-logos/` into `assets/brands/` and rewrites
+`lib/src/rune_brands.g.dart`:
+
+```sh
+bun tool/generate_brands.ts
+```
 
 ## Tests
 

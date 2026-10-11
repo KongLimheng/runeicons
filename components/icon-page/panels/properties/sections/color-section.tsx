@@ -189,7 +189,7 @@ export function ColorSection({ state, onChange }: ColorSectionProps) {
                     {state.gradient.stops.length > 2 && (
                       <button
                         onClick={() => handleRemoveStop(originalIndex)}
-                        className="text-destructive-foreground absolute -top-1 -right-1 z-20 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-background bg-destructive text-[8px] opacity-0 transition-opacity group-hover:opacity-100"
+                        className="text-white absolute -top-1 -right-1 z-20 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-background bg-destructive text-[8px] opacity-0 transition-opacity group-hover:opacity-100"
                       >
                         ×
                       </button>

@@ -1,17 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { MotionPathPlugin } from "gsap/MotionPathPlugin";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import dynamic from "next/dynamic";
 
-import { Button } from "@/components/ui/button";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
+
 import { Scrubber } from "@/components/ui/scrubber";
 import { Switch } from "@/components/ui/switch";
 import { EASING_PRESETS } from "@/lib/editor/animation-engine";
-import { type MotionPreset } from "@/lib/editor/motion-presets";
 import type { PathAnimationOverride } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +16,17 @@ import { Section } from "../components/Section";
 import type { CustomizationSectionProps } from "../types";
 import { BezierEditor } from "./bezier-editor";
 
-gsap.registerPlugin(MotionPathPlugin, useGSAP);
+const BouncePreview = dynamic(() => import("./bounce-preview"), { ssr: false });
+
+function InViewOnly({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref);
+  return (
+    <div ref={ref} className="h-11 w-11">
+      {inView ? children : null}
+    </div>
+  );
+}
 
 type EasingId = (typeof EASING_PRESETS)[number]["id"];
 
@@ -36,17 +43,6 @@ const INTERACTION_MODES = [
 ] as const;
 
 type InteractionMode = (typeof INTERACTION_MODES)[number]["id"];
-
-const MODE_DEFAULTS: Record<
-  InteractionMode,
-  Partial<{ loop: boolean; trigger: PathAnimationOverride["trigger"]; animationType: string }>
-> = {
-  animate: { loop: false, trigger: "auto" },
-  hover: { loop: false, trigger: "hover" },
-  loading: { loop: true, trigger: "auto" },
-  success: { loop: false, trigger: "once", animationType: "draw" },
-  error: { loop: false, trigger: "once", animationType: "shake" },
-};
 
 const ALLOWED_ANIMATIONS: Record<
   string,
@@ -77,9 +73,9 @@ function easingCurvePoints(id: string, value: string): [number, number, number, 
 }
 
 function EasingCurve({ x1, y1, x2, y2 }: { x1: number; y1: number; x2: number; y2: number }) {
-  const S = 48; // total svg size
-  const PAD = 6; // padding inside
-  const I = S - PAD * 2; // inner size
+  const S = 48;
+  const PAD = 6;
+  const I = S - PAD * 2;
 
   const toSvg = (nx: number, ny: number) => ({
     sx: PAD + nx * I,
@@ -294,58 +290,10 @@ function JumpPreview() {
   );
 }
 
-function BouncePreview() {
-  const reduceMotion = useReducedMotion();
-  const circleRef = useRef<SVGCircleElement>(null);
-  const pathRef = useRef<SVGPathElement>(null);
-
-  useGSAP(() => {
-    const circle = circleRef.current;
-    const path = pathRef.current;
-    if (!circle || !path) return;
-    const length = path.getTotalLength();
-    gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
-    if (reduceMotion) {
-      gsap.set(path, { strokeDashoffset: 0 });
-      return;
-    }
-    const tl = gsap.timeline({ repeat: -1, yoyo: true });
-    tl.to(
-      circle,
-      {
-        motionPath: { path, align: path, alignOrigin: [0.5, 0.5] },
-        duration: 3,
-        ease: "power1.inOut",
-      },
-      0,
-    );
-    tl.to(path, { strokeDashoffset: 0, duration: 3, ease: "power1.inOut" }, 0);
-  }, [reduceMotion]);
-
-  return (
-    <svg width="44" height="44" viewBox="0 0 124 86" fill="none" overflow="visible">
-      <path
-        ref={pathRef}
-        d="M1.5 84.5002C2.16667 70.5002 9 41.9002 31 39.5002C58.5 36.5002 69.5 76.0002 70 83.0002C70.5 90.0002 68.5 21 101.5 11"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
-      <circle ref={circleRef} cx="114.5" cy="9" r="7.5" stroke="currentColor" strokeWidth="3" />
-    </svg>
-  );
-}
-
 export function MotionSection({ state, onChange, pathCount = 0 }: CustomizationSectionProps) {
   const motionState = state.motion;
   const isEnabled = motionState?.enabled ?? false;
-  const perPathOverrides = (motionState?.perPathAnimations ?? {}) as Record<
-    string,
-    PathAnimationOverride
-  >;
   const isPaused = motionState?.isPaused ?? false;
-  const scrubProgress = motionState?.scrubProgress ?? null;
-  const interactionMode = (motionState?.interactionMode ?? "animate") as InteractionMode;
 
   const buildMotionState = useCallback(
     (updates: Partial<typeof state.motion>) => ({
@@ -380,31 +328,6 @@ export function MotionSection({ state, onChange, pathCount = 0 }: CustomizationS
 
   const handleGlobalChange = (updates: Partial<typeof state.motion>) => {
     onChange({ motion: buildMotionState(updates) });
-  };
-
-  const applyPreset = (preset: MotionPreset) => {
-    const modeDefaults = MODE_DEFAULTS[preset.interactionMode] ?? {};
-    const perPath = preset.buildPerPath?.(pathCount) ?? {};
-    handleGlobalChange({
-      ...preset.config,
-      ...modeDefaults,
-      presetId: preset.id,
-      interactionMode: preset.interactionMode,
-      perPathAnimations: perPath,
-      selectedPathIndex: -1,
-      isPaused: false,
-      scrubProgress: null,
-      replayNonce: (motionState?.replayNonce ?? 0) + 1,
-    });
-  };
-
-  const handleInteractionModeChange = (mode: InteractionMode) => {
-    const defaults = MODE_DEFAULTS[mode];
-    handleGlobalChange({
-      interactionMode: mode,
-      ...defaults,
-      presetId: null,
-    });
   };
 
   const currentEasingId = (motionState?.easingId ?? "ease-in-out") as EasingId;
@@ -524,6 +447,7 @@ export function MotionSection({ state, onChange, pathCount = 0 }: CustomizationS
             </>
           )}
           <Switch
+            aria-label="Enable animation"
             checked={isEnabled}
             onCheckedChange={(v) =>
               handleGlobalChange(
@@ -624,7 +548,7 @@ export function MotionSection({ state, onChange, pathCount = 0 }: CustomizationS
                             isActive ? "opacity-100" : "opacity-30 hover:opacity-60",
                           )}
                         >
-                          {preview}
+                          <InViewOnly>{preview}</InViewOnly>
                           <div
                             className={cn(
                               "h-0.5 rounded-full transition-all duration-300",
@@ -666,6 +590,7 @@ export function MotionSection({ state, onChange, pathCount = 0 }: CustomizationS
                         Loop
                       </span>
                       <Switch
+                        aria-label="Loop animation"
                         checked={motionState?.loop ?? true}
                         onCheckedChange={(v) => handleGlobalChange({ loop: v, presetId: null })}
                       />

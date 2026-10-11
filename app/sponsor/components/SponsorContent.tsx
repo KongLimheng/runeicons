@@ -3,8 +3,10 @@ import { useState } from "react";
 
 import * as m from "motion/react-m";
 
+import { FRAME_WIDTH } from "@/components/layout/page-frame";
 import Navbar from "@/components/ui/navbar";
 import { getCheckoutForAmount } from "@/lib/creem";
+import { cn } from "@/lib/utils";
 
 import { AmountSelector } from "./ui/amount-selector";
 import { CertificateCard } from "./ui/certificate-card";
@@ -19,8 +21,13 @@ export default function SponsorContent() {
     selectedAmount >= 100 ? 4 : selectedAmount >= 20 ? 3 : selectedAmount >= 5 ? 2 : 1;
 
   return (
-    <div className="relative grid min-h-screen w-full grid-cols-[1fr_auto_1fr] grid-rows-[auto_1px_1fr] overflow-hidden bg-[#F5F5F5] font-(family-name:--font-inter-tight) dark:bg-background">
-      <div className="relative col-start-2 row-start-1 flex w-[95vw] max-w-[1440px] flex-col overflow-hidden md:w-[90vw] 2xl:w-[85vw]">
+    <main id="main" className="relative grid min-h-screen w-full grid-cols-[1fr_auto_1fr] grid-rows-[auto_1px_1fr] overflow-hidden bg-[#F5F5F5] dark:bg-background">
+      <div
+        className={cn(
+          FRAME_WIDTH,
+          "relative col-start-2 row-start-1 flex flex-col overflow-hidden",
+        )}
+      >
         <Navbar
           showDashedBorder
           links={[
@@ -32,14 +39,19 @@ export default function SponsorContent() {
 
       <div className="pointer-events-none col-span-full col-start-1 row-start-2 border-b-2 border-dashed" />
 
-      <div className="col-start-2 row-start-3 flex w-[95vw] max-w-[1440px] flex-col items-center justify-center px-3 py-14 sm:px-6 sm:py-16 md:w-[90vw] 2xl:w-[85vw]">
+      <div
+        className={cn(
+          FRAME_WIDTH,
+          "col-start-2 row-start-3 flex flex-col items-center justify-center pad-section",
+        )}
+      >
         <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-12 flex w-full max-w-3xl flex-col items-center"
+          className="mb-10 flex w-full max-w-3xl flex-col items-center sm:mb-12"
         >
-          <span className="mb-5 inline-flex items-center gap-1.5 rounded-full border border-border bg-white px-3 py-1 text-[11px] font-medium tracking-wide text-foreground uppercase shadow-sm dark:bg-card">
+          <span className="mb-5 inline-flex items-center gap-1.5 rounded-full border border-border bg-white px-3 py-1 text-label font-medium tracking-[0.08em] text-foreground uppercase dark:bg-card">
             <svg
               className="size-3.5"
               viewBox="0 0 24 24"
@@ -69,11 +81,11 @@ export default function SponsorContent() {
             Open source forever
           </span>
 
-          <h1 className="mb-5 text-center text-[36px] leading-[1.1] font-medium tracking-tight sm:text-[52px]">
+          <h1 className="mb-5 text-center text-h1">
             Support <span className="text-blue-700">RuneIcons</span>
           </h1>
 
-          <p className="max-w-[480px] text-center text-[13px] leading-relaxed text-muted-foreground">
+          <p className="max-w-[56ch] text-center text-lead text-muted-foreground">
             RuneIcons will always be free and open-source. If the library has saved you time, or if
             you just want to see it keep growing, your support helps me design new icons, ship new
             styles, and keep everything sharp.
@@ -86,8 +98,8 @@ export default function SponsorContent() {
           transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="flex w-full max-w-3xl flex-col items-center"
         >
-          <div className="w-full overflow-hidden rounded-3xl border border-border bg-card text-card-foreground shadow-sm transition-shadow duration-300 hover:shadow-lg">
-            <div className="px-6 pt-6 pb-5 sm:px-8 sm:pt-8 sm:pb-6">
+          <div className="w-full overflow-hidden rounded-3xl border border-border bg-card text-card-foreground">
+            <div className="pad-card">
               <AmountSelector
                 selectedAmount={selectedAmount}
                 customMode={customMode}
@@ -97,7 +109,7 @@ export default function SponsorContent() {
             </div>
 
             <div className="relative h-px w-full">
-              <div className="absolute inset-0 mx-6 border-t border-dashed border-border sm:mx-8" />
+              <div className="absolute inset-0 mx-5 border-t border-dashed border-border sm:mx-6" />
             </div>
 
             <div className="w-full">
@@ -108,6 +120,6 @@ export default function SponsorContent() {
       </div>
 
       <div className="pointer-events-none z-50 col-start-2 row-span-full row-start-1 border-x-2 border-dashed" />
-    </div>
+    </main>
   );
 }

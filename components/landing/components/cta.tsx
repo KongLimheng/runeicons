@@ -5,14 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Diamond, Github, Hammer, Paintbrush, Rocket, Sparkles, Zap } from "lucide-react";
-import { useReducedMotion } from "motion/react";
+import { useInView, useReducedMotion } from "motion/react";
 import * as m from "motion/react-m";
 
 import { Button } from "@/components/ui/button";
+import TextHighlightWave from "@/components/ui/text-highlight-wave";
+import { EASE_OUT_QUART } from "@/lib/easing";
+import { GITHUB_REPO } from "@/lib/site";
 
 import Mascot from "../svg/mascot";
 
-const EASE_OUT_QUART = [0.165, 0.84, 0.44, 1] as const;
 const ENTRANCE_DURATION = 0.35;
 const HOVER_DURATION = 0.15;
 
@@ -20,6 +22,9 @@ const CTA = () => {
   const shouldReduceMotion = useReducedMotion();
   const [stage, setStage] = useState<1 | 2 | 3 | 4>(1);
   const mascotRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const inView = useInView(sectionRef);
+  const floatOn = !shouldReduceMotion && inView;
 
   useEffect(() => {
     const el = mascotRef.current;
@@ -45,13 +50,17 @@ const CTA = () => {
   ];
 
   return (
-    <section className="relative h-full w-full overflow-hidden rounded-3xl py-24">
+    <section
+      ref={sectionRef}
+      className="relative h-full w-full overflow-hidden rounded-3xl pad-panel"
+    >
       <Image
-        src="/landing/gradient/cta-gradient.webp"
+        src="/landing/gradient/cta-gradient-opt.webp"
         className="absolute inset-0 h-full w-full object-cover"
         alt=""
         fill
-        sizes="100vw"
+        loading="lazy"
+        sizes="(min-width: 1800px) 1530px, (min-width: 1440px) 1368px, 95vw"
         unoptimized
       />
       <div className="pointer-events-none absolute inset-0 z-0">
@@ -73,20 +82,22 @@ const CTA = () => {
         {icons.map((item, i) => (
           <m.div
             key={`${item.x}-${item.y}`}
-            className="text-white/75 drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]"
+            className="text-white/75"
             initial={{ opacity: 0 }}
             animate={
               shouldReduceMotion
                 ? { opacity: 0.25, x: 0, y: 0, rotate: 0 }
-                : {
-                    opacity: [0.1, 0.4, 0.1],
-                    y: [0, -15, 0],
-                    x: [0, 10, 0],
-                    rotate: [0, 10, -10, 0],
-                  }
+                : floatOn
+                  ? {
+                      opacity: [0.1, 0.4, 0.1],
+                      y: [0, -15, 0],
+                      x: [0, 10, 0],
+                      rotate: [0, 10, -10, 0],
+                    }
+                  : { opacity: 0.1, x: 0, y: 0, rotate: 0 }
             }
             transition={
-              shouldReduceMotion
+              shouldReduceMotion || !floatOn
                 ? { duration: 0 }
                 : {
                     duration: 6 + i,
@@ -105,7 +116,7 @@ const CTA = () => {
           </m.div>
         ))}
       </div>
-      <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center text-center">
+      <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center py-10 text-center sm:py-12">
         <div ref={mascotRef} data-stage={stage} className="mb-3 h-20 w-20 rotate-2">
           <m.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 46, scaleX: 1, scaleY: 1 }}
@@ -127,11 +138,12 @@ const CTA = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: ENTRANCE_DURATION, ease: EASE_OUT_QUART, delay: 0.08 }}
-          className="mb-8 text-3xl leading-[1.1] font-medium tracking-tight sm:text-4xl md:text-5xl lg:text-6xl"
+          className="mb-8 text-h2 font-normal text-white"
         >
-          <span className="bg-linear-to-b from-white to-white/70 bg-clip-text text-transparent">
-            900+ icons. Five styles. Free forever.
-          </span>
+          <TextHighlightWave
+            as="span"
+            text={"900+ icons. Five styles.\nFree forever."}
+          />
         </m.h2>
 
         <m.div
@@ -161,28 +173,13 @@ const CTA = () => {
             onMouseEnter={() => setStage(4)}
             onMouseLeave={() => setStage(2)}
           >
-            <Link
-              href="https://github.com/Nexvyn/runeicons"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link href={GITHUB_REPO} target="_blank" rel="noopener noreferrer">
               <Button size="lg" variant="secondary">
                 Star On GitHub <Github />
               </Button>
             </Link>
           </m.div>
         </m.div>
-
-        <m.p
-          initial={shouldReduceMotion ? false : { opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: ENTRANCE_DURATION, ease: EASE_OUT_QUART, delay: 0.3 }}
-          className="mt-8 max-w-md text-sm text-white/70"
-        >
-          Every set I liked had one style. Mine has five, all editable.
-          <span className="mt-2 block font-medium text-white/85">Nexvyn</span>
-        </m.p>
       </div>
     </section>
   );

@@ -1,11 +1,3 @@
-/**
- * Design tokens, mirroring the Rune Icons website.
- *
- * The site is deliberately monochrome — every one of its OKLCH tokens has zero
- * chroma — so the app's chrome is ink and greys only, and the one place colour
- * appears is the swatch row, where it is the product being demonstrated rather
- * than decoration.
- */
 export type Theme = {
   background: string;
   card: string;
@@ -41,13 +33,10 @@ const dark: Theme = {
 
 export const themes = { light, dark };
 
-/** One radius scale, applied without exception. */
 export const radius = { chip: 999, card: 16, tile: 12, input: 12 } as const;
 
-/** 4pt spacing rhythm. */
 export const space = (n: number) => n * 4;
 
-/** Swatches for the `color` prop. Ink first, so the default reads as the default. */
 export const SWATCHES = [
   '#0A0A0A',
   '#737373',
@@ -57,7 +46,6 @@ export const SWATCHES = [
   '#D97706',
 ] as const;
 
-/** Swatches for `secondaryColor`, shown only for the two-tone styles. */
 export const ACCENT_SWATCHES = [
   '#DDDDDD',
   '#A1A1A1',

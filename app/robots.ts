@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 
-import { SITE_URL } from "./layout";
+import { SITE_URL } from "@/lib/site";
 
-const DISALLOW = ["/api/", "/checkout", "/blossom-demo"];
+const DISALLOW = ["/api/", "/checkout"];
 
 const AI_AGENTS = [
   "GPTBot",
@@ -30,6 +30,5 @@ export default function robots(): MetadataRoute.Robots {
       })),
     ],
     sitemap: new URL("/sitemap.xml", SITE_URL).toString(),
-    host: SITE_URL,
   };
 }

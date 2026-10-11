@@ -1,46 +1,28 @@
 import type { Metadata, Viewport } from "next";
-import { Analytics } from "@vercel/analytics/next";
-import { Caveat, Geist, Geist_Mono, Gemunu_Libre, Inter, Inter_Tight } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 
-import { Toaster } from "@/components/ui/sonner";
+import { DevToolbar } from "@/components/dev-toolbar";
+import AnalyticsConsent from "@/components/landing/analytics-consent";
 import { ShapeProvider } from "@/lib/shape-context";
+import { GITHUB_REPO, SITE_URL, X_URL } from "@/lib/site";
 import { MotionProvider } from "@/provider/motion-provider";
 import { ThemeProvider } from "@/provider/theme-provider";
 
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const satoshi = localFont({
+  src: "./fonts/Satoshi-Variable.woff2",
+  variable: "--font-satoshi",
+  weight: "300 900",
+  style: "normal",
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-const gemunuLibre = Gemunu_Libre({
-  variable: "--font-gemunu-libre",
-  subsets: ["latin"],
-  weight: ["700"],
-});
-
-const interTight = Inter_Tight({
-  variable: "--font-inter-tight",
-  subsets: ["latin"],
-});
-
-const caveat = Caveat({
-  variable: "--font-caveat",
-  subsets: ["latin"],
-});
-
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://runeicons.com";
 
 const DESCRIPTION =
   "An open-source icon library where every glyph comes in five styles: outline, duotone, fill, pixelated and glass. Reshape any path in the browser, then copy it out as SVG or JSX. Apache 2.0 licensed.";
@@ -77,7 +59,7 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     images: [
       {
-        url: `${SITE_URL}/opengraph-image`,
+        url: `${SITE_URL}/og-image.png`,
         width: 1200,
         height: 630,
         alt: "Rune Icons",
@@ -86,11 +68,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@RuneIcon",
-    creator: "@RuneIcon",
+    site: "@nexvyn",
+    creator: "@nexvyn",
     title: "Rune Icons: open-source icons in five styles",
     description: DESCRIPTION,
-    images: [`${SITE_URL}/opengraph-image`],
+    images: [`${SITE_URL}/og-image.png`],
   },
   robots: {
     index: true,
@@ -117,7 +99,7 @@ const ORG_JSON_LD = {
       name: "Rune Icons",
       url: SITE_URL,
       logo: `${SITE_URL}/icon`,
-      sameAs: ["https://x.com/nexvyn", "https://github.com/Nexvyn/runeicons"],
+      sameAs: [X_URL, GITHUB_REPO],
     },
     {
       "@type": "WebSite",
@@ -143,8 +125,14 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} ${gemunuLibre.variable} ${interTight.variable} ${caveat.variable} antialiased`}
+        className={`${satoshi.variable} ${geistMono.variable} antialiased`}
       >
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200] focus:rounded-md focus:bg-background focus:px-3 focus:py-2 focus:text-body-sm focus:text-foreground focus:ring-2 focus:ring-foreground/30"
+        >
+          Skip to content
+        </a>
         <MotionProvider>
           <ShapeProvider>
             <ThemeProvider
@@ -154,8 +142,8 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               {children}
-              <Toaster position="top-center" />
-              <Analytics />
+              <AnalyticsConsent />
+              <DevToolbar />
             </ThemeProvider>
           </ShapeProvider>
         </MotionProvider>

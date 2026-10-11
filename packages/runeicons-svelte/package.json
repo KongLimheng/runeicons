@@ -1,28 +1,52 @@
 {
   "name": "runeicons-svelte",
   "version": "0.1.0",
-  "description": "Svelte components for Rune Icons: 900+ icons in five styles.",
+  "description": "Svelte 5 components for RuneIcons: 350+ icons, 900+ variants across five styles.",
+  "keywords": [
+    "icons",
+    "svg",
+    "icon-set",
+    "svelte",
+    "svelte5",
+    "svelte-component",
+    "duotone",
+    "pixelated",
+    "glass",
+    "runeicons"
+  ],
+  "homepage": "https://runeicons.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Runeicons/runeicons.git",
+    "directory": "packages/runeicons-svelte"
+  },
+  "bugs": "https://github.com/Runeicons/runeicons/issues",
   "license": "Apache-2.0",
-  "private": true,
   "type": "module",
+  "sideEffects": false,
   "svelte": "./src/index.ts",
+  "types": "./src/index.ts",
   "exports": {
     ".": {
       "types": "./src/index.ts",
-      "svelte": "./src/index.ts"
+      "svelte": "./src/index.ts",
+      "default": "./src/index.ts"
     }
   },
   "files": [
-    "src"
+    "src",
+    "LICENSE",
+    "README.md"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Nexvyn/runeicons"
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
-    "build": "bun run scripts/build.ts",
-    "test": "bun run build && bun run typecheck && bun test",
-    "typecheck": "tsc --noEmit"
+    "generate": "bun run scripts/build.ts",
+    "build": "bun run generate",
+    "test": "bun run generate && bun run typecheck && bun test",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "bun run build && bun run typecheck && bun test"
   },
   "devDependencies": {
     "@types/bun": "^1.4.2",

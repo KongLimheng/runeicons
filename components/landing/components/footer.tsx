@@ -1,112 +1,109 @@
 import Link from "next/link";
 
-import { Github } from "lucide-react";
-
-import LightLogo from "@/components/landing/svg/light";
+import { BrandMark } from "@/app/brand-mark";
+import { GITHUB_REPO, X_URL } from "@/lib/site";
 
 import FooterWordmark from "./footer-wordmark";
 
-const legalLinks = [
-  { title: "Terms of Use", href: "/terms" },
-  { title: "Privacy Policy", href: "/privacy" },
+type FooterLinkItem = { title: string; href: string; external?: boolean };
+
+const columns: { heading: string; links: FooterLinkItem[] }[] = [
+  {
+    heading: "Product",
+    links: [
+      { title: "Icons", href: "/icons" },
+      { title: "Editor", href: "/editor" },
+      { title: "Brands", href: "/brands" },
+      { title: "Packages", href: "/packages" },
+      { title: "Changelog", href: "/changelog" },
+    ],
+  },
+  {
+    heading: "Project",
+    links: [
+      { title: "GitHub", href: GITHUB_REPO, external: true },
+      { title: "X", href: X_URL, external: true },
+      { title: "Sponsor", href: "/sponsor" },
+      { title: "About", href: "/about" },
+    ],
+  },
+  {
+    heading: "Team",
+    links: [
+      { title: "Nexvyn", href: X_URL, external: true },
+      { title: "Vansh", href: "https://x.com/vansh1029", external: true },
+      { title: "Abhinav", href: "https://x.com/Abhinavstwt", external: true },
+      { title: "Mohit", href: "https://x.com/mohitmehtre", external: true },
+    ],
+  },
 ];
 
-const collaboratorsLinks = [
-  { title: "Nexvyn", href: "https://x.com/nexvyn" },
-  { title: "Vansh", href: "https://x.com/vansh1029" },
-  { title: "Abhinav", href: "https://x.com/Abhinavstwt" },
-  { title: "Mohit", href: "https://x.com/mohitmehtre" },
+const legal: FooterLinkItem[] = [
+  { title: "Terms", href: "/terms" },
+  { title: "Privacy", href: "/privacy" },
 ];
+
+const FooterLink = ({ title, href, external }: FooterLinkItem) => (
+  <Link
+    href={href}
+    prefetch={external ? undefined : false}
+    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
+  >
+    {title}
+  </Link>
+);
 
 const Footer = () => {
   return (
-    <footer className="w-full">
-      <div className="w-full rounded-3xl border border-border/60 bg-background px-6 py-8 sm:px-10 sm:py-10">
-        <div className="grid gap-10 md:grid-cols-6">
-          <div className="md:col-span-2">
-            <Link href="/" prefetch={false} aria-label="Go home" className="flex size-fit items-center gap-2">
-              <LightLogo />
-            </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Open-source icons in five styles. Reshape any glyph in the browser, then ship it as
-              SVG or JSX. Apache 2.0 licensed.
-            </p>
-          </div>
-
-          <div className="space-y-3 text-sm md:col-start-5">
-            <p className="text-xs font-semibold tracking-wide text-foreground uppercase">Team</p>
-            <div className="space-y-2">
-              {collaboratorsLinks.map((item) => (
-                <Link
-                  key={item.title}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {item.title}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-3 text-sm md:col-start-6">
-            <p className="text-xs font-semibold tracking-wide text-foreground uppercase">Social</p>
-            <div className="flex items-center gap-4">
-              <Link
-                href="https://x.com/nexvyn"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="X/Twitter"
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <svg
-                  className="text-black dark:text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="16"
-                  height="16"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M3 21L10.5484 13.4516M21 3L13.4516 10.5484M13.4516 10.5484L8 3H3L10.5484 13.4516M13.4516 10.5484L21 21H16L10.5484 13.4516" />
-                </svg>
-              </Link>
-              <Link
-                href="https://github.com/Nexvyn/runeicons"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="transition-colors hover:text-foreground"
-              >
-                <Github className="size-4" />
-              </Link>
-            </div>
-          </div>
+    <footer className="w-full overflow-hidden rounded-3xl border border-border bg-card text-card-foreground">
+      <div className="grid gap-10 px-6 pt-10 sm:px-10 md:grid-cols-[1fr_auto] md:items-start">
+        <div className="max-w-xs">
+          <Link
+            href="/"
+            prefetch={false}
+            aria-label="Rune Icons home"
+            className="inline-flex items-baseline gap-2 text-foreground"
+          >
+            <BrandMark size={16} fill="currentColor" />
+            <span className="text-xl leading-none font-semibold tracking-[-0.04em]">
+              Rune<span className="text-foreground/60"> Icons</span>
+            </span>
+          </Link>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            Open-source icons in five styles. Edit them in the browser and copy them out as SVG or
+            JSX.
+          </p>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4 border-t border-border/40 pt-5">
-          <div className="flex items-center justify-center gap-5 text-xs">
-            {legalLinks.map((item) => (
-              <Link
-                key={item.title}
-                href={item.href}
-                prefetch={false}
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {item.title}
-              </Link>
-            ))}
-          </div>
-        </div>
+        <nav aria-label="Footer" className="grid grid-cols-2 gap-x-14 gap-y-8 sm:grid-cols-3">
+          {columns.map((column) => (
+            <div key={column.heading} className="flex flex-col gap-3 text-sm">
+              <p className="font-medium text-foreground">{column.heading}</p>
+              <ul className="flex flex-col gap-2">
+                {column.links.map((link) => (
+                  <li key={link.title}>
+                    <FooterLink {...link} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
       </div>
 
-      <div className="mt-6">
-        <FooterWordmark />
+      <div className="mx-6 mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-5 text-xs text-muted-foreground sm:mx-10">
+        <p>© {new Date().getFullYear()} Rune Icons. Released under Apache 2.0.</p>
+        <ul className="flex gap-5">
+          {legal.map((link) => (
+            <li key={link.title}>
+              <FooterLink {...link} />
+            </li>
+          ))}
+        </ul>
       </div>
+
+      <FooterWordmark className="mt-8 px-6 sm:mt-10 sm:px-10" />
     </footer>
   );
 };

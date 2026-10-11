@@ -1,6 +1,6 @@
 import { defineComponent, h, type PropType } from "vue";
 
-import { getIconById, type IconType } from "./icons";
+import { getIconById, type IconType } from "./icons.js";
 
 export const RuneIcon = defineComponent({
   name: "RuneIcon",
@@ -32,4 +32,4 @@ export {
   searchIcons,
   type IconEntry,
   type IconType,
-} from "./icons";
+} from "./icons.js";

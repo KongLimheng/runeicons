@@ -9,7 +9,7 @@ import {
   EditorActionBar,
   EDITOR_TRANSITION,
 } from "@/components/editor/controls/EditorActionBar";
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { ActionMenuItem } from "@/components/shared/action-bar/action-bar-controls";
 import type { CustomizationState } from "@/lib/types";
 import type {
   EditorAssetSummary,
@@ -24,7 +24,7 @@ import { EditorMiniPreview } from "@/components/editor/preview/EditorMiniPreview
 import { EditorModeToggle } from "@/components/editor/controls/EditorModeToggle";
 import { type DrawTool } from "@/components/editor/controls/EditorDrawToolbar";
 import { EditorIconTray } from "@/components/editor/controls/EditorIconTray";
-import { EditorSaveDialog } from "@/components/editor/dialogs/EditorSaveDialog";
+import dynamic from "next/dynamic";
 
 interface EditorWorkspacePanelProps {
   state: CustomizationState;
@@ -54,6 +54,11 @@ interface EditorWorkspacePanelProps {
 
 type EditorMode = "edit" | "draw";
 
+const EditorSaveDialog = dynamic(
+  () => import("@/components/editor/dialogs/EditorSaveDialog").then((m) => m.EditorSaveDialog),
+  { ssr: false, loading: () => null },
+);
+
 export function EditorWorkspacePanel({
   state,
   document: editorDocument,
@@ -81,6 +86,8 @@ export function EditorWorkspacePanel({
   const [editorMode, setEditorMode] = useState<EditorMode>("edit");
   const [activeTool, setActiveTool] = useState<DrawTool>("pen");
   const [showReference, setShowReference] = useState(false);
+  const [saveDialogMounted, setSaveDialogMounted] = useState(saveDialogOpen);
+  if (saveDialogOpen && !saveDialogMounted) setSaveDialogMounted(true);
   const reduceMotion = useReducedMotion();
 
   const handleModeChange = (next: EditorMode) => {
@@ -261,7 +268,7 @@ export function EditorWorkspacePanel({
   return (
     <>
       <SvgDefinitions state={state} />
-      <main className="flex-1 flex flex-col relative overflow-hidden" aria-label="Editor workspace">
+      <div className="flex-1 flex flex-col relative overflow-hidden" role="region" aria-label="Editor canvas">
         {showGrid ? (
           <div className="absolute inset-0 z-0">
             <WorkspaceGround />
@@ -408,24 +415,23 @@ export function EditorWorkspacePanel({
             showReference={showReference}
             onToggleReference={() => setShowReference((v) => !v)}
             additionalDropdownItems={
-              <DropdownMenuItem
-                className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-1 text-[11px] font-medium transition-colors focus:bg-white/10 focus:text-white"
-                onClick={() => onSaveDialogOpenChange(true)}
-              >
+              <ActionMenuItem onClick={() => onSaveDialogOpenChange(true)}>
                 <Save className="h-4 w-4 text-white/40" />
                 <span>Save as Snapshot</span>
-              </DropdownMenuItem>
+              </ActionMenuItem>
             }
           />
         </div>
-      </main>
+      </div>
 
-      <EditorSaveDialog
-        open={saveDialogOpen}
-        onOpenChange={onSaveDialogOpenChange}
-        defaultName={defaultSnapshotName}
-        onSave={onSaveSnapshot}
-      />
+      {saveDialogMounted ? (
+        <EditorSaveDialog
+          open={saveDialogOpen}
+          onOpenChange={onSaveDialogOpenChange}
+          defaultName={defaultSnapshotName}
+          onSave={onSaveSnapshot}
+        />
+      ) : null}
     </>
   );
 }

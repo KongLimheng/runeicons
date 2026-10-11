@@ -109,7 +109,7 @@ export default function RocketInteractive() {
         <button
           type="button"
           onClick={onReset}
-          className="absolute -top-1 -right-1 z-10 rounded-md border border-border bg-background p-1 text-muted-foreground shadow-sm transition-colors duration-150 ease-out hover:bg-muted hover:text-foreground"
+          className="absolute -top-1 -right-1 z-10 rounded-md border border-border bg-background p-1 text-muted-foreground transition-colors duration-150 ease-out hover:bg-muted hover:text-foreground"
           aria-label="Reset rocket"
         >
           <RotateCcw className="h-3 w-3" />
@@ -128,10 +128,10 @@ export default function RocketInteractive() {
       >
         {paths.map((entry, pathIdx) => {
           const fills: Record<number, string> = {
-            0: "#dbeafe",
-            3: "#bfdbfe",
-            4: "#fed7aa",
-            5: "#fecaca",
+            0: "color-mix(in oklab, var(--foreground) 6%, var(--background))",
+            3: "color-mix(in oklab, var(--foreground) 14%, var(--background))",
+            4: "color-mix(in oklab, var(--foreground) 22%, var(--background))",
+            5: "color-mix(in oklab, var(--foreground) 10%, var(--background))",
           };
 
           return (
@@ -139,7 +139,7 @@ export default function RocketInteractive() {
               key={pathIdx}
               d={entry.d}
               fill={fills[pathIdx] || "none"}
-              stroke="#000000"
+              stroke="var(--foreground)"
               strokeWidth={pathIdx <= 2 ? 1.5 : 1.2}
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -178,7 +178,7 @@ export default function RocketInteractive() {
                     y1={pts[anchorIdx].y}
                     x2={pt.x}
                     y2={pt.y}
-                    stroke="rgba(37,99,235,0.4)"
+                    stroke="color-mix(in oklab, var(--foreground) 35%, transparent)"
                     strokeWidth={0.6 * SCALE}
                   />
                 )}
@@ -186,8 +186,8 @@ export default function RocketInteractive() {
                   cx={pt.x}
                   cy={pt.y}
                   r={isAnchor ? 4 * SCALE : 2.8 * SCALE}
-                  fill={isAnchor ? "#2563eb" : "#ff4d4f"}
-                  stroke="white"
+                  fill={isAnchor ? "var(--foreground)" : "var(--background)"}
+                  stroke={isAnchor ? "var(--background)" : "var(--foreground)"}
                   strokeWidth={0.8 * SCALE}
                   className="origin-center transition-transform duration-150 transform-fill hover:scale-150"
                   style={{ cursor: "move" }}

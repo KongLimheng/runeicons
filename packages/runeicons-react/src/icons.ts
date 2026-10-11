@@ -1,4 +1,4 @@
-import { type IconEntry, ICONS } from "./icons.generated";
+import { type IconEntry, ICONS } from "./icons.generated.js";
 
 export type { IconEntry };
 export type IconType = keyof IconEntry["variants"];

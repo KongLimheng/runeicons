@@ -1,153 +1,301 @@
 # runeicons-react-native
 
-908 Rune Icons as [react-native-svg](https://github.com/software-mansion/react-native-svg) components — 354 icons drawn across five styles, generated from the SVG sources in this repo with [`@svgr/cli`](https://react-svgr.com/docs/cli/).
+Rune Icons for React Native. The package ships 357 icons in five styles, 917
+components in total, each rendered with
+[react-native-svg](https://github.com/software-mansion/react-native-svg).
+The icons are generated from the SVG sources in the Rune Icons repository.
+
+Website: [runeicons.com](https://runeicons.com)
+
+## Requirements
+
+| Dependency         | Version    | Kind |
+| :----------------- | :--------- | :--- |
+| `react`            | `>=18.0.0` | peer |
+| `react-native`     | `>=0.70.0` | peer |
+| `react-native-svg` | `>=15.0.0` | peer |
+
+The package ships ES modules only. It has no CommonJS build, so use `import`
+syntax (`require()` is not supported).
 
 ## Install
 
+Install the package and its peer `react-native-svg`:
+
 ```sh
 npm install runeicons-react-native react-native-svg
+
+yarn add runeicons-react-native react-native-svg
+
+pnpm add runeicons-react-native react-native-svg
+
+bun add runeicons-react-native react-native-svg
 ```
 
-`react`, `react-native` and `react-native-svg` are peer dependencies. On Expo, install the SVG peer with `npx expo install react-native-svg` so the version matches your SDK.
+**Expo:** install the SVG peer with `npx expo install react-native-svg`. This
+selects the version that matches your Expo SDK.
 
-## Usage
+**Bare React Native:** after installing, run `pod install` in your `ios/`
+directory so the native `react-native-svg` module is linked on iOS.
+
+## Quick start
 
 ```tsx
-import { ArrowUp, ChartPieFill, ArchiveGlass } from 'runeicons-react-native';
+import { View } from 'react-native';
+import {
+  ArchiveGlass,
+  ArrowUp,
+  ArrowUpDuotone,
+  ArrowUpPixelated,
+  ChartPieFill,
+} from 'runeicons-react-native';
 
-<ArrowUp />
-<ArrowUp size={32} color="#4f46e5" strokeWidth={1.5} />
-<ChartPieFill size={40} color="#1c1f21" secondaryColor="#e0e7ff" />
-<ArchiveGlass size={64} />
+export default function IconRow() {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+      {/* normal: outline, stroked with color */}
+      <ArrowUp size={32} color="#111827" strokeWidth={1.5} />
+
+      {/* duotone: primary color plus a secondary accent */}
+      <ArrowUpDuotone size={32} color="#4f46e5" secondaryColor="#c7d2fe" />
+
+      {/* fill: solid shapes, primary color plus a secondary accent */}
+      <ChartPieFill size={32} color="#1c1f21" secondaryColor="#e0e7ff" />
+
+      {/* pixelated: pixel art, filled with color */}
+      <ArrowUpPixelated size={32} color="#111827" />
+
+      {/* glass: fixed artwork, not recolourable */}
+      <ArchiveGlass size={64} />
+    </View>
+  );
+}
 ```
 
-Anything beyond the four props below is forwarded to the underlying `<Svg>`, so `opacity`, `transform`, `onPress` and `testID` work as usual.
+Icons are ordinary React components, so wrap them in a touchable to make them
+interactive:
 
-### Tree-shaking
+```tsx
+import { Pressable } from 'react-native';
+import { Search } from 'runeicons-react-native';
 
-The package is side-effect free and ships ES modules with one module per icon, so importing from the root **tree-shakes to exactly the icons you use**. Bundled with esbuild, `import { ArrowUp } from 'runeicons-react-native'` produces a 580-byte chunk — byte-identical to importing that icon's module directly.
+export function SearchButton({ onPress }: { onPress: () => void }) {
+  return (
+    <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel="Search">
+      <Search size={24} color="#111827" />
+    </Pressable>
+  );
+}
+```
 
-Metro does not tree-shake by default, so under bare React Native import the icon's own module instead:
+## Naming
+
+Each icon is one component per style. The component name is the file slug in
+PascalCase, and the style is a suffix. The `normal` style has no suffix.
+
+| Style       | Suffix      | Example            | Grid  | Count |
+| :---------- | :---------- | :----------------- | :---- | ----: |
+| `normal`    | none        | `ArrowUp`          | 24x24 |   220 |
+| `duotone`   | `Duotone`   | `ArrowUpDuotone`   | 24x24 |   218 |
+| `fill`      | `Fill`      | `ChartPieFill`     | 24x24 |   129 |
+| `pixelated` | `Pixelated` | `ArrowUpPixelated` | 40x40 |   215 |
+| `glass`     | `Glass`     | `ArchiveGlass`     | 24x24 |   135 |
+
+Not every icon exists in every style. For example, there is no `ArrowUpFill`.
+Check the table in the browsing section below, or use the manifest, to see
+which styles an icon has.
+
+## Props
+
+Every icon accepts the props below. The types come from `src/types.ts`.
+
+| Prop             | Type               | Default          | Description                                                                                                         |
+| :--------------- | :----------------- | :--------------- | :------------------------------------------------------------------------------------------------------------------ |
+| `size`           | `number \| string` | `24`             | Width and height, in density-independent pixels.                                                                    |
+| `color`          | `string`           | `'currentColor'` | Primary colour. The stroke of `normal`, `duotone` and `fill` icons, and the fill of `pixelated` icons.              |
+| `secondaryColor` | `string`           | `'#DDDDDD'`      | Accent colour for `duotone` and `fill` icons only.                                                                  |
+| `strokeWidth`    | `number \| string` | `2`              | Stroke weight for `normal`, `duotone` and `fill` icons. A few paths keep a finer weight that is part of the design. |
+
+Any other prop is forwarded to the underlying `<Svg>` from react-native-svg,
+such as `opacity`, `transform`, `testID` and `accessibilityLabel`. The `width`
+and `height` props are not part of the type. Use `size` to set both.
+
+`color` is also set on the root `<Svg>`. None of the source artwork uses
+`currentColor`, so `color` has an effect only through the paths described above.
+
+### Which props affect which style
+
+| Style       | `color`    | `secondaryColor` | `strokeWidth` |
+| :---------- | :--------- | :--------------- | :------------ |
+| `normal`    | Yes        | No               | Yes           |
+| `duotone`   | Yes        | Yes              | Yes           |
+| `fill`      | Yes        | Yes              | Yes           |
+| `pixelated` | Yes (fill) | No               | No            |
+| `glass`     | No         | No               | No            |
+
+Glass icons are built from fixed gradients, masks and blur filters. Their
+artwork does not reference the three colour and stroke props, so passing them
+has no visible effect. Only `size` and the standard `<Svg>` props apply.
+
+### Filters
+
+Glass icons use SVG `<filter>` elements (`feGaussianBlur`, `feFlood`,
+`feBlend`) for their blurred layers. The generator keeps these elements,
+because react-native-svg 15 added filter support. Rendering of the filters on
+a device is handled by react-native-svg. This package has no test suite that
+checks the rendered output.
+
+## Imports
+
+### Named imports from the root
+
+```tsx
+import { ArrowUp, ChartPieFill } from 'runeicons-react-native';
+```
+
+The package sets `"sideEffects": false` and ships one ES module per icon.
+Bundlers that tree-shake can therefore drop icons you do not import. Whether
+a specific bundler does this is a property of that bundler, so check your own
+build output if bundle size matters. The example app's gallery imports the
+whole barrel, and its comments recommend named imports for apps that use a
+few icons.
+
+### Per-icon subpaths
+
+Each icon is also available at `runeicons-react-native/<slug>`, where the slug
+is its file name:
 
 ```tsx
 import ArrowUp from 'runeicons-react-native/arrow-up';
 import ArrowUpDuotone from 'runeicons-react-native/arrow-up-duotone';
 ```
 
-Every icon is reachable at `runeicons-react-native/<slug>`, where the slug is its file name — `arrow-up`, `arrow-up-duotone`, `chart-pie-fill`, `arrow-up-pixelated`, `archive-glass`.
+Subpaths resolve through the `exports` field in `package.json`. This requires
+a bundler that reads that field. If your bundler does not resolve it, use named
+imports from the root instead.
 
-#### React Native version support for subpath imports
+### Types
 
-Per-icon paths, and `runeicons-react-native/manifest` below, exist only through the `exports` field in `package.json`. Metro reads that field by default from React Native 0.79 (Metro 0.82, Expo SDK 53). Importing from the package root works on every supported version.
+The following types are exported from the root:
 
-| React Native     | Subpath imports                                     |
-| :--------------- | :-------------------------------------------------- |
-| 0.79+ / Expo 53+ | Work as-is                                          |
-| 0.72 – 0.78      | Turn on package exports in `metro.config.js`, below |
-| 0.70 – 0.71      | Not available — import from the package root        |
+| Type                | Description                                                          |
+| :------------------ | :------------------------------------------------------------------- |
+| `RuneIconProps`     | Props accepted by every icon (see the Props table).                  |
+| `RuneIconComponent` | The function type of an icon component.                              |
+| `RuneIconStyle`     | `'normal' \| 'duotone' \| 'fill' \| 'pixelated' \| 'glass'`.         |
+| `RuneIconMeta`      | Metadata for one icon, as listed in the manifest.                    |
+| `IconName`          | Union of every icon slug, such as `'arrow-up-duotone'` (kebab-case). |
 
-```js
-// metro.config.js (React Native 0.72 – 0.78)
-const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+`IconName` holds slugs, not component names. The component name is the
+PascalCase form of the slug.
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), {
-  resolver: { unstable_enablePackageExports: true },
-});
-```
+## Browsing the icons
 
-On Expo SDK 49–52, set the same flag on Expo's config instead:
+The manifest lists every icon with its metadata. It is available on its own
+subpath, so importing it does not add the icon components to your bundle:
 
-```js
-// metro.config.js (Expo SDK 49 – 52)
-const { getDefaultConfig } = require('expo/metro-config');
-
-const config = getDefaultConfig(__dirname);
-config.resolver.unstable_enablePackageExports = true;
-
-module.exports = config;
-```
-
-Without it, Metro looks for a real `arrow-up.js` file in the package, finds none, and fails with `Unable to resolve module runeicons-react-native/arrow-up`.
-
-### Browsing the set
-
-```ts
+```tsx
 import { RUNE_ICONS } from 'runeicons-react-native/manifest';
 
-RUNE_ICONS.filter((icon) => icon.category === 'navigation');
-// [{ id: 'arrows-arrow-down', name: 'Arrow Down', category: 'navigation', tags: [...],
-//    styles: { normal: 'arrow-down', duotone: 'arrow-down-duotone', ... } }]
+const navigation = RUNE_ICONS.filter((icon) => icon.category === 'navigation');
 ```
 
-Ids match the ones the Rune Icons website uses, so an icon has one identity across web and native. The manifest sits on its own subpath, so importing an icon never pulls the catalogue into your bundle.
+Each entry has the shape `RuneIconMeta`:
 
-## Styles
+| Field      | Type                                     | Description                                                                |
+| :--------- | :--------------------------------------- | :------------------------------------------------------------------------- |
+| `id`       | `string`                                 | Stable id shared with the Rune Icons website, such as `arrows-arrow-down`. |
+| `name`     | `string`                                 | Human-readable label, such as `Arrow Down`.                                |
+| `category` | `string`                                 | Category, such as `navigation` or `commerce`.                              |
+| `tags`     | `string[]`                               | Search terms.                                                              |
+| `styles`   | `Partial<Record<RuneIconStyle, string>>` | Slug of the icon in each style it exists in, such as `arrow-down-duotone`. |
 
-The style is part of the component name, with `normal` as the unsuffixed default.
+The manifest gives slugs, not components. Convert a slug to a component name
+by capitalising each dash-separated word and removing the dashes, so
+`arrow-down-duotone` becomes `ArrowDownDuotone`. Import that name from the
+root when you know the icon at build time.
 
-| Style       | Component          | Grid  | Count | Colour                     |
-| :---------- | :----------------- | :---- | ----: | :------------------------- |
-| `normal`    | `ArrowUp`          | 24×24 |   217 | `color`                    |
-| `duotone`   | `ArrowUpDuotone`   | 24×24 |   215 | `color` + `secondaryColor` |
-| `fill`      | `ArrowUpFill`      | 24×24 |   126 | `color` + `secondaryColor` |
-| `pixelated` | `ArrowUpPixelated` | 40×40 |   215 | `color`                    |
-| `glass`     | `ArchiveGlass`     | 24×24 |   135 | fixed — see below          |
+## Development
 
-## Props
+This package is a Yarn 4 workspace in the Rune Icons repository, at
+`packages/runeicons-react-native`. It builds from the repository's root
+`public/` icon directory, so clone the whole repository. The pinned tooling is:
 
-| Prop             | Type               | Default          | Notes                                                             |
-| :--------------- | :----------------- | :--------------- | :---------------------------------------------------------------- |
-| `size`           | `number \| string` | `24`             | Sets width and height. An explicit `width`/`height` overrides it. |
-| `color`          | `string`           | `'currentColor'` | Stroke of the drawn styles, pixel fill of `pixelated`.            |
-| `secondaryColor` | `string`           | `'#DDDDDD'`      | Accent stroke and fill of `duotone` and `fill`.                   |
-| `strokeWidth`    | `number \| string` | `2`              | Drawn styles only.                                                 |
+- Node 24.13.0 (`.nvmrc`)
+- Yarn 4.11.0 (`packageManager` and `.yarn/releases`)
 
-`color` is also set on the root `<Svg>`, so any `currentColor` left in the artwork resolves to it. react-native-svg renders an unresolved `currentColor` as black.
+Run the commands below from `packages/runeicons-react-native`:
 
-The `secondaryColor` default is tuned for light backgrounds; on a dark surface it sits very close to the primary tone, so pass your own.
+| Command                 | What it does                                                                         |
+| :---------------------- | :----------------------------------------------------------------------------------- |
+| `yarn`                  | Installs dependencies. The `prepare` script runs `yarn icons` and then `yarn build`. |
+| `yarn icons`            | Regenerates `svg/`, `src/icons/` and `src/manifest.ts` from `public/`.               |
+| `yarn build`            | Builds `lib/` (ES modules and type declarations) with `react-native-builder-bob`.    |
+| `yarn typecheck`        | Runs `tsc` with `tsconfig.json`, without emitting files.                             |
+| `yarn lint`             | Runs ESLint on `.js`, `.ts` and `.tsx` files.                                        |
+| `yarn clean`            | Deletes `lib/`, `svg/`, `src/icons/` and `src/manifest.ts`.                          |
+| `yarn example <script>` | Runs a script in the example workspace, such as `start`, `ios`, `android` or `web`.  |
 
-**Glass icons are not recolourable.** They are built from baked gradients, masks and Gaussian-blur filters, so they ignore `color`, `secondaryColor` and `strokeWidth` and take only `size` and standard `<Svg>` props.
+`svg/`, `src/icons/`, `src/manifest.ts` and `lib/` are generated and listed in
+`.gitignore`. Do not edit them by hand.
 
-## Example app
+### Example app
 
-An Expo app that browses the whole set — search, style switcher, live size and colour controls, and per-icon import snippets:
+`example/` is an Expo app (Expo SDK 57, React Native 0.86) that browses the
+whole set. It has a search box, a style switcher, size and colour controls,
+and a detail sheet for each icon that shows the import line and a usage
+snippet.
 
 ```sh
 yarn
-yarn icons            # the components are generated, not committed
-yarn example ios      # or: android, web
+yarn example start
+yarn example ios
 ```
+
+The example's `build:ios` and `build:android` scripts expect `ios/` and
+`android/` folders, which are not checked in. Use the Expo scripts above to run
+the app.
 
 ## How the icons are generated
 
-`src/icons/` is **generated and not committed**. `yarn icons` runs two steps:
+Icon components are generated from the SVG files in the repository's
+`public/` directory:
 
-1. `scripts/prepare-svg.mjs` stages the repo's `public/**` SVGs into `svg/`, flattening them into kebab-case names that carry the style (so SVGR's filename-derived component names are unique), and swapping the themeable colours and the dominant stroke weight for sentinels.
-2. `@svgr/cli` converts them to react-native-svg components, replacing those sentinels with the `color` / `secondaryColor` / `strokeWidth` props.
+- `public/normal`, `public/duotone`, `public/fill` and `public/pixelated` hold
+  one folder per category, with one SVG per icon.
+- `public/glass-icons/` holds the glass set as flat SVG files.
 
-Sentinels are used rather than raw colour literals because the same literal means different things in different styles — `#A4A5A6` is the primary tone in duotone but an accent in fill, and `black` inside a glass icon's `<mask>` is a mask channel that must not be themed.
+`yarn icons` runs two steps:
 
-### The filter shim
+1. `scripts/prepare-svg.mjs` copies the SVGs into `svg/` and gives each file a
+   kebab-case name that carries its style, such as `arrow-up`,
+   `arrow-up-duotone` and `archive-glass`. It also replaces the colours and the
+   main stroke width with sentinel values, so the generated components can take
+   them as props. It writes `src/manifest.ts` at the same time.
+2. `@svgr/cli` converts each SVG into a react-native-svg component in
+   `src/icons/`, using `svgr.config.cjs`. It replaces the sentinels with the
+   `color`, `secondaryColor` and `strokeWidth` props.
 
-SVGR's react-native transform carries a hard-coded list of supported elements that predates react-native-svg's filter support, so it silently **drops** `<filter>` and its primitives and leaves dangling `filter="url(#…)"` references — which would flatten the blur layers out of all 132 filtered glass icons. SVGR has been unmaintained since 2023, so `svgr/rn-filters.cjs` bridges the gap: a Babel plugin that runs before SVGR's preset, proxies the filter elements through elements SVGR does know, and restores them afterwards. `color-interpolation-filters` is dropped instead, since react-native-svg has no matching prop and its pipeline is already sRGB — the only value this artwork uses.
+Sentinels are used instead of raw colour values because the same colour means
+different things in different styles. For example, `#A4A5A6` is the primary
+tone in duotone but an accent in fill. The glass set is not themed, so its
+colours are left as they are in the source.
 
-### Regenerating
+SVGR does not know about SVG filter elements in react-native-svg. The file
+`svgr/rn-filters.cjs` is a Babel plugin that maps those elements through
+temporary elements during the SVGR pass and restores them afterwards.
+
+To regenerate after the source icons change:
 
 ```sh
-yarn icons      # stage SVGs and run SVGR
-yarn typecheck
-yarn build      # bob: ESM + type definitions into lib/
+yarn icons
+yarn build
 ```
 
-The generator fails loudly on any SVG element or attribute it does not already know how to translate, rather than dropping it silently.
+## Credits
 
-## Releasing
+Made by [Nexvyn](https://github.com/Nexvyn) and the [Rune Icons contributors](https://github.com/Runeicons/runeicons/graphs/contributors). Contributions from Gursahb Singh ([@gs-rumana](https://github.com/gs-rumana)).
 
-CI builds the icons on every PR touching the package or `public/`. Releases run from [`Nexvyn/runeicons`](https://github.com/Nexvyn/runeicons) only — the publish job skips forks, because npm provenance ties the package to the repository named in `package.json`. To publish, bump `version`, merge, and push a matching tag to `Nexvyn/runeicons`:
+## License
 
-```sh
-git tag runeicons-react-native@0.1.0
-git push <nexvyn-remote> runeicons-react-native@0.1.0
-```
-
-`.github/workflows/publish-react-native.yml` regenerates the icons, verifies the tag matches `package.json`, and publishes to npm with provenance. It needs an `NPM_TOKEN` secret on the `npm-publish` environment of `Nexvyn/runeicons`.
+Licensed under the [Apache License 2.0](LICENSE).

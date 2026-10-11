@@ -1,130 +1,136 @@
-import type { Metadata } from "next";
+import DocsShell from "@/components/docs/docs-shell";
+import { pageMetadata } from "@/lib/seo";
+import { GITHUB_REPO, githubRepoPath } from "@/lib/site";
 
-import Footer from "@/components/landing/components/footer";
-import Navbar from "@/components/ui/navbar";
-
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Terms of Use",
-  alternates: { canonical: "/terms" },
-  description: "Terms of Use for RuneIcons.",
-};
+  description: "Terms of Use for Rune Icons, the open-source icon library and its website.",
+  path: "/terms",
+});
 
-const TermsPage = () => {
-  return (
-    <div className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#F5F5F5] font-(family-name:--font-inter-tight) dark:bg-background">
-      <div className="pointer-events-none fixed inset-y-0 left-1/2 z-40 w-[95vw] max-w-[1440px] -translate-x-1/2 border-x-2 border-dashed md:w-[90vw] 2xl:w-[85vw] 2xl:max-w-[1800px]" />
+const TermsPage = () => (
+  <DocsShell title="Terms of Use" lead="Last updated: October 10, 2026">
+    <div className="flex max-w-[65ch] flex-col gap-8 text-body text-muted-foreground">
+      <p>
+        By accessing or using RuneIcons, you{" "}
+        <strong className="font-medium text-foreground">
+          agree to be bound by these Terms of Use
+        </strong>
+        . If you do not agree with any part of these terms, please{" "}
+        <strong className="font-medium text-foreground">do not use the site or its contents</strong>
+        .
+      </p>
 
-      <div className="mx-auto flex w-[95vw] max-w-[1440px] flex-col md:w-[90vw] 2xl:w-[85vw]">
-        <Navbar showDashedBorder />
+      <div className="flex flex-col gap-2">
+        <h2 className="text-h3 text-foreground">1. Use of Icons</h2>
+        <p>
+          RuneIcons are <strong className="font-medium text-foreground">open-source</strong> and the
+          icons are distributed under the{" "}
+          <a
+            href={githubRepoPath("blob", "LICENSE")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-foreground underline"
+          >
+            Apache License 2.0
+          </a>
+          . You may use them in personal, commercial, and client projects, subject to the license
+          terms in our GitHub repository.
+        </p>
+        <p>
+          Everything else on the site, including the landing page designs, UI components,
+          animations, and editor, is licensed under the Apache License 2.0 with an Attribution
+          Requirement and the Commons Clause. Any project that ships any part of it must{" "}
+          <strong className="font-medium text-foreground">
+            credit the Rune Icons Team with a visible link to runeicons.com
+          </strong>
+          , placed where a visitor or user can find it, such as a site footer, an about page, a
+          credits screen, or a README. You{" "}
+          <strong className="font-medium text-foreground">
+            may not sell, sublicense, or redistribute
+          </strong>{" "}
+          the landing page designs, components, or animations themselves, whether alone, in a
+          bundle, or as a ported version.
+        </p>
+      </div>
 
-        <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-3 pt-32 pb-20 sm:px-6">
-          <h1 className="text-3xl font-medium sm:text-4xl">Terms of Use</h1>
-          <p className="text-sm text-muted-foreground">Last updated: July 29, 2026</p>
+      <div className="flex flex-col gap-2">
+        <h2 className="text-h3 text-foreground">2. Brand Logos</h2>
+        <p>
+          The brand logos page shows logos and marks that belong to other companies and projects.{" "}
+          <strong className="font-medium text-foreground">
+            They are not part of Rune Icons and are not covered by our Apache License 2.0
+          </strong>
+          . They are shown only to identify the brand. Rune Icons is not affiliated with, sponsored
+          by, or endorsed by any of them.
+        </p>
+        <p>
+          Each logo lists the license it was published under and links to the owner&apos;s official
+          logo or brand guidelines page where we have one. Some need credit to the author, some are
+          share-alike, and many are trademarks that you may only use under the brand&apos;s own
+          rules.{" "}
+          <strong className="font-medium text-foreground">
+            You are responsible for following those rules
+          </strong>
+          . Do not alter, recolor, or animate a brand logo unless its guidelines allow it, and do
+          not use one in a way that suggests the brand endorses you.
+        </p>
+        <p>
+          If you own a logo shown here and want it removed or corrected, raise it via our GitHub
+          repository and we will act on it.
+        </p>
+      </div>
 
-          <div className="flex flex-col gap-6 text-sm leading-relaxed text-muted-foreground">
-            <p>
-              By accessing or using RuneIcons, you{" "}
-              <strong className="font-medium text-foreground">
-                agree to be bound by these Terms of Use
-              </strong>
-              . If you do not agree with any part of these terms, please{" "}
-              <strong className="font-medium text-foreground">
-                do not use the site or its contents
-              </strong>
-              .
-            </p>
+      <div className="flex flex-col gap-2">
+        <h2 className="text-h3 text-foreground">3. Acceptable Use</h2>
+        <p>
+          You agree <strong className="font-medium text-foreground">not to misuse the site</strong>,
+          attempt to disrupt its operation, or use it in any way that violates applicable laws or
+          the rights of others.
+        </p>
+      </div>
 
-            <div className="flex flex-col gap-2">
-              <h2 className="text-base font-semibold text-foreground">1. Use of Icons</h2>
-              <p>
-                RuneIcons are <strong className="font-medium text-foreground">open-source</strong>{" "}
-                and the icons are distributed under the{" "}
-                <a
-                  href="https://github.com/Nexvyn/runeicons/blob/main/LICENSE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium text-foreground underline"
-                >
-                  Apache License 2.0
-                </a>
-                . You may use them in personal, commercial, and client projects, subject to the
-                license terms in our GitHub repository.
-              </p>
-              <p>
-                Everything else on the site, including the landing page designs, UI components,
-                animations, and editor, is licensed under the Apache License 2.0 with an Attribution
-                Requirement and the Commons Clause. Any project that ships any part of it must{" "}
-                <strong className="font-medium text-foreground">
-                  credit the Rune Icons Team with a visible link to runeicons.com
-                </strong>
-                , placed where a visitor or user can find it, such as a site footer, an about page,
-                a credits screen, or a README. You{" "}
-                <strong className="font-medium text-foreground">
-                  may not sell, sublicense, or redistribute
-                </strong>{" "}
-                the landing page designs, components, or animations themselves, whether alone, in a
-                bundle, or as a ported version.
-              </p>
-            </div>
+      <div className="flex flex-col gap-2">
+        <h2 className="text-h3 text-foreground">4. No Warranty</h2>
+        <p>
+          RuneIcons is provided{" "}
+          <strong className="font-medium text-foreground">
+            &quot;as is&quot; without warranties of any kind
+          </strong>
+          , express or implied. We do not guarantee the site or icons will be error-free or
+          uninterrupted.
+        </p>
+      </div>
 
-            <div className="flex flex-col gap-2">
-              <h2 className="text-base font-semibold text-foreground">2. Acceptable Use</h2>
-              <p>
-                You agree{" "}
-                <strong className="font-medium text-foreground">not to misuse the site</strong>,
-                attempt to disrupt its operation, or use it in any way that violates applicable laws
-                or the rights of others.
-              </p>
-            </div>
+      <div className="flex flex-col gap-2">
+        <h2 className="text-h3 text-foreground">5. Changes to These Terms</h2>
+        <p>
+          We may update these Terms of Use from time to time. Continued use of the site after
+          changes are posted{" "}
+          <strong className="font-medium text-foreground">
+            constitutes acceptance of the revised terms
+          </strong>
+          .
+        </p>
+      </div>
 
-            <div className="flex flex-col gap-2">
-              <h2 className="text-base font-semibold text-foreground">3. No Warranty</h2>
-              <p>
-                RuneIcons is provided{" "}
-                <strong className="font-medium text-foreground">
-                  &quot;as is&quot; without warranties of any kind
-                </strong>
-                , express or implied. We do not guarantee the site or icons will be error-free or
-                uninterrupted.
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <h2 className="text-base font-semibold text-foreground">4. Changes to These Terms</h2>
-              <p>
-                We may update these Terms of Use from time to time. Continued use of the site after
-                changes are posted{" "}
-                <strong className="font-medium text-foreground">
-                  constitutes acceptance of the revised terms
-                </strong>
-                .
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <h2 className="text-base font-semibold text-foreground">5. Contact</h2>
-              <p>
-                Questions about these terms can be raised via our{" "}
-                <a
-                  href="https://github.com/Nexvyn/runeicons"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground underline"
-                >
-                  GitHub repository
-                </a>
-                .
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="px-3 pb-10 sm:px-6">
-          <Footer />
-        </div>
+      <div className="flex flex-col gap-2">
+        <h2 className="text-h3 text-foreground">6. Contact</h2>
+        <p>
+          Questions about these terms can be raised via our{" "}
+          <a
+            href={GITHUB_REPO}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground underline"
+          >
+            GitHub repository
+          </a>
+          .
+        </p>
       </div>
     </div>
-  );
-};
+  </DocsShell>
+);
 
 export default TermsPage;

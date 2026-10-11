@@ -4,23 +4,20 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "motion/react";
 
 import { LightDarkMode } from "@/components/ui/light-dark-mode";
+import { X_URL } from "@/lib/site";
 
+import UserDetails from "../constants";
 import AudioControl from "./AudioControl";
 import BackButton from "./BackButton";
 import Card from "./Card";
 import DetailView from "./DetailView";
-import UserDetails from "../constants";
 
 const RAW_BASE_X = [-246, -82, 95, 276];
 const RAW_BASE_Y = [-15, -10, 7, 0];
 
 const ACTIVE_COUNT = UserDetails.length;
-const CENTROID_X =
-  RAW_BASE_X.slice(0, ACTIVE_COUNT).reduce((sum, x) => sum + x, 0) /
-  ACTIVE_COUNT;
-const CENTROID_Y =
-  RAW_BASE_Y.slice(0, ACTIVE_COUNT).reduce((sum, y) => sum + y, 0) /
-  ACTIVE_COUNT;
+const CENTROID_X = RAW_BASE_X.slice(0, ACTIVE_COUNT).reduce((sum, x) => sum + x, 0) / ACTIVE_COUNT;
+const CENTROID_Y = RAW_BASE_Y.slice(0, ACTIVE_COUNT).reduce((sum, y) => sum + y, 0) / ACTIVE_COUNT;
 
 const BASE_X = RAW_BASE_X.map((x) => x - CENTROID_X);
 const BASE_Y = RAW_BASE_Y.map((y) => y - CENTROID_Y);
@@ -59,7 +56,6 @@ export default function AboutContent() {
   const [direction, setDirection] = useState<1 | -1>(1);
   const [isMuted, setIsMuted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [stageScale, setStageScale] = useState(1);
 
   const positionerRefs = useRef<(HTMLDivElement | null)[]>([]);
   const innerRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -72,17 +68,7 @@ export default function AboutContent() {
     return () => mq.removeEventListener("change", update);
   }, []);
 
-  useEffect(() => {
-    const update = () => setStageScale(getScale(isMobile));
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, [isMobile]);
-
-  const focusedIndex =
-    selectedId === null
-      ? -1
-      : UserDetails.findIndex((u) => u.id === selectedId);
+  const focusedIndex = selectedId === null ? -1 : UserDetails.findIndex((u) => u.id === selectedId);
 
   const selectedUser = UserDetails.find((u) => u.id === selectedId);
   const isOpen = selectedId !== null;
@@ -95,7 +81,7 @@ export default function AboutContent() {
         audio.play().catch((e) => console.error("Audio playback failed:", e));
       }
     },
-    [isMuted]
+    [isMuted],
   );
 
   const applyIdlePositions = useCallback(() => {
@@ -161,7 +147,7 @@ export default function AboutContent() {
         }
       });
     },
-    [isMobile]
+    [isMobile],
   );
 
   useEffect(() => {
@@ -182,12 +168,7 @@ export default function AboutContent() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "m" && e.key !== "M") return;
       const t = e.target as HTMLElement | null;
-      if (
-        t &&
-        (t.tagName === "INPUT" ||
-          t.tagName === "TEXTAREA" ||
-          t.isContentEditable)
-      ) {
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) {
         return;
       }
       setIsMuted((v) => !v);
@@ -208,8 +189,7 @@ export default function AboutContent() {
         setSelectedId(UserDetails[next].id);
         playAudio("forward");
       } else if (e.key === "ArrowLeft") {
-        const prev =
-          (focusedIndex - 1 + UserDetails.length) % UserDetails.length;
+        const prev = (focusedIndex - 1 + UserDetails.length) % UserDetails.length;
         setDirection(-1);
         setSelectedId(UserDetails[prev].id);
         playAudio("back");
@@ -242,7 +222,7 @@ export default function AboutContent() {
   };
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-background text-foreground font-(family-name:--font-inter-tight)">
+    <main id="main" className="relative h-screen w-full overflow-hidden bg-background text-foreground">
       <BackButton />
       <AudioControl isMuted={isMuted} onToggle={() => setIsMuted(!isMuted)} />
       <LightDarkMode className="fixed top-6 right-6 z-50 border border-border bg-background/80 backdrop-blur-sm" />
@@ -251,7 +231,6 @@ export default function AboutContent() {
         className="fixed inset-0"
         onClick={onStageClick}
         style={{
-
           pointerEvents: isOpen ? "auto" : "none",
         }}
       >
@@ -283,7 +262,7 @@ export default function AboutContent() {
               <Card
                 user={user}
                 index={index}
-                size={Math.round(NAT_W[index] * stageScale)}
+                size={NAT_W[index]}
                 isDetailOpen={isOpen}
                 isFocused={focusedIndex === index}
                 onClick={() => onCardClick(index)}
@@ -295,18 +274,17 @@ export default function AboutContent() {
       </div>
 
       <div
-        className={`absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex w-full max-w-[calc(100%-7rem)] flex-col items-center gap-1 px-4 py-2 transition-opacity duration-400 ease-out sm:bottom-8 sm:gap-2 sm:px-6 sm:py-3 ${
+        className={`absolute bottom-8 left-1/2 z-10 flex w-full max-w-[calc(100%-7rem)] -translate-x-1/2 flex-col items-center gap-1 px-4 py-2 transition-opacity duration-400 ease-out sm:bottom-8 sm:gap-2 sm:px-6 sm:py-3 ${
           isOpen ? "pointer-events-none opacity-0" : "opacity-100"
         }`}
       >
-        <h1 className="text-center font-sans text-xl font-bold tracking-wider text-foreground sm:text-2xl md:text-4xl">
-          RUNE ICON
-        </h1>
+        <h1 className="text-center text-h1 text-foreground">Rune Icons</h1>
         <div className="flex items-center justify-center gap-2 md:gap-4">
           <a
-            href="https://x.com/RuneIcon"
+            href={X_URL}
             target="_blank"
-            className="text-sm font-semibold text-muted-foreground"
+            rel="noopener noreferrer"
+            className="text-body-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             X
           </a>
@@ -324,20 +302,15 @@ export default function AboutContent() {
               playAudio("close");
             }}
             onNext={() => {
-              const currentIndex = UserDetails.findIndex(
-                (u) => u.id === selectedId
-              );
+              const currentIndex = UserDetails.findIndex((u) => u.id === selectedId);
               const nextIndex = (currentIndex + 1) % UserDetails.length;
               setDirection(1);
               setSelectedId(UserDetails[nextIndex].id);
               playAudio("forward");
             }}
             onPrev={() => {
-              const currentIndex = UserDetails.findIndex(
-                (u) => u.id === selectedId
-              );
-              const prevIndex =
-                (currentIndex - 1 + UserDetails.length) % UserDetails.length;
+              const currentIndex = UserDetails.findIndex((u) => u.id === selectedId);
+              const prevIndex = (currentIndex - 1 + UserDetails.length) % UserDetails.length;
               setDirection(-1);
               setSelectedId(UserDetails[prevIndex].id);
               playAudio("back");
@@ -345,6 +318,6 @@ export default function AboutContent() {
           />
         )}
       </AnimatePresence>
-    </section>
+    </main>
   );
 }

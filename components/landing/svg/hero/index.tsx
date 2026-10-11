@@ -3,11 +3,10 @@ import { useEffect, useRef, useState } from "react";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 
+import { burstRocket, getRocketFlames, resetFlames } from "./burst";
 import {
-  BLAST_ICONS,
-  BLAST_ICONS_CFG,
+  BURST,
   CLOUDS,
   CLOUDS_CFG,
   COUNTDOWN_TICKS,
@@ -21,16 +20,20 @@ import {
 } from "./constants";
 import HeroDefs from "./defs";
 import SceneAnimatedLayers from "./scene-animated-layers";
-import SceneBlastIcons from "./scene-blast-icons";
 import SceneCargoAndRocket from "./scene-cargo-and-rocket";
 import SceneConveyor from "./scene-conveyor";
 import SceneCubes from "./scene-cubes";
 import ScenePipesAndPulse from "./scene-pipes-and-pulse";
 
-gsap.registerPlugin(useGSAP, MotionPathPlugin);
+gsap.registerPlugin(useGSAP);
 
-const HeroSvg = () => {
+type HeroSvgProps = {
+  variant?: "launch" | "burst";
+};
+
+const HeroSvg = ({ variant = "launch" }: HeroSvgProps) => {
   const svgRef = useRef<SVGSVGElement>(null);
+  const burstCleanupRef = useRef<(() => void) | null>(null);
   const [isResetting, setIsResetting] = useState(false);
   const [animationRun, setAnimationRun] = useState(0);
   const [labelText, setLabelText] = useState("BUILD");
@@ -196,17 +199,15 @@ const HeroSvg = () => {
             if (rocketEl) {
               const beamEndTime = 1.0 + (beams.length - 1) * 0.22;
               const rocketLaunchDelay = beamEndTime + 1;
-              const haloEl = rocketEl.querySelector<SVGPathElement>(".rocketTrail-halo");
-              const plumeEl = rocketEl.querySelector<SVGPathElement>(".rocketTrail-plume");
-              const coreEls = gsap.utils.toArray<SVGPathElement>(
-                rocketEl.querySelectorAll(".rocketTrail-core"),
-              );
-              const flameEls = [haloEl, plumeEl, ...coreEls].filter(
-                (el): el is SVGPathElement => el !== null,
-              );
+              const {
+                halo: haloEl,
+                plume: plumeEl,
+                cores: coreEls,
+                all: flameEls,
+              } = getRocketFlames(rocketEl);
 
               gsap.killTweensOf(rocketEl);
-              flameEls.forEach((el) => gsap.killTweensOf(el));
+              resetFlames(flameEls);
               gsap.set(rocketEl, {
                 transformOrigin: "50% 100%",
                 x: 0,
@@ -214,21 +215,12 @@ const HeroSvg = () => {
                 rotation: 0,
                 opacity: 1,
               });
-              if (flameEls.length) {
-                gsap.set(flameEls, {
-                  opacity: 0,
-                  scaleY: 1,
-                  scale: 1,
-                  transformOrigin: "50% 0%",
-                });
-              }
               rocketEl.style.willChange = "transform, opacity";
 
               let coreFlickerTl: gsap.core.Timeline | null = null;
               let plumeFlickerTl: gsap.core.Timeline | null = null;
               let haloFlickerTl: gsap.core.Timeline | null = null;
               const cloudPuffTweens: gsap.core.Tween[] = [];
-              const blastIconTweens: gsap.core.Tween[] = [];
 
               const rocketTl = gsap.timeline({
                 delay: rocketLaunchDelay,
@@ -278,8 +270,6 @@ const HeroSvg = () => {
                   }
                   cloudPuffTweens.forEach((tw) => tw.kill());
                   cloudPuffTweens.length = 0;
-                  blastIconTweens.forEach((tw) => tw.kill());
-                  blastIconTweens.length = 0;
                   if (btnHit) {
                     btnHit.style.cursor = "pointer";
                     btnHit.style.pointerEvents = "auto";
@@ -504,7 +494,7 @@ const HeroSvg = () => {
                       {
                         opacity: 0,
                         duration: 1.2,
-                        ease: "power2.in",
+                        ease: "power2.out",
                       },
                     ],
                     stagger: 0.1,
@@ -534,7 +524,7 @@ const HeroSvg = () => {
                               opacity: 0,
                               scale: CLOUDS_CFG.peakScale * 1.2,
                               duration: c.cycle,
-                              ease: "power2.in",
+                              ease: "power2.out",
                             },
                           ],
                           delay: c.delay,
@@ -545,60 +535,6 @@ const HeroSvg = () => {
                   [],
                   LAUNCH.ignition,
                 );
-              }
-
-              const blastIconEls = svgRef.current?.querySelectorAll<SVGGElement>(".blastIcon");
-              if (blastIconEls && blastIconEls.length) {
-                gsap.killTweensOf(blastIconEls);
-                gsap.set(blastIconEls, {
-                  x: 0,
-                  y: 0,
-                  rotation: 0,
-                  scale: 1,
-                  transformOrigin: "50% 50%",
-                });
-                if (fullMotion) {
-                  rocketTl.call(
-                    () => {
-                      BLAST_ICONS.forEach((icon, i) => {
-                        const el = blastIconEls[i];
-                        if (!el) return;
-                        blastIconTweens.push(
-                          gsap.to(el, {
-                            keyframes: [
-                              {
-                                x: icon.driftX * 0.07,
-                                y: 2,
-                                rotation: icon.spin * 0.04,
-                                duration: BLAST_ICONS_CFG.shoveDuration,
-                                ease: "power2.out",
-                              },
-                              {
-                                x: icon.driftX * 0.55,
-                                y: -icon.lift * 0.58,
-                                rotation: icon.spin * 0.55,
-                                scale: icon.growScale,
-                                duration: icon.flight * BLAST_ICONS_CFG.holdRatio,
-                                ease: "power2.out",
-                              },
-                              {
-                                x: icon.driftX,
-                                y: -icon.lift,
-                                rotation: icon.spin,
-                                opacity: 0,
-                                duration: icon.flight * (1 - BLAST_ICONS_CFG.holdRatio),
-                                ease: "power1.out",
-                              },
-                            ],
-                            delay: icon.delay,
-                          }),
-                        );
-                      });
-                    },
-                    [],
-                    LAUNCH.ignition,
-                  );
-                }
               }
 
               if (flameEls.length) {
@@ -635,15 +571,34 @@ const HeroSvg = () => {
                 }
               }
 
-              rocketTl.to(
-                rocketEl,
-                {
-                  y: -760,
-                  duration: LAUNCH.rocketDuration,
-                  ease: "power2.out",
-                },
-                LAUNCH.hold,
-              );
+              if (variant === "burst") {
+                rocketTl.to(
+                  rocketEl,
+                  {
+                    y: BURST.climb,
+                    duration: BURST.climbDuration,
+                    ease: "power1.in",
+                  },
+                  LAUNCH.hold,
+                );
+              } else {
+                if (fullMotion) {
+                  rocketTl.to(
+                    rocketEl,
+                    { y: LAUNCH.squat, duration: LAUNCH.hold, ease: "power2.out" },
+                    LAUNCH.ignition,
+                  );
+                }
+                rocketTl.to(
+                  rocketEl,
+                  {
+                    y: -760,
+                    duration: LAUNCH.rocketDuration,
+                    ease: "power2.in",
+                  },
+                  LAUNCH.hold,
+                );
+              }
 
               let vibration: gsap.core.Timeline | null = null;
               if (fullMotion) {
@@ -662,18 +617,33 @@ const HeroSvg = () => {
                 });
               }
 
-              rocketTl.to(
-                rocketEl,
-                {
-                  opacity: 0,
-                  duration: 0.42,
-                  ease: "power1.out",
-                  onStart: function () {
+              if (variant === "burst") {
+                rocketTl.call(
+                  () => {
                     vibration?.kill();
+                    const svg = svgRef.current;
+                    if (!svg) return;
+                    burstCleanupRef.current?.();
+                    burstCleanupRef.current = burstRocket(svg, rocketEl, fullMotion);
                   },
-                },
-                "+=0.1",
-              );
+                  [],
+                  LAUNCH.hold + BURST.climbDuration,
+                );
+                rocketTl.to({}, { duration: BURST.lifeMax }, ">");
+              } else {
+                rocketTl.to(
+                  rocketEl,
+                  {
+                    opacity: 0,
+                    duration: 0.42,
+                    ease: "power1.out",
+                    onStart: function () {
+                      vibration?.kill();
+                    },
+                  },
+                  "+=0.1",
+                );
+              }
             }
           }
 
@@ -745,7 +715,7 @@ const HeroSvg = () => {
               .to(pulse, {
                 opacity: 0,
                 duration: 0.75,
-                ease: "power1.in",
+                ease: "sine.out",
               });
           }
 
@@ -1047,6 +1017,8 @@ const HeroSvg = () => {
 
   const handleRelaunch = () => {
     if (isResetting) return;
+    burstCleanupRef.current?.();
+    burstCleanupRef.current = null;
 
     const btn = svgRef.current?.querySelector<SVGGElement>(".LaunchButton");
     if (btn) {
@@ -1063,21 +1035,13 @@ const HeroSvg = () => {
 
     setIsResetting(true);
 
-    const coreEls = gsap.utils.toArray<SVGPathElement>(
-      rocketEl.querySelectorAll(".rocketTrail-core"),
-    );
-    const plumeEl = rocketEl.querySelector<SVGPathElement>(".rocketTrail-plume");
-    const haloEl = rocketEl.querySelector<SVGPathElement>(".rocketTrail-halo");
-    const flameEls = [...coreEls, plumeEl, haloEl].filter((el): el is SVGPathElement => el != null);
-    if (flameEls.length) {
-      flameEls.forEach((el) => gsap.killTweensOf(el));
-      gsap.set(flameEls, {
-        opacity: 0,
-        scaleY: 1,
-        scale: 1,
-        transformOrigin: "50% 0%",
-      });
-    }
+    const {
+      halo: haloEl,
+      plume: plumeEl,
+      cores: coreEls,
+      all: flameEls,
+    } = getRocketFlames(rocketEl);
+    resetFlames(flameEls);
 
     const emberEls = svgRef.current?.querySelectorAll<SVGCircleElement>(".rocketEmber");
     if (emberEls && emberEls.length) {
@@ -1159,6 +1123,7 @@ const HeroSvg = () => {
         x: 0,
         rotation: 0,
         opacity: 1,
+        ...(variant === "burst" ? { y: -520 } : {}),
       })
       .to(
         coreEls,
@@ -1250,7 +1215,7 @@ const HeroSvg = () => {
         {
           opacity: 0,
           duration: 0.4,
-          ease: "power2.in",
+          ease: EASING.exit,
           overwrite: "auto",
         },
         1.7,
@@ -1260,7 +1225,7 @@ const HeroSvg = () => {
         {
           opacity: 0,
           duration: 0.35,
-          ease: "power2.in",
+          ease: EASING.exit,
           overwrite: "auto",
           onStart: () => {
             descentEmberTweens.forEach((tw) => tw.kill());
@@ -1298,7 +1263,7 @@ const HeroSvg = () => {
                   opacity: 0,
                   scale: 1.3,
                   duration: 0.35,
-                  ease: "power2.in",
+                  ease: "power2.out",
                 },
               ],
               delay: d.delay,
@@ -1307,37 +1272,6 @@ const HeroSvg = () => {
         },
         [],
         ROCKET_DETAILS.settle.startAt - 0.1,
-      )
-      .call(
-        () => {
-          const iconEls = svgRef.current?.querySelectorAll<SVGGElement>(".blastIcon");
-          if (!iconEls || !iconEls.length) return;
-          gsap.killTweensOf(iconEls);
-          BLAST_ICONS.forEach((icon, i) => {
-            const el = iconEls[i];
-            if (!el) return;
-            gsap.fromTo(
-              el,
-              {
-                x: 0,
-                y: -BLAST_ICONS_CFG.settleDrop,
-                rotation: 0,
-                scale: 1,
-                opacity: 0,
-                transformOrigin: "50% 50%",
-              },
-              {
-                y: 0,
-                opacity: icon.restOpacity,
-                duration: BLAST_ICONS_CFG.settleDuration,
-                ease: "power2.out",
-                delay: i * BLAST_ICONS_CFG.settleStagger,
-              },
-            );
-          });
-        },
-        [],
-        ROCKET_DETAILS.settle.startAt,
       )
       .call(
         () => {
@@ -1383,6 +1317,43 @@ const HeroSvg = () => {
     handleRelaunchRef.current = handleRelaunch;
   });
 
+  useEffect(
+    () => () => {
+      burstCleanupRef.current?.();
+    },
+    [],
+  );
+
+  // Pistons, the pulse and the conveyor loop forever; pause everything the scene is
+  // running while it is off-screen and resume exactly those animations on return.
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+    let paused: gsap.core.Animation[] = [];
+    const observer = new IntersectionObserver(([entry]) => {
+      svg.toggleAttribute("data-offscreen", !entry.isIntersecting);
+      if (entry.isIntersecting) {
+        paused.forEach((anim) => anim.resume());
+        paused = [];
+        return;
+      }
+      const roots = new Set<gsap.core.Animation>();
+      for (const tween of gsap.getTweensOf(svg.querySelectorAll("*"))) {
+        let anim: gsap.core.Animation = tween;
+        while (anim.parent && anim.parent !== gsap.globalTimeline) anim = anim.parent;
+        if (!anim.paused() && anim.totalProgress() < 1) roots.add(anim);
+      }
+      paused = [...roots];
+      paused.forEach((anim) => anim.pause());
+    });
+    observer.observe(svg);
+    return () => {
+      observer.disconnect();
+      svg.removeAttribute("data-offscreen");
+      paused.forEach((anim) => anim.resume());
+    };
+  }, [animationRun]);
+
   return (
     <div className="relative h-full w-full">
       <svg
@@ -1399,7 +1370,6 @@ const HeroSvg = () => {
         <SceneAnimatedLayers />
         <SceneCubes labelText={labelText} launchButtonState={launchButtonState} />
         <ScenePipesAndPulse />
-        <SceneBlastIcons />
         <HeroDefs />
       </svg>
     </div>

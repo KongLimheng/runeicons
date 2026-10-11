@@ -1,5 +1,5 @@
 "use client";
-import { ChevronLeft, ChevronRight, Disc as Discord, Github, Globe, Mail, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Github, Globe, Mail, X } from "lucide-react";
 import { AnimatePresence, useReducedMotion } from "motion/react";
 import * as m from "motion/react-m";
 
@@ -111,21 +111,21 @@ const DetailView = ({ user, isMobile = false, onClose, onNext, onPrev }: DetailV
               }}
               transition={{ duration: TIMING.info, ease: EASE_OUT }}
             >
-              <h2 className="mb-4 font-['Syne'] text-3xl font-bold text-foreground">{user.name}</h2>
-              <p className="mb-6 text-base leading-relaxed text-muted-foreground">
+              <h2 className="mb-4 text-h2 text-foreground">{user.name}</h2>
+              <p className="mb-6 max-w-[65ch] text-body text-muted-foreground">
                 {user.description}
               </p>
 
-              <div className="mb-6 grid grid-cols-2 gap-4 text-sm">
+              <div className="mb-6 grid grid-cols-2 gap-4 text-body-sm">
                 <div className="flex flex-col gap-1">
-                  <span className="text-xs font-medium tracking-wider text-muted-foreground/70 uppercase">
+                  <span className="text-label tracking-[0.08em] text-muted-foreground/70 uppercase">
                     Industry
                   </span>
                   <span className="text-foreground">{user.industry}</span>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="text-xs font-medium tracking-wider text-muted-foreground/70 uppercase">
-                    Status
+                  <span className="text-label tracking-[0.08em] text-muted-foreground/70 uppercase">
+                    Maintainer status
                   </span>
                   <div className="flex items-center gap-2">
                     <span
@@ -149,7 +149,6 @@ const DetailView = ({ user, isMobile = false, onClose, onNext, onPrev }: DetailV
                     {social.type === "twitter" && <XIcon size={20} />}
                     {social.type === "github" && <Github size={20} />}
                     {social.type === "mail" && <Mail size={20} />}
-                    {social.type === "discord" && <Discord size={20} />}
                   </a>
                 ))}
               </div>
@@ -216,7 +215,7 @@ const DetailView = ({ user, isMobile = false, onClose, onNext, onPrev }: DetailV
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: reduceMotion ? 0 : 24, opacity: 0 }}
         transition={rightPanelTransition}
-        className="fixed top-0 right-0 bottom-0 z-50 flex w-[30%] flex-col justify-center border-l border-border bg-background/55 p-12 backdrop-blur-xl"
+        className="fixed top-0 right-0 bottom-0 z-50 flex w-[30%] flex-col justify-center border-l border-border bg-background/55 pad-panel backdrop-blur-xl"
       >
         <AnimatePresence mode="wait" initial={false}>
           <m.div
@@ -234,22 +233,20 @@ const DetailView = ({ user, isMobile = false, onClose, onNext, onPrev }: DetailV
             }}
             transition={{ duration: TIMING.info, ease: EASE_OUT }}
           >
-            <h2 className="mb-6 font-['Syne'] text-4xl font-bold text-foreground">{user.name}</h2>
+            <h2 className="mb-6 text-h1 text-foreground">{user.name}</h2>
 
-            <p className="mb-8 text-base leading-relaxed text-muted-foreground">
-              {user.description}
-            </p>
+            <p className="mb-8 max-w-[65ch] text-body text-muted-foreground">{user.description}</p>
 
-            <div className="mb-10 grid grid-cols-1 gap-y-6 text-sm">
+            <div className="mb-10 grid grid-cols-1 gap-y-6 text-body-sm">
               <div className="flex flex-col gap-1">
-                <span className="text-xs font-medium tracking-wider text-muted-foreground/70 uppercase">
+                <span className="text-label tracking-[0.08em] text-muted-foreground/70 uppercase">
                   Industry
                 </span>
                 <span className="text-foreground">{user.industry}</span>
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-xs font-medium tracking-wider text-muted-foreground/70 uppercase">
-                  Status
+                <span className="text-label tracking-[0.08em] text-muted-foreground/70 uppercase">
+                  Maintainer status
                 </span>
                 <div className="flex items-center gap-2">
                   <span
@@ -273,7 +270,6 @@ const DetailView = ({ user, isMobile = false, onClose, onNext, onPrev }: DetailV
                   {social.type === "twitter" && <XIcon size={20} />}
                   {social.type === "github" && <Github size={20} />}
                   {social.type === "mail" && <Mail size={20} />}
-                  {social.type === "discord" && <Discord size={20} />}
                 </a>
               ))}
             </div>

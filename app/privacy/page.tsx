@@ -1,111 +1,104 @@
-import type { Metadata } from "next";
+import DocsShell from "@/components/docs/docs-shell";
+import { pageMetadata } from "@/lib/seo";
+import { GITHUB_REPO } from "@/lib/site";
 
-import Footer from "@/components/landing/components/footer";
-import Navbar from "@/components/ui/navbar";
-
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Privacy Policy",
-  alternates: { canonical: "/privacy" },
-  description: "Privacy Policy for RuneIcons.",
-};
+  description: "Privacy Policy for Rune Icons: what data the site collects and how it is used.",
+  path: "/privacy",
+});
 
-const PrivacyPage = () => {
-  return (
-    <div className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#F5F5F5] font-(family-name:--font-inter-tight) dark:bg-background">
-      <div className="pointer-events-none fixed inset-y-0 left-1/2 z-40 w-[95vw] max-w-[1440px] -translate-x-1/2 border-x-2 border-dashed md:w-[90vw] 2xl:w-[85vw] 2xl:max-w-[1800px]" />
+const PrivacyPage = () => (
+  <DocsShell title="Privacy Policy" lead="Last updated: October 10, 2026">
+    <div className="flex max-w-[65ch] flex-col gap-8 text-body text-muted-foreground">
+      <p>
+        This Privacy Policy explains what information RuneIcons collects and how it is used. We aim
+        to collect{" "}
+        <strong className="font-medium text-foreground">
+          as little personal information as possible
+        </strong>
+        .
+      </p>
 
-      <div className="mx-auto flex w-[95vw] max-w-[1440px] flex-col md:w-[90vw] 2xl:w-[85vw]">
-        <Navbar showDashedBorder />
+      <div className="flex flex-col gap-2">
+        <h2 className="text-h3 text-foreground">1. Information We Collect</h2>
+        <p>
+          We <strong className="font-medium text-foreground">do not require an account</strong> to
+          browse or download icons. If you sponsor the project or contact us, we may receive the
+          information you voluntarily provide, such as your
+          <strong className="font-medium text-foreground">name and email address</strong>, through
+          third-party services (e.g. GitHub, payment processors).
+        </p>
+      </div>
 
-        <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-3 pt-32 pb-20 sm:px-6">
-          <h1 className="text-3xl font-medium sm:text-4xl">Privacy Policy</h1>
-          <p className="text-sm text-muted-foreground">Last updated: July 29, 2026</p>
+      <div className="flex flex-col gap-2">
+        <h2 className="text-h3 text-foreground">2. Cookies & Analytics</h2>
+        <p>
+          With your consent, we use{" "}
+          <strong className="font-medium text-foreground">Google Analytics</strong> to understand
+          aggregate site usage. It sets cookies in your browser and sends usage data such as the
+          pages you visit to Google. If you decline, it is not loaded, and the choice is saved in
+          your browser&apos;s local storage under the key{" "}
+          <strong className="font-medium text-foreground">runeicons-analytics-consent</strong>. We{" "}
+          <strong className="font-medium text-foreground">
+            do not sell personal data to third parties
+          </strong>
+          .
+        </p>
+      </div>
 
-          <div className="flex flex-col gap-6 text-sm leading-relaxed text-muted-foreground">
-            <p>
-              This Privacy Policy explains what information RuneIcons collects and how it is used.
-              We aim to collect{" "}
-              <strong className="font-medium text-foreground">
-                as little personal information as possible
-              </strong>
-              .
-            </p>
+      <div className="flex flex-col gap-2">
+        <h2 className="text-h3 text-foreground">3. Brand Logos</h2>
+        <p>
+          The brand logos page stores the logos you like in your own browser&apos;s local storage,
+          under the key{" "}
+          <strong className="font-medium text-foreground">runeicons-brand-likes</strong>. That list{" "}
+          <strong className="font-medium text-foreground">never leaves your device</strong>. We
+          do not receive it, and clearing your browser data removes it. The logo files are served
+          from our own site, and copying or downloading one does not send anything to a third
+          party. The links to each brand&apos;s website or brand guidelines take you to that
+          company&apos;s site, which is covered by its own privacy policy.
+        </p>
+      </div>
 
-            <div className="flex flex-col gap-2">
-              <h2 className="text-base font-semibold text-foreground">1. Information We Collect</h2>
-              <p>
-                We{" "}
-                <strong className="font-medium text-foreground">do not require an account</strong>{" "}
-                to browse or download icons. If you sponsor the project or contact us, we may
-                receive the information you voluntarily provide, such as your
-                <strong className="font-medium text-foreground">name and email address</strong>,
-                through third-party services (e.g. GitHub, payment processors).
-              </p>
-            </div>
+      <div className="flex flex-col gap-2">
+        <h2 className="text-h3 text-foreground">4. Third-Party Services</h2>
+        <p>
+          Sponsorships and payments are processed by third-party providers, and interactions with
+          our GitHub repository are governed by{" "}
+          <strong className="font-medium text-foreground">GitHub&apos;s own privacy policy</strong>.
+        </p>
+      </div>
 
-            <div className="flex flex-col gap-2">
-              <h2 className="text-base font-semibold text-foreground">2. Cookies & Analytics</h2>
-              <p>
-                We may use{" "}
-                <strong className="font-medium text-foreground">
-                  basic, privacy-respecting analytics
-                </strong>{" "}
-                to understand aggregate site usage. We{" "}
-                <strong className="font-medium text-foreground">
-                  do not sell personal data to third parties
-                </strong>
-                .
-              </p>
-            </div>
+      <div className="flex flex-col gap-2">
+        <h2 className="text-h3 text-foreground">5. Changes to This Policy</h2>
+        <p>
+          We may update this Privacy Policy from time to time. Continued use of the site after
+          changes are posted{" "}
+          <strong className="font-medium text-foreground">
+            constitutes acceptance of the revised policy
+          </strong>
+          .
+        </p>
+      </div>
 
-            <div className="flex flex-col gap-2">
-              <h2 className="text-base font-semibold text-foreground">3. Third-Party Services</h2>
-              <p>
-                Sponsorships and payments are processed by third-party providers, and interactions
-                with our GitHub repository are governed by{" "}
-                <strong className="font-medium text-foreground">
-                  GitHub&apos;s own privacy policy
-                </strong>
-                .
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <h2 className="text-base font-semibold text-foreground">4. Changes to This Policy</h2>
-              <p>
-                We may update this Privacy Policy from time to time. Continued use of the site after
-                changes are posted{" "}
-                <strong className="font-medium text-foreground">
-                  constitutes acceptance of the revised policy
-                </strong>
-                .
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <h2 className="text-base font-semibold text-foreground">5. Contact</h2>
-              <p>
-                Questions about this policy can be raised via our{" "}
-                <a
-                  href="https://github.com/Nexvyn/runeicons"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground underline"
-                >
-                  GitHub repository
-                </a>
-                .
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="px-3 pb-10 sm:px-6">
-          <Footer />
-        </div>
+      <div className="flex flex-col gap-2">
+        <h2 className="text-h3 text-foreground">6. Contact</h2>
+        <p>
+          Questions about this policy can be raised via our{" "}
+          <a
+            href={GITHUB_REPO}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground underline"
+          >
+            GitHub repository
+          </a>
+          .
+        </p>
       </div>
     </div>
-  );
-};
+  </DocsShell>
+);
 
 export default PrivacyPage;

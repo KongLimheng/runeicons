@@ -1,0 +1,15 @@
+.cardSize {
+  --size: min(calc(var(--nat) * 1px), calc(var(--nat) * (100vw - 20px) / 1000));
+  width: var(--size);
+  height: var(--size);
+}
+
+@media (max-width: 700px) {
+  .cardSize {
+    --size: clamp(
+      calc(var(--nat) * 0.42px),
+      calc(var(--nat) * (100vw - 20px) / 800),
+      calc(var(--nat) * 0.7px)
+    );
+  }
+}

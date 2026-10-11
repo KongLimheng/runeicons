@@ -60,6 +60,27 @@ export const Scrubber: React.FC<ScrubberProps> = ({
   const labelRef = useRef<HTMLSpanElement>(null);
   const valueRef = useRef<HTMLDivElement>(null);
   const [isOverlapping, setIsOverlapping] = useState(false);
+  const pendingChange = useRef<number | null>(null);
+  const changeFrame = useRef(0);
+  const onChangeRef = useRef(onChange);
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  });
+  const flushChange = useCallback(() => {
+    cancelAnimationFrame(changeFrame.current);
+    changeFrame.current = 0;
+    const pending = pendingChange.current;
+    pendingChange.current = null;
+    if (pending !== null) onChangeRef.current?.(pending);
+  }, []);
+  const queueChange = useCallback(
+    (next: number) => {
+      pendingChange.current = next;
+      if (!changeFrame.current) changeFrame.current = requestAnimationFrame(flushChange);
+    },
+    [flushChange],
+  );
+  useEffect(() => () => cancelAnimationFrame(changeFrame.current), []);
   const value = controlledValue !== undefined ? controlledValue : internalValue;
 
   useEffect(() => {
@@ -230,7 +251,7 @@ export const Scrubber: React.FC<ScrubberProps> = ({
       if (controlledValue === undefined) {
         setInternalValue(newValue);
       }
-      onChange?.(newValue);
+      queueChange(newValue);
       if (isDragging && typeof navigator !== "undefined" && navigator.vibrate) {
         navigator.vibrate(5);
       }
@@ -257,6 +278,7 @@ export const Scrubber: React.FC<ScrubberProps> = ({
   const handlePointerUp = (e: React.PointerEvent) => {
     if (!isDragging) return;
     e.currentTarget.releasePointerCapture(e.pointerId);
+    flushChange();
     setIsDragging(false);
 
     if (rubberStretchPx.get() !== 0) {
@@ -345,7 +367,7 @@ export const Scrubber: React.FC<ScrubberProps> = ({
         )}
       </motion.div>
 
-      <div className="pointer-events-none absolute inset-0 z-10 flex items-center px-2 text-[10px] uppercase tracking-widest text-foreground/70 select-none">
+      <div className="pointer-events-none absolute inset-0 z-10 flex items-center px-2 text-micro tracking-[0.08em] text-foreground/70 uppercase select-none">
         <div className="flex w-full items-center justify-between">
           <span ref={labelRef} className="ml-1">
             {label}
@@ -363,6 +385,7 @@ export const Scrubber: React.FC<ScrubberProps> = ({
               <input
                 ref={inputRef}
                 type="number"
+                aria-label={`${label} value`}
                 value={inputValue}
                 min={min}
                 max={max}
@@ -383,14 +406,14 @@ export const Scrubber: React.FC<ScrubberProps> = ({
                     }
                   }
                 }}
-                onBlur={(e) => {
+                onBlur={() => {
                   handleEditCommit();
                   setIsEditing(false);
                 }}
                 onKeyDown={handleInputKeyDown}
                 onFocus={() => setIsEditing(true)}
                 className={cn(
-                  "w-10 bg-transparent text-right text-[11px] font-mono tabular-nums transition-all outline-none",
+                  "w-10 min-h-6 bg-transparent text-right font-mono text-micro tabular-nums transition-all outline-none",
                   "[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
                   "cursor-ew-resize border border-transparent px-1 py-0.5",
                   "hover:bg-muted/20",
@@ -409,7 +432,7 @@ export const Scrubber: React.FC<ScrubberProps> = ({
             className="absolute inset-0 flex items-center justify-end px-2"
           >
             {!isEditing && (
-              <div ref={valueRef} className="flex items-center text-[10px] uppercase tracking-widest text-foreground/70">
+              <div ref={valueRef} className="flex items-center text-micro tracking-[0.08em] text-foreground/70 uppercase">
                 {rightSlot ?? <span className="font-mono">{value}</span>}
               </div>
             )}

@@ -41,7 +41,6 @@ export const BlossomColorPicker = ({
   const onDismissRef = useRef(onDismiss);
   const rafRef = useRef<number | null>(null);
 
-  // Prefer the panel-level portal container from context; fall back to prop or body.
   const panelPortal = usePickerPortal();
 
   useLayoutEffect(() => {
@@ -67,13 +66,11 @@ export const BlossomColorPicker = ({
       const anchorRect = anchor.getBoundingClientRect();
 
       if (panelPortal) {
-        // Absolute positioning relative to the panel portal overlay
         const containerRect = panelPortal.getBoundingClientRect();
         portal.style.position = 'absolute';
         portal.style.left = `${anchorRect.left - containerRect.left}px`;
         portal.style.top = `${anchorRect.top - containerRect.top}px`;
       } else {
-        // Fixed positioning relative to viewport (fallback / no panel context)
         portal.style.position = 'fixed';
         portal.style.left = `${anchorRect.left}px`;
         portal.style.top = `${anchorRect.top}px`;

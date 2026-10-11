@@ -20,6 +20,7 @@ interface Options {
   onToggleTab?: () => void;
   trayIcons: IconData[];
   canCopy?: boolean;
+  enabled?: boolean;
 }
 
 interface Return {
@@ -51,6 +52,7 @@ export function useKeyboardShortcuts({
   onToggleTab,
   trayIcons,
   canCopy,
+  enabled = true,
 }: Options): Return {
   const [showHelp, setShowHelp] = useState(false);
   const [armed, setArmed] = useState(false);
@@ -179,9 +181,10 @@ export function useKeyboardShortcuts({
   };
 
   useEffect(() => {
+    if (!enabled) return;
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleKeyDown]);
+  }, [enabled, handleKeyDown]);
 
   return { showHelp, setShowHelp };
 }

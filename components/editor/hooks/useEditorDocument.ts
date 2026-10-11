@@ -221,7 +221,6 @@ export function useEditorDocument(assets: EditorAssetSummary[]) {
     if (areEditorDocumentsEqual(documentRef.current, nextDocument)) return;
 
     skipNextRevision.current = true;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadDocument(nextDocument, { pushHistory: false });
   }, [
     assetMap,

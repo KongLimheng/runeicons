@@ -1,9 +1,11 @@
 "use client";
 import { X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+
 import { Button } from "@/components/ui/button";
 import { KEYBOARD_SHORTCUTS } from "@/hooks/use-keyboard-shortcuts";
 import { cn } from "@/lib/utils";
+
 interface KeyboardShortcutsModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -63,7 +65,7 @@ export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsMod
             transition={{ duration: 0.1 }}
             className={cn(
               "relative flex w-full max-w-sm flex-col",
-              "rounded-lg border border-border bg-background shadow-xl",
+              "rounded-lg border border-border bg-background",
             )}
           >
             <div className="flex items-center justify-between border-b border-border p-2.5">
@@ -72,6 +74,7 @@ export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsMod
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
+                aria-label="Close shortcuts"
                 className="h-6 w-6 rounded-md hover:bg-muted"
               >
                 <X className="h-3 w-3" />

@@ -16,10 +16,6 @@ import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 
-// A gallery is the one screen that legitimately needs every icon, so it imports
-// the barrel. Apps that use a handful should import them by name — the package
-// tree-shakes, and `runeicons-react-native/<slug>` deep imports work under
-// Metro, which does not.
 import * as Icons from 'runeicons-react-native';
 import type {
   RuneIconComponent,
@@ -57,7 +53,6 @@ const pascal = (slug: string) =>
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join('');
 
-/** Icons available in one style, resolved to their components once per style. */
 const byStyle = new Map<RuneIconStyle, Entry[]>(
   STYLES.map((style) => [
     style,
@@ -86,7 +81,6 @@ function Gallery() {
 
   const columns = Math.max(3, Math.min(8, Math.floor(width / 92)));
   const twoTone = TWO_TONE.includes(style);
-  // Ink reads as ink in both themes; the other swatches are literal.
   const inkAware = color === SWATCHES[0] ? theme.foreground : color;
 
   const results = useMemo(() => {

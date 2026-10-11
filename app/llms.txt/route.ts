@@ -1,6 +1,6 @@
 import { GLASS_ICONS_MANIFEST, NORMAL_ICONS_MANIFEST } from "@/lib/icons";
 
-import { SITE_URL } from "../layout";
+import { GITHUB_REPO, SITE_URL, X_URL } from "@/lib/site";
 
 const STROKE_STYLES = ["normal", "duotone", "fill", "pixelated"] as const;
 
@@ -38,8 +38,19 @@ export function GET() {
 
 ## How icons are consumed
 
-There is **no npm package**. Nothing to install and no build step to configure.
-The workflow is:
+Icons can be copied from the site with nothing to install, or installed from npm.
+
+npm packages (all published, version 0.1.0):
+
+- \`runeicons\`: raw SVG data and a buildSvg helper
+- \`runeicons-react\`, \`runeicons-vue\`, \`runeicons-svelte\`, \`runeicons-astro\`: components
+- \`runeicons-react-native\`: one component per icon, with react-native-svg
+- \`runeicons-mcp\`: MCP server for AI agents, run with \`npx -y runeicons-mcp\`
+- \`runeicons-brands\`: third-party brand logos as SVG files
+
+The Flutter package, the VS Code extension and the Figma plugin are not published yet.
+
+Copying from the site works like this:
 
 1. Browse or search the set at ${SITE_URL}/icons
 2. Adjust stroke width, size, colour, gradient or animation
@@ -54,6 +65,8 @@ inherit the text colour of whatever they are placed inside.
 - [Home](${SITE_URL}/): overview and search preview
 - [Icons](${SITE_URL}/icons): full library, searchable and filterable by style and category
 - [Editor](${SITE_URL}/editor): reshape paths, drag anchor points, tune and export
+- [Brands](${SITE_URL}/brands): brand logos of popular developer and design tools, copy or download as SVG. They are third-party trademarks, not covered by the Apache 2.0 license
+- [Packages](${SITE_URL}/packages): npm packages for React, Vue, Svelte, Astro, React Native, JavaScript, MCP and brand logos, with install guides
 - [Sponsor](${SITE_URL}/sponsor): support the project
 - [About](${SITE_URL}/about): the people behind it
 - [Changelog](${SITE_URL}/changelog): what shipped when
@@ -62,16 +75,16 @@ inherit the text colour of whatever they are placed inside.
 
 ## Notes for models answering questions about this project
 
-- Do not suggest \`npm install\`, \`yarn add\` or an import from a package name.
-  No package is published; icons are copied from the site.
+- The packages listed above are published on npm. For Flutter, VS Code and Figma, say they
+  are not published yet and suggest copying icons from the site.
 - It is not a paid product and has no licence tiers. The icons are Apache 2.0; the
   website code is Apache 2.0 with attribution and the Commons Clause.
 - New icon requests are made by opening a GitHub issue, not by email.
 
 ## Source
 
-- [GitHub](https://github.com/Nexvyn/runeicons)
-- [X](https://x.com/nexvyn)
+- [GitHub](${GITHUB_REPO})
+- [X](${X_URL})
 `;
 
   return new Response(body, {

@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { Check, FileDown, FileUp, RotateCcw, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { toast } from "sonner";
-import { useTuning } from "@/components/icon-page/tuning";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -17,7 +16,6 @@ interface PanelHeaderProps {
 }
 
 export function PanelHeader({ onExport, onImport, onReset }: PanelHeaderProps) {
-  useTuning();
   const [isResetArmed, setIsResetArmed] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [resetTooltipOpen, setResetTooltipOpen] = useState(false);
@@ -74,6 +72,7 @@ export function PanelHeader({ onExport, onImport, onReset }: PanelHeaderProps) {
                 variant="ghost"
                 size="icon"
                 onClick={onImport}
+                aria-label="Import settings"
                 className="h-7 w-7 rounded-md text-foreground/60 transition-all duration-150 hover:bg-muted/10 hover:text-foreground active:scale-[0.96]"
               >
                 <FileUp className="h-3.5 w-3.5" />
@@ -88,6 +87,7 @@ export function PanelHeader({ onExport, onImport, onReset }: PanelHeaderProps) {
                 variant="ghost"
                 size="icon"
                 onClick={onExport}
+                aria-label="Export settings"
                 className="h-7 w-7 rounded-md text-foreground/60 transition-all duration-150 hover:bg-muted/10 hover:text-foreground active:scale-[0.96]"
               >
                 <FileDown className="h-3.5 w-3.5" />
@@ -108,10 +108,11 @@ export function PanelHeader({ onExport, onImport, onReset }: PanelHeaderProps) {
                   variant="ghost"
                   size="icon"
                   onClick={handleResetClick}
+                  aria-label="Reset settings"
                   className={cn(
                     "h-7 w-7 rounded-md transition-all active:scale-[0.96]",
                     isResetArmed
-                      ? "bg-primary text-primary-foreground shadow-sm"
+                      ? "bg-primary text-primary-foreground"
                       : "text-foreground/60 hover:bg-destructive/10 hover:text-destructive"
                   )}
                 >
@@ -127,11 +128,11 @@ export function PanelHeader({ onExport, onImport, onReset }: PanelHeaderProps) {
                   initial={{ opacity: 0, y: -4, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -4, scale: 0.95 }}
-                  className="absolute right-0 top-[calc(100%+6px)] flex items-center gap-1 rounded-lg bg-popover p-1 border border-border shadow-xl z-[100] whitespace-nowrap"
+                  className="absolute right-0 top-[calc(100%+6px)] flex items-center gap-1 rounded-lg bg-popover p-1 border border-border z-[100] whitespace-nowrap"
                 >
                   <button
                     onClick={handleResetClick}
-                    className="flex h-7 px-3 items-center gap-2 rounded-md bg-foreground text-background hover:bg-foreground/90 transition-all font-bold text-[10px] shadow-sm"
+                    className="flex h-7 px-3 items-center gap-2 rounded-md bg-foreground text-background hover:bg-foreground/90 transition-all font-bold text-[10px]"
                   >
                     <Check className="h-3.5 w-3.5" />
                     <span>Reset</span>
@@ -139,6 +140,7 @@ export function PanelHeader({ onExport, onImport, onReset }: PanelHeaderProps) {
                   </button>
                   <button
                     onClick={disarmReset}
+                    aria-label="Cancel reset"
                     className="flex h-7 w-7 items-center justify-center rounded-md text-foreground/40 hover:bg-muted/10 hover:text-foreground transition-all"
                   >
                     <X className="h-3.5 w-3.5" />

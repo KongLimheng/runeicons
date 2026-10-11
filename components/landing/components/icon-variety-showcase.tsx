@@ -151,7 +151,7 @@ const IconVarietyShowcase = () => {
           {ghost && (
             <m.div
               key={`ghost-${ghost.idx}`}
-              className="absolute overflow-hidden rounded-xl border border-border bg-card shadow-sm"
+              className="absolute overflow-hidden rounded-xl border border-border bg-card"
               initial={{
                 top: 0,
                 left: 0,
@@ -208,7 +208,7 @@ const IconVarietyShowcase = () => {
             return (
               <m.div
                 key={cardIdx}
-                className="absolute overflow-hidden rounded-xl border border-border bg-card shadow-sm"
+                className="absolute overflow-hidden rounded-xl border border-border bg-card"
                 initial={false}
                 animate={animateValues}
                 transition={transitionValues}
@@ -236,15 +236,15 @@ const IconVarietyShowcase = () => {
 function CardContent({ variant }: { variant: Variant }) {
   const Icon = variant.Icon;
   return (
-    <div className="flex h-full items-center gap-3 px-4">
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-muted">
+    <div className="flex h-full items-center gap-4 px-5">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-muted">
         <Icon className="h-7 w-7 text-foreground" />
       </div>
       <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <span className="truncate text-[15px] leading-tight font-semibold text-foreground">
+        <span className="truncate text-body font-medium text-foreground">
           {variant.title}
         </span>
-        <span className="truncate text-[11px] leading-snug text-muted-foreground">
+        <span className="truncate text-label text-muted-foreground">
           {variant.description}
         </span>
       </div>

@@ -1,25 +1,33 @@
 "use client";
 
-import { useTheme } from "next-themes";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
-import { Github, Heart } from "lucide-react";
+import { Github, Menu } from "lucide-react";
 import { motion } from "motion/react";
 
-import LightLogo from "@/components/landing/svg/light";
+import { BrandMark } from "@/app/brand-mark";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { LightDarkMode } from "@/components/ui/light-dark-mode";
 import { cn } from "@/lib/utils";
 
 import { useGitHubStars } from "./hooks/use-github-stars";
 
+const SITE_LINKS = [
+  { href: "/brands", label: "Brands" },
+  { href: "/packages", label: "Packages" },
+];
+
 interface HeaderPanelProps {
   className?: string;
 }
 export function HeaderPanel({ className }: HeaderPanelProps) {
-  const { theme, setTheme } = useTheme();
-  const router = useRouter();
   const pathname = usePathname();
   const displayCount = useGitHubStars();
   const isEditorPage = pathname === "/editor";
@@ -35,10 +43,11 @@ export function HeaderPanel({ className }: HeaderPanelProps) {
         <Link
           href="/"
           prefetch={false}
+          aria-label="Rune Icons home"
           className="group flex h-full w-12 shrink-0 cursor-pointer items-center justify-center border-r border-border transition-colors duration-150 ease-out hover:bg-muted/50"
         >
-          <span className="flex h-8 w-8 items-center justify-center transition-transform duration-150 ease-out group-hover:scale-[1.02]">
-            <LightLogo />
+          <span className="flex h-8 w-8 items-center justify-center text-foreground transition-transform duration-150 ease-out group-hover:scale-[1.02]">
+            <BrandMark size={19} fill="currentColor" />
           </span>
         </Link>
         <div className="hidden h-full w-[320px] shrink-0 items-center border-r border-border px-5 lg:flex" />
@@ -55,7 +64,7 @@ export function HeaderPanel({ className }: HeaderPanelProps) {
               {!isEditorPage && (
                 <motion.div
                   layoutId="header-nav-indicator"
-                  className="absolute inset-0 rounded-[4px] border border-border/50 bg-white shadow-sm dark:bg-[#2a2a2a]"
+                  className="absolute inset-0 rounded-[4px] border border-border/50 bg-white dark:bg-[#2a2a2a]"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
@@ -72,25 +81,62 @@ export function HeaderPanel({ className }: HeaderPanelProps) {
               {isEditorPage && (
                 <motion.div
                   layoutId="header-nav-indicator"
-                  className="absolute inset-0 rounded-[4px] border border-border/50 bg-white shadow-sm dark:bg-[#2a2a2a]"
+                  className="absolute inset-0 rounded-[4px] border border-border/50 bg-white dark:bg-[#2a2a2a]"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
               <span className="relative z-10">Edit</span>
             </Link>
           </div>
+          <nav aria-label="Site" className="ml-3 hidden items-center gap-0.5 sm:flex">
+            {SITE_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                prefetch={false}
+                className="flex h-8 items-center rounded-md px-3 text-[11px] font-medium text-muted-foreground transition-colors duration-150 hover:text-foreground"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
         </div>
         <div className="ml-auto flex h-full shrink-0 items-center justify-end gap-2 px-3 lg:w-85 lg:gap-2.5 lg:px-6">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                aria-label="Open menu"
+                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border border-border bg-white text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring sm:hidden dark:bg-[#1a1a1a]"
+              >
+                <Menu className="size-4" aria-hidden="true" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link href="/icons" prefetch={false}>
+                  Icons
+                </Link>
+              </DropdownMenuItem>
+              {SITE_LINKS.map((link) => (
+                <DropdownMenuItem key={link.href} asChild>
+                  <Link href={link.href} prefetch={false}>
+                    {link.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Link
-            href="https://github.com/Nexvyn/runeicons"
+            href="https://github.com/Runeicons/runeicons"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:block"
           >
             <Button
               variant="outline"
-              className="h-8 gap-2 border-border bg-white px-3 text-[11px] font-medium opacity-100 shadow-none dark:bg-[#1a1a1a]"
-              aria-label="GitHub"
+              className="h-8 gap-2 border-border bg-white px-3 text-[11px] font-medium opacity-100 dark:bg-[#1a1a1a]"
+              aria-label={`GitHub, ${displayCount} stars`}
             >
               <Github className="size-3.5" />{" "}
               <span className="inline-block min-w-[3ch] text-left tabular-nums">
@@ -98,17 +144,8 @@ export function HeaderPanel({ className }: HeaderPanelProps) {
               </span>
             </Button>
           </Link>
-          {/* <Link href="/sponsor" rel="noopener noreferrer">
-            <Button
-              variant="outline"
-              className="h-8 gap-2 border-pink-500/40 bg-[#fff5f7] px-3 text-[11px] font-medium text-pink-500 opacity-100 shadow-none dark:border-pink-900 dark:bg-[#1f1114]"
-              aria-label="Sponsor"
-            >
-              <Heart className="size-3.5" /> Sponsor
-            </Button>
-          </Link> */}
           <div className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-white dark:bg-[#1a1a1a]">
-            <LightDarkMode className="size-4 border-none bg-transparent text-muted-foreground shadow-none transition-colors duration-150 ease-out hover:text-foreground" />
+            <LightDarkMode className="size-4 border-none bg-transparent text-muted-foreground transition-colors duration-150 ease-out hover:text-foreground" />
           </div>
         </div>
       </div>

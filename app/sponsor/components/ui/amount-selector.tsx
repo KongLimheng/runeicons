@@ -10,7 +10,7 @@ const MIN_AMOUNT = 1;
 const MAX_AMOUNT = 10000;
 
 const HIGHLIGHT_CLASS =
-  "absolute inset-0 rounded-xl bg-zinc-100 shadow-[0.222px_0.222px_0.314px_-0.5px_rgba(0,0,0,0.2),0.605px_0.605px_0.856px_-1px_rgba(0,0,0,0.18),1.329px_1.329px_1.88px_-1.5px_rgba(0,0,0,0.25),2.95px_2.95px_4.172px_-2px_rgba(0,0,0,0.1),2.5px_2.5px_3px_-2.5px_rgba(0,0,0,0.15),-0.5px_-0.5px_0px_rgba(0,0,0,0.1),inset_0.5px_0.5px_1px_#FFFFFF,inset_-0.5px_-0.5px_1px_rgba(0,0,0,0.15)] dark:bg-zinc-800 dark:shadow-[0.222px_0.222px_0.314px_-0.5px_rgba(0,0,0,0.35),0.605px_0.605px_0.856px_-1px_rgba(0,0,0,0.3),1.329px_1.329px_1.88px_-1.5px_rgba(0,0,0,0.35),2.95px_2.95px_4.172px_-2px_rgba(0,0,0,0.28),2.5px_2.5px_3px_-2.5px_rgba(0,0,0,0.35),inset_0.5px_0.5px_1px_rgba(255,255,255,0.08),inset_-0.5px_-0.5px_1px_rgba(0,0,0,0.4)]";
+  "absolute inset-0 rounded-xl border border-black/10 bg-zinc-100 dark:border-white/10 dark:bg-zinc-800";
 
 interface AmountSelectorProps {
   selectedAmount: number;
@@ -65,7 +65,7 @@ export function AmountSelector({
   return (
     <div>
       <div className="rounded-xl bg-white dark:bg-zinc-900">
-        <div className="flex w-full gap-1 rounded-xl bg-black/10 p-1 shadow-[0px_1px_0px_rgba(255,255,255,0.25),inset_0px_1px_2px_rgba(0,0,0,0.15)] dark:bg-white/10 dark:shadow-[0px_1px_0px_rgba(0,0,0,0.25),inset_0px_1px_2px_rgba(255,255,255,0.08)]">
+        <div className="flex w-full gap-1 rounded-xl bg-black/10 p-1 dark:bg-white/10">
           {PRESETS.map((amount) => {
             const isActive = !customMode && amount === selectedAmount;
             return (
@@ -73,7 +73,7 @@ export function AmountSelector({
                 key={amount}
                 type="button"
                 onClick={() => handlePreset(amount)}
-                className="relative flex flex-1 cursor-pointer items-center justify-center py-3 text-[13px] font-medium"
+                className="relative flex flex-1 cursor-pointer items-center justify-center py-3 text-body-sm font-medium tabular-nums"
               >
                 {isActive && (
                   <m.div
@@ -95,7 +95,7 @@ export function AmountSelector({
           <button
             type="button"
             onClick={handleCustom}
-            className="relative flex flex-1 cursor-pointer items-center justify-center py-3 text-[13px] font-medium"
+            className="relative flex flex-1 cursor-pointer items-center justify-center py-3 text-body-sm font-medium tabular-nums"
           >
             {customMode && (
               <m.div
@@ -125,8 +125,8 @@ export function AmountSelector({
             transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="pt-3">
-              <div className="flex items-center rounded-xl border border-border bg-white shadow-sm transition-shadow focus-within:shadow-md focus-within:ring-2 focus-within:ring-blue-700/30 dark:bg-zinc-900">
-                <span className="pl-4 text-lg font-medium text-muted-foreground">$</span>
+              <div className="flex items-center rounded-xl border border-border bg-white transition-shadow focus-within:ring-2 focus-within:ring-blue-700/30 dark:bg-zinc-900">
+                <span className="pl-4 text-h3 text-muted-foreground">$</span>
                 <input
                   type="text"
                   inputMode="numeric"
@@ -135,10 +135,8 @@ export function AmountSelector({
                   onChange={handleCustomInput}
                   onBlur={handleCustomBlur}
                   autoFocus
-                  className="flex-1 bg-transparent px-2 py-3 text-lg font-medium text-foreground outline-none placeholder:text-muted-foreground/60"
+                  className="flex-1 bg-transparent px-2 py-3 text-h3 text-foreground tabular-nums outline-none placeholder:text-muted-foreground/60"
                   aria-label="Custom contribution amount"
-                  aria-valuemin={MIN_AMOUNT}
-                  aria-valuemax={MAX_AMOUNT}
                 />
               </div>
             </div>

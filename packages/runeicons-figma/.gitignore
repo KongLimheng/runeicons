@@ -1,6 +1,7 @@
 node_modules/
 dist/
 src/icons.generated.ts
+src/brands.generated.ts
 bun.lock
 bun.lockb
 *.vsix

@@ -1,33 +1,55 @@
 {
   "name": "runeicons-astro",
   "version": "0.1.0",
-  "description": "Astro components for Rune Icons: 900+ icons in five styles.",
-  "license": "Apache-2.0",
-  "private": true,
-  "type": "module",
+  "description": "Astro components for RuneIcons: 350+ icons, 900+ variants across five styles.",
+  "keywords": [
+    "icons",
+    "svg",
+    "icon-set",
+    "astro",
+    "astro-component",
+    "duotone",
+    "pixelated",
+    "glass",
+    "runeicons"
+  ],
+  "homepage": "https://runeicons.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Nexvyn/runeicons"
+    "url": "git+https://github.com/Runeicons/runeicons.git",
+    "directory": "packages/runeicons-astro"
   },
+  "bugs": "https://github.com/Runeicons/runeicons/issues",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
     "./RuneIcon.astro": "./src/RuneIcon.astro"
   },
   "files": [
-    "src"
+    "src",
+    "LICENSE",
+    "README.md"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "build": "bun run scripts/build.ts",
-    "test": "bun run build && bun run typecheck && bun test",
-    "typecheck": "tsc --noEmit"
+    "generate": "bun run scripts/build.ts",
+    "build": "bun run generate",
+    "test": "bun run generate && bun run typecheck && bun test",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "bun run build && bun run typecheck && bun test"
   },
   "devDependencies": {
     "@astrojs/compiler": "^2.11.0",
     "@types/bun": "^1.4.2",
-    "astro": "^5.0.0",
+    "astro": "^7.2.8",
     "typescript": "^5.7.0"
   },
   "peerDependencies": {
-    "astro": "^5.0.0"
+    "astro": ">=5.0.0 <8"
   }
 }

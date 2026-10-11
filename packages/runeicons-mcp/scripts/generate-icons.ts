@@ -1,13 +1,9 @@
 #!/usr/bin/env bun
-// Generates the self-contained icon data for runeicons-mcp:
-//   1. src/icons.generated.ts — searchable registry of every icon (all 5 styles)
-//   2. assets/<style>/<file>.svg — snapshot of the SVGs bundled with the package
-//
-// Run from the repository root:  bun run generate  (inside packages/runeicons-mcp)
-// The outputs are gitignored; `prepublishOnly` regenerates them before publishing.
 import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+
+import { BRAND_LOGOS } from "../../../constants/brand-logos.ts";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const PKG_DIR = join(SCRIPT_DIR, "..");
@@ -17,7 +13,6 @@ const PUBLIC = join(REPO, "public");
 const STYLES = ["normal", "duotone", "fill", "pixelated"] as const;
 type SvgStyle = (typeof STYLES)[number] | "glass";
 
-// Mirrors scripts/build-icon-manifest.ts so categories stay consistent with the site.
 const FOLDER_TO_CATEGORY: Record<string, string> = {
   arrows: "navigation",
   code: "dev",
@@ -177,32 +172,32 @@ function glassCategory(idSlug: string, tagWords: string[]): string {
 
 function buildNormalIcons(): GeneratedIcon[] {
   const entries: GeneratedIcon[] = [];
-  const normalRoot = join(PUBLIC, "normal");
-  const folders = readdirSync(normalRoot, { withFileTypes: true })
-    .filter((d) => d.isDirectory())
-    .map((d) => d.name)
-    .filter((f) => FOLDER_TO_CATEGORY[f])
-    .sort();
-
-  for (const folder of folders) {
-    const files = readdirSync(join(normalRoot, folder))
-      .filter((f) => f.endsWith(".svg"))
-      .sort();
-
-    for (const file of files) {
-      const basename = file.replace(/\.svg$/i, "");
-      const tags = [FOLDER_TO_TAG[folder], ...basename.split("-").filter(Boolean)];
-      for (const style of STYLES) {
-        if (!existsSync(join(PUBLIC, style, folder, file))) continue;
-        entries.push({
-          id: `${folder}-${basename}`,
-          name: titleCaseKebab(basename),
-          style,
-          category: FOLDER_TO_CATEGORY[folder],
-          tags,
-          file: `${style}/${folder}/${file}`,
-        });
+  const keys = new Set<string>();
+  for (const style of STYLES) {
+    const styleRoot = join(PUBLIC, style);
+    if (!existsSync(styleRoot)) continue;
+    for (const dir of readdirSync(styleRoot, { withFileTypes: true })) {
+      if (!dir.isDirectory() || !FOLDER_TO_CATEGORY[dir.name]) continue;
+      for (const file of readdirSync(join(styleRoot, dir.name))) {
+        if (file.endsWith(".svg")) keys.add(`${dir.name}/${file}`);
       }
+    }
+  }
+
+  for (const key of [...keys].sort()) {
+    const [folder, file] = key.split("/");
+    const basename = file.replace(/\.svg$/i, "");
+    const tags = [FOLDER_TO_TAG[folder], ...basename.split("-").filter(Boolean)];
+    for (const style of STYLES) {
+      if (!existsSync(join(PUBLIC, style, folder, file))) continue;
+      entries.push({
+        id: `${folder}-${basename}`,
+        name: titleCaseKebab(basename),
+        style,
+        category: FOLDER_TO_CATEGORY[folder],
+        tags,
+        file: `${style}/${folder}/${file}`,
+      });
     }
   }
   return entries;
@@ -247,7 +242,6 @@ function copyAssets(icons: GeneratedIcon[]): void {
   for (const icon of icons) {
     const dest = join(assetsDir, icon.file);
     mkdirSync(dirname(dest), { recursive: true });
-    // Glass SVGs live in public/glass-icons but ship under assets/glass.
     const src =
       icon.style === "glass"
         ? join(PUBLIC, "glass-icons", icon.file.slice("glass/".length))
@@ -256,14 +250,67 @@ function copyAssets(icons: GeneratedIcon[]): void {
   }
 }
 
+function copyBrandAssets(): void {
+  const dir = join(PKG_DIR, "assets", "brands");
+  mkdirSync(dir, { recursive: true });
+  for (const brand of BRAND_LOGOS) {
+    const src = join(PUBLIC, "brand-logos", `${brand.slug}.svg`);
+    if (!existsSync(src)) throw new Error(`Missing brand logo: ${src}`);
+    copyFileSync(src, join(dir, `${brand.slug}.svg`));
+  }
+}
+
+function writeBrandRegistry(): number {
+  const brands = BRAND_LOGOS.map(
+    ({ slug, name, group, site, guidelines, license, tier, tone }) => ({
+      slug,
+      name,
+      group,
+      site,
+      guidelines,
+      license,
+      tier,
+      tone,
+    }),
+  ).sort((a, b) => a.slug.localeCompare(b.slug));
+
+  const body = brands.map((brand) => `  ${JSON.stringify(brand)},`).join("\n");
+
+  const header = `export type BrandLogoTier = "permissive" | "attribution" | "share-alike" | "trademark-only";
+
+export interface GeneratedBrand {
+  slug: string;
+  name: string;
+  group: string;
+  site: string | null;
+  guidelines: string | null;
+  license: string;
+  tier: BrandLogoTier;
+  tone: "light" | "dark";
+}
+
+export const BRAND_COUNT = ${brands.length};
+
+export const BRANDS: GeneratedBrand[] = [
+${body}
+];
+`;
+
+  const outFile = join(PKG_DIR, "src", "brands.generated.ts");
+  writeFileSync(outFile, header);
+  console.log(`Wrote ${outFile}`);
+  return brands.length;
+}
+
 function main(): void {
   const icons = [...buildNormalIcons(), ...buildGlassIcons()];
   if (icons.length === 0) {
-    console.error("No icons found — run this script from the runeicons repository.");
+    console.error("No icons found - run this script from the runeicons repository.");
     process.exit(1);
   }
 
   copyAssets(icons);
+  copyBrandAssets();
 
   const counts: Record<string, number> = {};
   for (const icon of icons) counts[icon.style] = (counts[icon.style] ?? 0) + 1;
@@ -274,25 +321,14 @@ function main(): void {
     .map((icon) => `  ${JSON.stringify(icon)},`)
     .join("\n");
 
-  const header = `// AUTO-GENERATED by packages/runeicons-mcp/scripts/generate-icons.ts
-// Do not edit by hand. Run \`bun run generate\` in packages/runeicons-mcp to regenerate.
-// Source of truth: the SVG files in \`public/\` at the repository root.
-// Counts: total=${icons.length}, normal=${counts.normal ?? 0}, duotone=${counts.duotone ?? 0}, fill=${counts.fill ?? 0}, pixelated=${counts.pixelated ?? 0}, glass=${counts.glass ?? 0}
-
-export type IconStyle = "normal" | "duotone" | "fill" | "pixelated" | "glass";
+  const header = `export type IconStyle = "normal" | "duotone" | "fill" | "pixelated" | "glass";
 
 export interface GeneratedIcon {
-  /** Unique id, e.g. "arrows-arrow-down-left" or "glass-archive". */
   id: string;
-  /** Human-readable name, e.g. "Arrow Down Left". */
   name: string;
-  /** Visual style of this variant. */
   style: IconStyle;
-  /** Category bucket, e.g. "navigation". */
   category: string;
-  /** Searchable keywords. */
   tags: string[];
-  /** Path of the bundled SVG under assets/, e.g. "normal/arrows/arrow-down-left.svg". */
   file: string;
 }
 
@@ -318,6 +354,9 @@ ${body}
     `  total=${icons.length} normal=${counts.normal ?? 0} duotone=${counts.duotone ?? 0} fill=${counts.fill ?? 0} pixelated=${counts.pixelated ?? 0} glass=${counts.glass ?? 0}`,
   );
   console.log(`Copied ${icons.length} SVGs into ${join(PKG_DIR, "assets")}`);
+
+  const brandCount = writeBrandRegistry();
+  console.log(`Copied ${brandCount} brand logos into ${join(PKG_DIR, "assets", "brands")}`);
 }
 
 main();

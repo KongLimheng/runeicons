@@ -1,9 +1,11 @@
 "use client";
-import { motion } from "motion/react";
 import { X } from "lucide-react";
+import { motion } from "motion/react";
+
 import { Button } from "@/components/ui/button";
 import { IconData } from "@/lib/types";
 import { cn } from "@/lib/utils";
+
 interface TrayIconItemProps {
   icon: IconData;
   index: number;
@@ -11,13 +13,7 @@ interface TrayIconItemProps {
   onSelect: (icon: IconData) => void;
   onRemove: (name: string) => void;
 }
-export function TrayIconItem({ 
-  icon, 
-  index, 
-  isSelected, 
-  onSelect, 
-  onRemove 
-}: TrayIconItemProps) {
+export function TrayIconItem({ icon, index, isSelected, onSelect, onRemove }: TrayIconItemProps) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
@@ -30,7 +26,7 @@ export function TrayIconItem({
         delay: Math.min(index * 0.05, 0.3),
       }}
       className={cn(
-        "group flex w-full items-center gap-2 rounded-md border px-2 py-2 shadow-sm outline outline-1 -outline-offset-1 outline-black/5 transition-[background-color,border-color,scale,box-shadow] duration-150 ease-out active:scale-[0.96] dark:outline-white/5",
+        "group flex w-full items-center gap-2 rounded-md border px-2 py-2 outline outline-1 -outline-offset-1 outline-black/5 transition-[background-color,border-color,scale] duration-150 ease-out active:scale-[0.96] dark:outline-white/5",
         isSelected
           ? "border-border/60 bg-accent"
           : "border-transparent bg-background hover:border-border/30 hover:bg-muted/40",
@@ -46,9 +42,7 @@ export function TrayIconItem({
           <icon.icon
             className={cn(
               "h-4 w-4 shrink-0 transition-colors duration-200",
-              isSelected
-                ? "text-primary"
-                : "text-muted-foreground group-hover:text-foreground",
+              isSelected ? "text-primary" : "text-muted-foreground group-hover:text-foreground",
             )}
           />
         ) : icon.url ? (

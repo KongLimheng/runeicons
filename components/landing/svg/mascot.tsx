@@ -2,8 +2,10 @@
 
 import { useEffect, useRef } from "react";
 
-import { useAnimation, useReducedMotion } from "motion/react";
+import { useAnimation, useInView, useReducedMotion } from "motion/react";
 import { motion as m } from "motion/react";
+
+import { EASE_OUT_QUINT } from "@/lib/easing";
 
 const blinkTransition = {
   duration: 3.4,
@@ -84,40 +86,54 @@ const Mascot = ({ stage = 1 }: MascotProps) => {
   const breathControls = useAnimation();
   const previousStage = useRef(stage);
   const eyeRefs = useRef<(SVGGElement | null)[]>([]);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const inView = useInView(svgRef);
+  const loopsOn = !shouldReduceMotion && inView;
 
   useEffect(() => {
-    if (shouldReduceMotion) return;
+    if (!loopsOn) {
+      breathControls.stop();
+      return;
+    }
     breathControls.start({
       scaleY: [1, 1.015, 1],
       transition: { duration: 3, repeat: Infinity, ease: "easeInOut" },
     });
-  }, [breathControls, shouldReduceMotion]);
+  }, [breathControls, loopsOn]);
 
   useEffect(() => {
-    if (shouldReduceMotion) return;
+    if (shouldReduceMotion || !inView) return;
     let raf = 0;
     let tx = 0;
     let ty = 0;
     let cx = 0;
     let cy = 0;
-    const onMove = (e: PointerEvent) => {
-      tx = (e.clientX / window.innerWidth - 0.5) * 8;
-      ty = (e.clientY / window.innerHeight - 0.5) * 8;
+    const apply = () => {
+      const t = `translate(${cx.toFixed(2)} ${cy.toFixed(2)}) scale(1.08)`;
+      eyeRefs.current.forEach((el) => el?.setAttribute("transform", t));
     };
     const tick = () => {
       cx += (tx - cx) * 0.12;
       cy += (ty - cy) * 0.12;
-      const t = `translate(${cx.toFixed(2)} ${cy.toFixed(2)}) scale(1.08)`;
-      eyeRefs.current.forEach((el) => el?.setAttribute("transform", t));
-      raf = requestAnimationFrame(tick);
+      apply();
+      const settled = Math.abs(tx - cx) < 0.01 && Math.abs(ty - cy) < 0.01;
+      raf = settled ? 0 : requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
+    const kick = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    const onMove = (e: PointerEvent) => {
+      tx = (e.clientX / window.innerWidth - 0.5) * 8;
+      ty = (e.clientY / window.innerHeight - 0.5) * 8;
+      kick();
+    };
+    apply();
     window.addEventListener("pointermove", onMove);
     return () => {
       window.removeEventListener("pointermove", onMove);
       cancelAnimationFrame(raf);
     };
-  }, [shouldReduceMotion]);
+  }, [shouldReduceMotion, inView]);
 
   useEffect(() => {
     const from = previousStage.current;
@@ -128,13 +144,14 @@ const Mascot = ({ stage = 1 }: MascotProps) => {
     const goingUp = stage > from;
     bodyControls.start(goingUp ? REACT_UP : REACT_DOWN, {
       duration: goingUp ? 0.52 : 0.26,
-      ease: [0.23, 1, 0.32, 1],
+      ease: EASE_OUT_QUINT,
     });
   }, [stage, bodyControls, shouldReduceMotion]);
 
   return (
     <>
       <m.svg
+        ref={svgRef}
         viewBox="0 0 248 195"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -223,8 +240,8 @@ const Mascot = ({ stage = 1 }: MascotProps) => {
               transformBox: "fill-box",
               transformOrigin: "center",
             }}
-            animate={shouldReduceMotion ? { scaleY: 1 } : { scaleY: [1, 1, 0.1, 1] }}
-            transition={shouldReduceMotion ? { duration: 0 } : blinkTransition}
+            animate={loopsOn ? { scaleY: [1, 1, 0.1, 1] } : { scaleY: 1 }}
+            transition={loopsOn ? blinkTransition : { duration: 0 }}
           />
           <m.path
             d="M171.634 123.42C174.053 122.772 175.298 119.571 174.414 116.272C173.530 112.972 170.852 110.823 168.432 111.471C166.013 112.119 164.768 115.320 165.652 118.619C166.536 121.919 169.215 124.069 171.634 123.420Z"
@@ -233,8 +250,8 @@ const Mascot = ({ stage = 1 }: MascotProps) => {
               transformBox: "fill-box",
               transformOrigin: "center",
             }}
-            animate={shouldReduceMotion ? { scaleY: 1 } : { scaleY: [1, 1, 0.1, 1] }}
-            transition={shouldReduceMotion ? { duration: 0 } : blinkTransition}
+            animate={loopsOn ? { scaleY: [1, 1, 0.1, 1] } : { scaleY: 1 }}
+            transition={loopsOn ? blinkTransition : { duration: 0 }}
           />
           <m.ellipse
             cx="58"
@@ -282,13 +299,13 @@ const Mascot = ({ stage = 1 }: MascotProps) => {
               animate={{
                 opacity: showHearts ? 1 : 0,
                 scale: showHearts ? 1 : 0.3,
-                y: showHearts && !shouldReduceMotion ? [0, -5, 0] : showHearts ? 0 : 14,
+                y: showHearts && loopsOn ? [0, -5, 0] : showHearts ? 0 : 14,
               }}
               transition={{
                 opacity: { ...heartSpring, delay: showHearts ? i * 0.07 : 0 },
                 scale: { ...heartSpring, delay: showHearts ? i * 0.07 : 0 },
                 y:
-                  showHearts && !shouldReduceMotion
+                  showHearts && loopsOn
                     ? heartFloat(i)
                     : { ...heartSpring, delay: showHearts ? i * 0.07 : 0 },
               }}

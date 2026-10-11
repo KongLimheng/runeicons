@@ -2,7 +2,8 @@ Rune Icons License
 
 Copyright (c) 2026 Rune Icons Team
 
-This repository is covered by two licenses, depending on what you use.
+This repository is covered by two licenses, depending on what you use. Third-party brand
+logos are not covered by either of them (see Part 3).
 
 ================================================================================
 Part 1. The Icons: Apache License 2.0
@@ -16,7 +17,8 @@ full below), with no additional conditions.
   - public/normal/, public/duotone/, public/fill/, public/pixelated/,
     public/glass-icons/ and public/sprites/
   - lib/icons/
-  - packages/ (the Rune Icons packages, plugins and extensions)
+  - packages/ (the Rune Icons packages, plugins and extensions), except the third-party
+    brand logos described in Part 3
 
 You may use, copy, modify, and redistribute the Icons, including for
 commercial purposes, as permitted by the Apache License, Version 2.0.
@@ -66,6 +68,17 @@ substantially from the Site Software itself.
 Software: Rune Icons Site Software (everything except the Icons)
 License: Apache License, Version 2.0
 Licensor: Rune Icons Team
+
+================================================================================
+Part 3. Third-party brand logos: not covered by this license
+================================================================================
+
+The brand logos in public/brand-logos/ and in packages/ (including the svg/, assets/brands/,
+and generated brand data of the Rune Icons packages) are logos and trademarks of their
+respective owners. They are neither Icons nor Site Software, and neither license above applies
+to them. Each logo keeps the license it was published under, listed in
+constants/brand-logos.ts, and remains subject to its owner's trademark rights and brand
+guidelines. See public/brand-logos/NOTICE.md.
 
 No Warranty
 

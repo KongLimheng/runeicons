@@ -1,24 +1,104 @@
-import type { Metadata } from "next";
+import DocsShell from "@/components/docs/docs-shell";
+import { pageMetadata } from "@/lib/seo";
 
-import Footer from "@/components/landing/components/footer";
-import Navbar from "@/components/ui/navbar";
-
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Changelog",
-  alternates: { canonical: "/changelog" },
-  description: "What's new in RuneIcons.",
-};
+  description:
+    "What's new in Rune Icons: new icons, styles, packages and editor improvements, release by release.",
+  path: "/changelog",
+});
 
 type ChangelogEntry = {
   date: string;
   title: string;
   items: string[];
+  authors?: string[];
 };
 
 const CHANGELOG: ChangelogEntry[] = [
   {
+    date: "October 11, 2026",
+    title: "Packages on npm & a better brands page",
+    authors: ["Nexvyn"],
+    items: [
+      "Published runeicons, runeicons-react, runeicons-vue, runeicons-svelte, runeicons-astro, runeicons-react-native, runeicons-mcp, and runeicons-brands to npm at 0.1.0.",
+      "Linked each published package to its npm page and showed a live or coming soon status on the packages page.",
+      "Kept the brands search bar pinned while scrolling and fixed the brand cards and filters on small screens.",
+      "Added a Credits section to every package README, naming the contributors of each package.",
+      "Updated the titles, descriptions, and structured data for the brands and packages pages, and listed packages in llms.txt.",
+    ],
+  },
+  {
+    date: "October 10, 2026",
+    title: "Brand logos, runeicons-brands & analytics",
+    authors: ["Nexvyn"],
+    items: [
+      "Added a brand logos page with 1,125 logos, group filters, likes, and copy or download as SVG, each with its license and a link to the brand's official site or guidelines.",
+      "Replaced 418 brand logos with versions from the brands' own sites.",
+      "Added a brands section, a footer link, and an FAQ entry to the landing page, and Brands and Packages links to the workspace header with a mobile menu.",
+      "Added the runeicons-brands package with a shared logo loader, a brands entry point in runeicons-react, brand tools in runeicons-mcp, a RuneBrand widget in runeicons-flutter, and a Brands tab in the Figma plugin.",
+      "Excluded third-party brand logos from the license and covered them in the terms, privacy policy, and README.",
+      "Switched to Google Analytics, loaded only after the visitor accepts a consent banner, and dropped @vercel/analytics.",
+      "Lazy-loaded GSAP, motion, and analytics, split the editor and icon page bundles, and added a PWA manifest and security headers.",
+    ],
+  },
+  {
+    date: "October 9, 2026",
+    title: "Package READMEs & metadata",
+    authors: ["Nexvyn"],
+    items: [
+      "Rewrote the READMEs for runeicons-vue, runeicons-svelte, runeicons-astro, runeicons-react-native, runeicons-flutter, runeicons-mcp, runeicons-figma, and runeicons-vscode, plus the packages overview.",
+      "Added LICENSE files, logos, and build configs to the packages and updated their package metadata.",
+      "Added tests and new battery icons to runeicons-mcp.",
+    ],
+  },
+  {
+    date: "October 8, 2026",
+    title: "Performance & page metadata",
+    authors: ["Nexvyn"],
+    items: [
+      "Added per-page SEO metadata, an animated navbar brand mark, and lazy-loaded home sections.",
+      "Paused the hero, CTA, and bento animations while off-screen and lazy-loaded the hero count-up.",
+      "Rendered the footer wordmark on the server with a lazy cursor-only icon field.",
+      "Switched the search and CTA gradients to smaller WebP files and labeled the search input.",
+      "Rewrote the runeicons and runeicons-react READMEs and pointed the repository URLs at Runeicons.",
+    ],
+  },
+  {
+    date: "October 1, 2026",
+    title: "Workspace refactor",
+    authors: ["Nexvyn"],
+    items: [
+      "Consolidated the editor and icons workspace components for a cleaner layout and better performance.",
+      "Tidied the workspace panel components and styles and replaced the header logo with the shared brand mark.",
+      "Removed the Special Gothic font and unused harvest images.",
+    ],
+  },
+  {
+    date: "September 28, 2026",
+    title: "Shared workspace layout",
+    authors: ["vansh-nagar"],
+    items: [
+      "Shared one layout between the icons and editor pages and refined the workspace panels.",
+    ],
+  },
+  {
+    date: "September 27, 2026",
+    title: "404 page, packages page & feedback rework",
+    authors: ["Nexvyn"],
+    items: [
+      "Added a custom 404 page where the hero rocket launches and bursts into shards, glyphs, and smoke.",
+      "Added a packages page with inline per-package guides and a platform section on the landing page.",
+      "Rebuilt the feedback dialog to file GitHub issues with the text prefilled.",
+      "Showed a direction arrow on the canvas when an outer shadow is applied.",
+      "Rewrote the package READMEs, normalized authorship to the Rune Icons Team, and removed em-dashes site-wide.",
+      "Wired the new OG image and added GitHub avatars to changelog entries.",
+    ],
+  },
+  {
     date: "September 25, 2026",
     title: "Platform packages, pnpm & lighter assets",
+    authors: ["Nexvyn", "404khai", "MayurK-cmd", "withxat", "gs-rumana"],
     items: [
       "Added the core runeicons package plus React, Vue, Svelte, Astro, React Native, Flutter, VS Code, Figma, and MCP packages.",
       "Moved the repository to a single pnpm workspace.",
@@ -28,6 +108,7 @@ const CHANGELOG: ChangelogEntry[] = [
   {
     date: "August 26, 2026",
     title: "Landing refresh, legal pages & site metadata",
+    authors: ["Nexvyn"],
     items: [
       "Refined the banner, navbar, hero, search, bento, FAQ, CTA, and footer with faster motion, reduced-motion support, and theme-aware artwork.",
       "Added Terms of Use and Privacy Policy pages, linked from the footer.",
@@ -208,68 +289,68 @@ const CHANGELOG: ChangelogEntry[] = [
     title: "Project kickoff",
     items: [
       "Started the project on Next.js.",
-      "Added the full icon set — 170+ icons.",
+      "Added the full icon set: 170+ icons.",
       "Shipped the initial about page and landing page layout.",
     ],
   },
 ];
 
-const ChangelogPage = () => {
-  return (
-    <div className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#F5F5F5] font-(family-name:--font-inter-tight) dark:bg-background">
-      <div className="pointer-events-none fixed inset-y-0 left-1/2 z-40 w-[95vw] max-w-[1440px] -translate-x-1/2 border-x-2 border-dashed md:w-[90vw] 2xl:w-[85vw] 2xl:max-w-[1800px]" />
-
-      <div className="mx-auto flex w-[95vw] max-w-[1440px] flex-col md:w-[90vw] 2xl:w-[85vw]">
-        <Navbar showDashedBorder />
-
-        <div className="mx-auto flex w-full max-w-2xl flex-col gap-10 px-3 pt-32 pb-20 sm:px-6">
+const ChangelogPage = () => (
+  <DocsShell title="Changelog" lead="A history of what shipped, newest first.">
+    <div className="flex flex-col divide-y divide-border">
+      {CHANGELOG.map((entry, i) => (
+        <div
+          key={`${entry.date}-${entry.title}`}
+          className="flex flex-col gap-4 py-8 first:pt-0 last:pb-0"
+        >
           <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-medium sm:text-4xl">Changelog</h1>
-            <p className="text-sm text-muted-foreground">
-              A history of what shipped, newest first.
-            </p>
-          </div>
-
-          <div className="flex flex-col">
-            {CHANGELOG.map((entry, i) => (
-              <div
-                key={`${entry.date}-${entry.title}`}
-                className={`flex flex-col gap-3 py-8 ${
-                  i !== 0 ? "border-t border-border" : "pt-0"
-                }`}
-              >
-                <div className="flex flex-col gap-1.5">
-                  <span className="flex items-center gap-2 text-xs font-medium tracking-widest text-muted-foreground uppercase">
-                    {entry.date}
-                    {i === 0 && (
-                      <span className="rounded-full bg-blue-700 px-2 py-0.5 text-[10px] font-semibold tracking-normal text-white normal-case">
-                        Latest
-                      </span>
-                    )}
-                  </span>
-                  <h2 className="text-xl font-semibold text-balance text-foreground">
-                    {entry.title}
-                  </h2>
-                </div>
-                <ul className="flex flex-col gap-2 text-sm leading-relaxed text-balance text-muted-foreground">
-                  {entry.items.map((item) => (
-                    <li key={item} className="flex gap-2">
-                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
-                      <span>{item}</span>
-                    </li>
+            <span className="flex flex-wrap items-center gap-2 text-label tracking-[0.08em] text-muted-foreground uppercase tabular-nums">
+              {entry.date}
+              {i === 0 && (
+                <span className="rounded-full bg-[#1346E7] px-2 py-0.5 text-micro font-medium tracking-normal text-white normal-case">
+                  Latest
+                </span>
+              )}
+              {entry.authors && entry.authors.length > 0 && (
+                <span className="flex normal-case">
+                  {entry.authors.map((author, index) => (
+                    <a
+                      key={author}
+                      href={`https://github.com/${author}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      title={author}
+                      aria-label={`GitHub profile of ${author}`}
+                      className="flex size-6 shrink-0 items-center rounded-full transition-transform duration-150 ease-out hover:-translate-y-0.5"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`https://github.com/${author}.png?size=64`}
+                        alt=""
+                        width={22}
+                        height={22}
+                        loading="lazy"
+                        className={`size-[22px] rounded-full border border-background bg-muted ${index === 0 ? "ml-px" : "-ml-[5px]"}`}
+                      />
+                    </a>
                   ))}
-                </ul>
-              </div>
-            ))}
+                </span>
+              )}
+            </span>
+            <h2 className="text-h3 text-foreground">{entry.title}</h2>
           </div>
+          <ul className="flex max-w-[65ch] flex-col gap-2 text-body-sm text-pretty text-muted-foreground">
+            {entry.items.map((item) => (
+              <li key={item} className="flex gap-2">
+                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
-
-        <div className="px-3 pb-10 sm:px-6">
-          <Footer />
-        </div>
-      </div>
+      ))}
     </div>
-  );
-};
+  </DocsShell>
+);
 
 export default ChangelogPage;

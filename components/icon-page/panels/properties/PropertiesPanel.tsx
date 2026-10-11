@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 
 import { Check, ChevronDown, Download } from "lucide-react";
 import { toast } from "sonner";
@@ -12,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { resolveEffectiveIconType, TYPE_EFFECT_SUPPORT } from "@/constants/workspace";
+import { downloadBlob, iconFileSlug } from "@/lib/download";
 import {
   buildComponentName,
   generateJsxComponent,
@@ -24,7 +26,10 @@ import { useCustomIconUpload } from "./hooks/use-custom-icon-upload";
 import { PickerPortalContext } from "./picker-portal-context";
 import { ColorSection } from "./sections/color-section";
 import { FlipRotateSection } from "./sections/flip-rotate-section";
-import { MotionSection } from "./sections/motion-section";
+const MotionSection = dynamic(
+  () => import("./sections/motion-section").then((m) => m.MotionSection),
+  { loading: () => null },
+);
 import { NoiseSection } from "./sections/noise-section";
 import { ShadowSection } from "./sections/shadow-section";
 import { SizeTransformSection } from "./sections/size-transform-section";
@@ -57,23 +62,11 @@ export function PropertiesPanel({
     try {
       if (isAnimated) {
         const code = await generateJsxComponent(selectedIcon, state);
-        const blob = new Blob([code], { type: "text/javascript" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${buildComponentName(selectedIcon.name)}.jsx`;
-        a.click();
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        downloadBlob(code, `${buildComponentName(selectedIcon.name)}.jsx`, "text/javascript");
         toast.success("JSX downloaded");
       } else {
         const svg = await generateStandaloneSvg(selectedIcon, state);
-        const blob = new Blob([svg], { type: "image/svg+xml" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${selectedIcon.name.toLowerCase().replace(/\s+/g, "-")}.svg`;
-        a.click();
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        downloadBlob(svg, `${iconFileSlug(selectedIcon.name)}.svg`, "image/svg+xml");
         toast.success("SVG downloaded");
       }
     } catch {

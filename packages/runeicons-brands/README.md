@@ -72,6 +72,10 @@ pnpm --filter runeicons-brands build
 
 `generate` reads `constants/brand-logos.ts` and `public/brand-logos/`, writes `src/brands.generated.ts`, and copies the SVGs into `svg/`. Both are git-ignored. Run it after the logo list changes.
 
+## Credits
+
+Made by [Nexvyn](https://github.com/Nexvyn) and the [Rune Icons contributors](https://github.com/Runeicons/runeicons/graphs/contributors).
+
 ## License
 
 The package code is licensed under the [Apache License 2.0](LICENSE). The logos are not. They belong to their owners and keep the licenses listed in each entry. See [NOTICE.md](NOTICE.md).

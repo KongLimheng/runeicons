@@ -292,6 +292,10 @@ yarn icons
 yarn build
 ```
 
+## Credits
+
+Made by [Nexvyn](https://github.com/Nexvyn) and the [Rune Icons contributors](https://github.com/Runeicons/runeicons/graphs/contributors). Contributions from Gursahb Singh ([@gs-rumana](https://github.com/gs-rumana)).
+
 ## License
 
 Licensed under the [Apache License 2.0](LICENSE).

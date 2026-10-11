@@ -73,6 +73,10 @@ Source files are in `src/`:
 - `src/brands.generated.ts`: generated brand data (not committed).
 - `src/icons.generated.ts`: generated icon data (not committed).
 
+## Credits
+
+Made by [Nexvyn](https://github.com/Nexvyn) and the [Rune Icons contributors](https://github.com/Runeicons/runeicons/graphs/contributors).
+
 ## License
 
 Licensed under the [Apache License 2.0](LICENSE). Icons come from the [runeicons](https://github.com/Runeicons/runeicons) repository.

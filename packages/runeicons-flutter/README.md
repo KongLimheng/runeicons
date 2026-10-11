@@ -283,6 +283,10 @@ flutter pub get
 flutter run -d chrome
 ```
 
+## Credits
+
+Made by [Nexvyn](https://github.com/Nexvyn) and the [Rune Icons contributors](https://github.com/Runeicons/runeicons/graphs/contributors). Contributions from Khai ([@404khai](https://github.com/404khai)).
+
 ## License
 
 Licensed under the [Apache License 2.0](LICENSE).

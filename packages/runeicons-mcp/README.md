@@ -310,6 +310,10 @@ Source files are in `src/`:
 - `src/brands.ts`: brand search, lookup, groups, and logo SVG helpers.
 - `src/brands.generated.ts`: generated brand registry (rebuilt by `generate`).
 
+## Credits
+
+Made by [Nexvyn](https://github.com/Nexvyn) and the [Rune Icons contributors](https://github.com/Runeicons/runeicons/graphs/contributors). Contributions from [@MayurK-cmd](https://github.com/MayurK-cmd).
+
 ## License
 
 Licensed under the [Apache License 2.0](LICENSE). Icon data and SVGs are part of [RuneIcons](https://runeicons.com). The icons are free for personal and commercial use under Apache-2.0, and no attribution is required. See the [runeicons repository](https://github.com/Runeicons/runeicons) for details. Brand logos are not covered by this license; see [Brand logos](#brand-logos).

@@ -131,6 +131,10 @@ pnpm --filter runeicons build   # regenerate data, compile to dist/
 
 `scripts/build.ts` generates `src/icons.generated.ts` from the SVG files in the repository's `public/` folder and from the site icon manifest (`lib/icons/manifest.generated.ts`), which supplies the names, categories and tags. The generated file is git-ignored. `dist/` is what gets published.
 
+## Credits
+
+Made by [Nexvyn](https://github.com/Nexvyn) and the [Rune Icons contributors](https://github.com/Runeicons/runeicons/graphs/contributors).
+
 ## License
 
 Licensed under the [Apache License 2.0](LICENSE). The icons are free for personal and commercial use, and no attribution is required (see the repository README).

@@ -17,6 +17,72 @@ type ChangelogEntry = {
 
 const CHANGELOG: ChangelogEntry[] = [
   {
+    date: "October 11, 2026",
+    title: "Packages on npm & a better brands page",
+    authors: ["Nexvyn"],
+    items: [
+      "Published runeicons, runeicons-react, runeicons-vue, runeicons-svelte, runeicons-astro, runeicons-react-native, runeicons-mcp, and runeicons-brands to npm at 0.1.0.",
+      "Linked each published package to its npm page and showed a live or coming soon status on the packages page.",
+      "Kept the brands search bar pinned while scrolling and fixed the brand cards and filters on small screens.",
+      "Added a Credits section to every package README, naming the contributors of each package.",
+      "Updated the titles, descriptions, and structured data for the brands and packages pages, and listed packages in llms.txt.",
+    ],
+  },
+  {
+    date: "October 10, 2026",
+    title: "Brand logos, runeicons-brands & analytics",
+    authors: ["Nexvyn"],
+    items: [
+      "Added a brand logos page with 1,125 logos, group filters, likes, and copy or download as SVG, each with its license and a link to the brand's official site or guidelines.",
+      "Replaced 418 brand logos with versions from the brands' own sites.",
+      "Added a brands section, a footer link, and an FAQ entry to the landing page, and Brands and Packages links to the workspace header with a mobile menu.",
+      "Added the runeicons-brands package with a shared logo loader, a brands entry point in runeicons-react, brand tools in runeicons-mcp, a RuneBrand widget in runeicons-flutter, and a Brands tab in the Figma plugin.",
+      "Excluded third-party brand logos from the license and covered them in the terms, privacy policy, and README.",
+      "Switched to Google Analytics, loaded only after the visitor accepts a consent banner, and dropped @vercel/analytics.",
+      "Lazy-loaded GSAP, motion, and analytics, split the editor and icon page bundles, and added a PWA manifest and security headers.",
+    ],
+  },
+  {
+    date: "October 9, 2026",
+    title: "Package READMEs & metadata",
+    authors: ["Nexvyn"],
+    items: [
+      "Rewrote the READMEs for runeicons-vue, runeicons-svelte, runeicons-astro, runeicons-react-native, runeicons-flutter, runeicons-mcp, runeicons-figma, and runeicons-vscode, plus the packages overview.",
+      "Added LICENSE files, logos, and build configs to the packages and updated their package metadata.",
+      "Added tests and new battery icons to runeicons-mcp.",
+    ],
+  },
+  {
+    date: "October 8, 2026",
+    title: "Performance & page metadata",
+    authors: ["Nexvyn"],
+    items: [
+      "Added per-page SEO metadata, an animated navbar brand mark, and lazy-loaded home sections.",
+      "Paused the hero, CTA, and bento animations while off-screen and lazy-loaded the hero count-up.",
+      "Rendered the footer wordmark on the server with a lazy cursor-only icon field.",
+      "Switched the search and CTA gradients to smaller WebP files and labeled the search input.",
+      "Rewrote the runeicons and runeicons-react READMEs and pointed the repository URLs at Runeicons.",
+    ],
+  },
+  {
+    date: "October 1, 2026",
+    title: "Workspace refactor",
+    authors: ["Nexvyn"],
+    items: [
+      "Consolidated the editor and icons workspace components for a cleaner layout and better performance.",
+      "Tidied the workspace panel components and styles and replaced the header logo with the shared brand mark.",
+      "Removed the Special Gothic font and unused harvest images.",
+    ],
+  },
+  {
+    date: "September 28, 2026",
+    title: "Shared workspace layout",
+    authors: ["vansh-nagar"],
+    items: [
+      "Shared one layout between the icons and editor pages and refined the workspace panels.",
+    ],
+  },
+  {
     date: "September 27, 2026",
     title: "404 page, packages page & feedback rework",
     authors: ["Nexvyn"],

@@ -126,7 +126,7 @@ const BrandCard = memo(function BrandCard({
         <p className="truncate text-micro text-muted-foreground">{logo.group}</p>
       </div>
 
-      <div className="mt-auto flex items-center justify-between gap-2 px-1">
+      <div className="mt-auto flex flex-col gap-2 px-1 md:flex-row md:items-center md:justify-between">
         <span
           title={`${TIER_HINT[logo.tier]} (${logo.license})`}
           className="inline-flex min-w-0 items-center gap-1.5 text-micro text-muted-foreground"
@@ -228,7 +228,7 @@ export function BrandsView() {
           .
         </p>
       </div>
-      <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="sticky top-[56px] z-30 -mx-2 flex gap-3 bg-[#F5F5F5] px-2 py-2 dark:bg-background">
         <div className="relative min-w-0 flex-1">
           <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
           <input
@@ -254,15 +254,16 @@ export function BrandsView() {
           type="button"
           onClick={() => setOnlyLiked((value) => !value)}
           aria-pressed={onlyLiked}
+          aria-label="Show liked logos"
           className={cn(
-            "inline-flex h-11 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl px-4 text-body-sm font-medium transition-[background-color,color,scale] duration-150 ease-out active:scale-[0.97]",
+            "inline-flex h-11 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl px-3 text-body-sm sm:px-4 font-medium transition-[background-color,color,scale] duration-150 ease-out active:scale-[0.97]",
             onlyLiked
               ? "bg-[#1346E7] text-white"
               : "bg-white text-foreground/80 hover:text-foreground dark:bg-[#141414]",
           )}
         >
           <Heart className={cn("size-4", onlyLiked && "fill-white")} aria-hidden="true" />
-          Liked
+          <span className="hidden sm:inline">Liked</span>
           <span className="tabular-nums">{liked.length}</span>
         </button>
       </div>

@@ -14,7 +14,7 @@ type DocsShellProps = {
 };
 
 const DocsShell = ({ title, lead, wide = false, children }: DocsShellProps) => (
-  <div className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#F5F5F5] dark:bg-background">
+  <div className="relative flex min-h-screen w-full flex-col overflow-clip bg-[#F5F5F5] dark:bg-background">
     <FrameRails />
 
     <div className={cn(FRAME_WIDTH, "mx-auto flex flex-col")}>

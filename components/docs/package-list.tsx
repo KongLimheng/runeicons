@@ -76,7 +76,7 @@ const PackageCard = ({
     <Logo row={row} />
     <h2 className="mt-4 text-h3 text-foreground">{row.name}</h2>
     <div className="mt-2 flex flex-wrap gap-1.5">
-      <Badge label="status" value="live soon" />
+      <Badge label="status" value={row.npmUrl ? "live" : "coming soon"} />
       <Badge label="platform" value={row.platform} />
     </div>
     <p className="mt-4 mb-4 text-body-sm text-muted-foreground">{row.description}</p>

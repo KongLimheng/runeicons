@@ -39,7 +39,7 @@ const ROUTES: Entry[] = [
     priority: 0.7,
     changeFrequency: "monthly",
     sources: ["app/brands", "components/brands", "constants/brand-logos.ts"],
-    fallback: "2026-10-10",
+    fallback: "2026-10-11",
   },
   {
     path: "/sponsor",
@@ -53,7 +53,7 @@ const ROUTES: Entry[] = [
     priority: 0.7,
     changeFrequency: "monthly",
     sources: ["app/packages", "packages", "lib/docs"],
-    fallback: "2026-09-28",
+    fallback: "2026-10-11",
   },
   {
     path: "/about",

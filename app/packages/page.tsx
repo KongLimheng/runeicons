@@ -3,12 +3,12 @@ import PackageList, { type PackageRow } from "@/components/docs/package-list";
 import { renderReadme } from "@/lib/docs/markdown";
 import { PACKAGE_READMES } from "@/lib/docs/package-readmes.generated";
 import { pageMetadata } from "@/lib/seo";
-import { githubRepoPath } from "@/lib/site";
+import { githubRepoPath, SITE_URL } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  title: "Packages",
+  title: "Install Rune Icons from npm",
   description:
-    "Install Rune Icons for React, Vue, Svelte, Astro, React Native, Flutter, plain JavaScript, VS Code, Figma and MCP. The same open-source icons in five styles, packaged for the tools you already use.",
+    "Install Rune Icons from npm for React, Vue, Svelte, Astro, React Native, JavaScript and MCP. 900+ open-source icons in five styles, plus brand logos.",
   path: "/packages",
 });
 
@@ -117,6 +117,36 @@ const PACKAGES: Pkg[] = [
   },
 ];
 
+const NPM_PUBLISHED = new Set([
+  "runeicons",
+  "runeicons-react",
+  "runeicons-vue",
+  "runeicons-svelte",
+  "runeicons-astro",
+  "runeicons-react-native",
+  "runeicons-mcp",
+  "runeicons-brands",
+]);
+
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Rune Icons packages",
+  url: `${SITE_URL}/packages`,
+  itemListElement: PACKAGES.filter((pkg) => NPM_PUBLISHED.has(pkg.dir)).map((pkg, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    item: {
+      "@type": "SoftwareSourceCode",
+      name: pkg.name,
+      description: pkg.description,
+      url: `https://www.npmjs.com/package/${pkg.name}`,
+      codeRepository: `${REPO}/${pkg.dir}`,
+      license: "https://www.apache.org/licenses/LICENSE-2.0",
+    },
+  })),
+};
+
 const PackagesPage = async () => {
   const rows: PackageRow[] = await Promise.all(
     PACKAGES.map(async (pkg) => {
@@ -128,19 +158,25 @@ const PackagesPage = async () => {
         logo: LOGOS[pkg.dir],
         readmeHtml: await renderReadme(PACKAGE_READMES[pkg.dir] ?? "", pkg.dir),
         githubUrl: `${REPO}/${pkg.dir}`,
-        npmUrl: null,
+        npmUrl: NPM_PUBLISHED.has(pkg.dir) ? `https://www.npmjs.com/package/${pkg.name}` : null,
       };
     }),
   );
 
   return (
-    <DocsShell
-      wide
-      title="Packages"
-      lead="The same 900+ icons in all five styles, packaged for the tools you already use."
-    >
-      <PackageList rows={rows} />
-    </DocsShell>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+      />
+      <DocsShell
+        wide
+        title="Packages"
+        lead="The same 900+ icons in all five styles, packaged for the tools you already use."
+      >
+        <PackageList rows={rows} />
+      </DocsShell>
+    </>
   );
 };
 

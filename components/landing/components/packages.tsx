@@ -3,16 +3,21 @@ import Link from "next/link";
 import TextHighlightWave from "@/components/ui/text-highlight-wave";
 
 const PLATFORMS = [
-  { name: "React", logo: "/brand/react.svg", install: "pnpm add runeicons-react" },
-  { name: "Vue", logo: "/brand/vuejs.svg", install: "pnpm add runeicons-vue" },
-  { name: "Svelte", logo: "/brand/svelte.svg", install: "pnpm add runeicons-svelte" },
-  { name: "Astro", logo: "/brand/astro.svg", install: "pnpm add runeicons-astro" },
-  { name: "React Native", logo: "/brand/react.svg", install: "npm install runeicons-react-native" },
-  { name: "Flutter", logo: "/brand/flutter.svg", install: "flutter pub add runeicons" },
-  { name: "JavaScript", logo: "/brand/javascript.svg", install: "pnpm add runeicons" },
-  { name: "VS Code", logo: "/brand/vscode.svg", install: "Rune Icons: Insert Icon" },
-  { name: "Figma", logo: "/brand/figma.svg", install: "Import plugin from manifest" },
-  { name: "MCP", logo: "/brand/mcp.svg", install: "npx -y runeicons-mcp" },
+  { name: "React", logo: "/brand/react.svg", install: "pnpm add runeicons-react", live: true },
+  { name: "Vue", logo: "/brand/vuejs.svg", install: "pnpm add runeicons-vue", live: true },
+  { name: "Svelte", logo: "/brand/svelte.svg", install: "pnpm add runeicons-svelte", live: true },
+  { name: "Astro", logo: "/brand/astro.svg", install: "pnpm add runeicons-astro", live: true },
+  {
+    name: "React Native",
+    logo: "/brand/react.svg",
+    install: "npm install runeicons-react-native",
+    live: true,
+  },
+  { name: "Flutter", logo: "/brand/flutter.svg", install: "flutter pub add runeicons", live: false },
+  { name: "JavaScript", logo: "/brand/javascript.svg", install: "pnpm add runeicons", live: true },
+  { name: "VS Code", logo: "/brand/vscode.svg", install: "Rune Icons: Insert Icon", live: false },
+  { name: "Figma", logo: "/brand/figma.svg", install: "Import plugin from manifest", live: false },
+  { name: "MCP", logo: "/brand/mcp.svg", install: "npx -y runeicons-mcp", live: true },
 ];
 
 const Packages = () => (
@@ -49,7 +54,7 @@ const Packages = () => (
               />
             </span>
             <span className="rounded-md bg-brand/10 px-1.5 py-0.5 text-label font-medium whitespace-nowrap text-brand dark:text-blue-300">
-              Coming soon
+              {platform.live ? "On npm" : "Coming soon"}
             </span>
           </div>
           <div className="flex min-w-0 flex-col gap-2">

@@ -38,6 +38,12 @@ const TIER_REMINDER: Record<BrandLogoTier, string | null> = {
 
 const GROUPS = ["All", ...Array.from(new Set(BRAND_LOGOS.map((logo) => logo.group)))];
 
+const SORTED_LOGOS = [...BRAND_LOGOS].sort((a, b) => {
+  const left = a.name.toLowerCase();
+  const right = b.name.toLowerCase();
+  return left < right ? -1 : left > right ? 1 : a.slug < b.slug ? -1 : 1;
+});
+
 const svgCache = new Map<string, string>();
 
 async function loadSvg(logo: BrandLogo) {
@@ -190,7 +196,7 @@ export function BrandsView() {
 
   const visible = useMemo(() => {
     const needle = query.trim().toLowerCase();
-    return BRAND_LOGOS.filter(
+    return SORTED_LOGOS.filter(
       (logo) =>
         (group === "All" || logo.group === group) &&
         (!onlyLiked || liked.includes(logo.slug)) &&

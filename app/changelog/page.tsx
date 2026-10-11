@@ -26,6 +26,7 @@ const CHANGELOG: ChangelogEntry[] = [
       "Kept the brands search bar pinned while scrolling and fixed the brand cards and filters on small screens.",
       "Added a Credits section to every package README, naming the contributors of each package.",
       "Updated the titles, descriptions, and structured data for the brands and packages pages, and listed packages in llms.txt.",
+      "Replaced Google Analytics and its consent banner with Umami, which uses no cookies.",
     ],
   },
   {

@@ -9,7 +9,7 @@ export const metadata = pageMetadata({
 });
 
 const PrivacyPage = () => (
-  <DocsShell title="Privacy Policy" lead="Last updated: October 10, 2026">
+  <DocsShell title="Privacy Policy" lead="Last updated: October 11, 2026">
     <div className="flex max-w-[65ch] flex-col gap-8 text-body text-muted-foreground">
       <p>
         This Privacy Policy explains what information RuneIcons collects and how it is used. We aim
@@ -34,12 +34,9 @@ const PrivacyPage = () => (
       <div className="flex flex-col gap-2">
         <h2 className="text-h3 text-foreground">2. Cookies & Analytics</h2>
         <p>
-          With your consent, we use{" "}
-          <strong className="font-medium text-foreground">Google Analytics</strong> to understand
-          aggregate site usage. It sets cookies in your browser and sends usage data such as the
-          pages you visit to Google. If you decline, it is not loaded, and the choice is saved in
-          your browser&apos;s local storage under the key{" "}
-          <strong className="font-medium text-foreground">runeicons-analytics-consent</strong>. We{" "}
+          We use <strong className="font-medium text-foreground">Umami</strong> to count page
+          views. It does not use cookies and does not collect personal information, so there is no
+          consent banner. We{" "}
           <strong className="font-medium text-foreground">
             do not sell personal data to third parties
           </strong>

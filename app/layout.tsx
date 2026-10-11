@@ -3,7 +3,7 @@ import { Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
 import { DevToolbar } from "@/components/dev-toolbar";
-import AnalyticsConsent from "@/components/landing/analytics-consent";
+import UmamiAnalytics from "@/components/landing/umami-analytics";
 import { ShapeProvider } from "@/lib/shape-context";
 import { GITHUB_REPO, SITE_URL, X_URL } from "@/lib/site";
 import { MotionProvider } from "@/provider/motion-provider";
@@ -142,7 +142,7 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               {children}
-              <AnalyticsConsent />
+              <UmamiAnalytics />
               <DevToolbar />
             </ThemeProvider>
           </ShapeProvider>
